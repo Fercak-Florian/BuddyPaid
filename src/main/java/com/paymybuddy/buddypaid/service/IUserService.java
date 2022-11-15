@@ -12,6 +12,5 @@ public interface IUserService {
 	public Optional<User> getUserBuddies(Integer id);
 	public void addBuddy(int userId, int buddyId);
 	public Optional<User> getUser(String firstName, String lastName);
-	public Operation saveOperation(Transaction transaction);
 	public Optional<User> findUser(String login);
 }

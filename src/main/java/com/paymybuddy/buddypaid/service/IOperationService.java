@@ -4,4 +4,6 @@ import com.paymybuddy.buddypaid.model.Operation;
 
 public interface IOperationService {
 	public Operation addOperation(int currentUserId, int beneficiary, float amount);
+	public int getDebit(int userId);
+	public int getCredit(int userId);
 }

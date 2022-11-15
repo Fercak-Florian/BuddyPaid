@@ -18,8 +18,17 @@ public class OperationService implements IOperationService {
 
 	@Override
 	public Operation addOperation(int currentUserId, int beneficiary, float amount) {
-		Operation operation = new Operation(currentUserId, new Date(), "versement", amount, 0, "bowling");
+		Operation operation = new Operation(currentUserId, beneficiary, new Date(), "versement", amount, "nouvelle operation");
 		return operationRepository.save(operation);
 	}
 
+	@Override
+	public int getDebit(int userId) {
+		return operationRepository.sumOfDebit(userId);
+	}
+
+	@Override
+	public int getCredit(int userId) {
+		return operationRepository.sumOfCredit(userId);
+	}
 }

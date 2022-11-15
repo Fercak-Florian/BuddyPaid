@@ -6,7 +6,6 @@ import lombok.Data;
 
 @Data
 @Component
-public class FirstNameAndLastName {
-	private String firstName;
-	private String lastName;
+public class CurrentUserId {
+	private int id = 1;
 }
