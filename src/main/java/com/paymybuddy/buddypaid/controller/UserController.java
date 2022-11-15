@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.paymybuddy.buddypaid.model.Buddy;
@@ -193,23 +192,15 @@ public class UserController {
 				buddiesLogin.add(b.getLogin());
 			}
 			if(buddiesLogin.contains(wantedEmail)) {
-				System.out.println("Impossible d'ajouter : " + user.get().getFirstName());
+				log.info("Impossible d'ajouter : " + user.get().getFirstName());
+				formComment.setMessage(user.get().getFirstName() + " fait déjà parti de vos amis");
 			}
 			else {
 				userService.addBuddy(currentUserId, user.get().getId());
-				System.out.println("Utilisateur ajouté : " + user.get().getFirstName());
+				log.info("Utilisateur ajouté : " + user.get().getFirstName());
+				formComment.setMessage("Vous avez ajouté " + user.get().getFirstName() + " à vos amis");
 			}
 		}
-		return new ModelAndView("redirect:/");
+		return new ModelAndView("redirect:/add_connection.html");
 	}
-
-
-	/*
-	 * @PostMapping("/buddies") public String getUserBuddies(Model model, int id) {
-	 * log.info("Récupération des amis"); Optional<User> optUser =
-	 * userService.getUser(id); User userId1 = optUser.get(); List<Buddy> buddies =
-	 * userId1.getBuddies(); for (Buddy b : buddies) {
-	 * System.out.println(b.getFirstName()); } System.out.println(buddies.size());
-	 * model.addAttribute("buddies", buddies); return "index"; }
-	 */
 }

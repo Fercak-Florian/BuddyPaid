@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	<title>Pay My Buddy</title>
+</head>
+
+<body>
+
+	<!--Debut de bloc_page-->
+	<div id="bloc_page">
+		<header>
+			<div id="logo_et_boutons">
+				<div id="logo">Pay My Buddy</div>
+				<div id="boutons">
+					<div class="bouton"> <a href="home.html"> Home </a></div>
+					<div class="bouton"> <a href="transfer.html"> Transfer </a></div>
+					<div class="bouton"> <a href="profile.html"> Profile </a></div>
+					<div class="bouton"> <a href="contact.html"> Contact </a></div>
+					<div class="bouton"> <a href="log_off.html"> Log off </a></div>
+				</div>
+			</div>
+			<p id="home_tranfer">Home / Transfer</p>
+		</header>
+
+
+
+		<section id="actions_utilisateur">
+			<div id="send_money_and_add_connection">
+				<p id="send_money">Send Money</p>
+				<p id="add_connection"><a href="add_connection.html">Add Connection</a></p>
+			</div>
+			<div>
+				<form id="select_pay" method="post" th:action="@{/saveOperation}" th:object="${transaction}">
+					<p><select id="select_box" name="userId">
+							<option selected disabled>Select A Connection</option>
+							<option th:each="b: ${buddies}" th:value="${b.id}" th:text="${b.firstName}"></option>
+					</p></select>
+					<p><input id="price_box" type="number" name="amount"></p>
+					<button id="submit" type="submit"> Pay </button>
+				</form>
+			</div>
+		</section>
+
+
+		<section id="affichage_historique">
+			<caption id="my_transactions">My Transactions</caption>
+			<table>
+				<tr id="en_tete">
+					<td>Connections</td>
+					<td>Description</td>
+					<td>Amount</td>
+				</tr>
+				<tr class="ligne" th:each="o: ${operations}">
+					<td><span th:text="${o.userId}"></span></td>
+					<td><span th:text="${o.description}"></span></td>
+					<td><span th:text="${o.positiveAmount}"></span></td>
+				</tr>
+				<tr class="ligne">
+					<td>affiche une donnée</td>
+					<td>affiche une donnée</td>
+					<td>affiche une donnée</td>
+				</tr>
+			</table>
+
+
+		</section>
+
+		<footer>
+			<div class="element"><a href="/precedent">&lt;&lt;</a></div>
+			<div class="element"><a href="">1</a></div>
+			<div class="element"><a href="">2</a></div>
+			<div class="element"><a href="">3</a></div>
+			<div class="element"><a href="">4</a></div>
+			<div class="element"><a href="">5</a></div>
+			<div class="element"><a href="/suivant">&gt;&gt;</a></div>
+		</footer>
+
+
+		<!--Fin de bloc_page-->
+	</div>
+
+</body>
+
+</html>

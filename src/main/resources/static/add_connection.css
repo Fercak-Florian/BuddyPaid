@@ -1,0 +1,103 @@
+/*Définition de la police*/
+@font-face {
+    font-family: 'ambleregular';
+    src: url('fonts/Amble-Regular-webfont.eot');
+    src: url('fonts/Amble-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/Amble-Regular-webfont.woff2') format('woff2'),
+         url('fonts/Amble-Regular-webfont.woff') format('woff'),
+         url('fonts/Amble-Regular-webfont.ttf') format('truetype'),
+         url('fonts/Amble-Regular-webfont.svg#ambleregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+#bloc_page
+{
+	border: 1px black solid;
+	width: 1000px; 
+	height: 600px;
+	font-family: "ambleregular",Impact, "Arial Black", Arial, Verdana, sans-serif; /*J'applique la police "ambleregular" sur la page entière ou une des suivantes*/
+	margin: auto; /*Centre le bloc sur la page*/
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+header
+{
+	height: 100px;
+	/*border: 3px orange solid;*/
+}
+
+#logo_et_boutons
+{
+	display: flex;
+	/*border: 1px blue solid;*/
+	width: 1000px;
+	height: 55px;
+}
+
+#logo
+{
+	color: white;
+	background-color: #5cb85c; /*vert*/
+	border-radius: 5px;
+	height: 40px;
+	width: 200px;
+	font-size: 1em;
+	margin-left: 5px;
+	margin-top: 5px;
+	line-height: 40px; /*a creuser*/
+	text-align: center; /*a se rappeler*/
+}
+
+#boutons
+{
+	display: flex;
+	justify-content: flex-end;
+	/*margin-right: 100px;*/
+	height: 55px;
+	width: 800px;
+	/*background-color: red;*/
+	/*border: 1px black solid;*/
+	margin-left: 220px;
+}
+
+.bouton a:hover
+{
+	color: #0275d8; /*bleu*/
+}
+
+.bouton
+{
+	/*border: solid black 3px;*/
+	/*display: block; la balise a est considérée comme un block*/
+	width: 100px;/*On peut definir une largeur pour ce block*/
+	line-height: 50px;/*a creuser*/
+	text-align: center;/*a se rappeler*/
+	/*vertical-align: middle;a se rappeler*/
+	/*background-color: lightgreen;*/
+	font-size: 1em;
+}
+
+a
+{
+	color: black; /*Couleur du texte*/
+	text-decoration: none; /*Supprime le soulignement des liens -- a appliquer sur la balise a*/
+}
+
+#input_form
+{
+	display: flex;
+}
+
+#fname, #lname
+{
+	height:20px;
+	width:140px;
+}
+
+#submit
+{
+	height:26px;
+}

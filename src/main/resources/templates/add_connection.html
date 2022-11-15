@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="add_connection.css">
+	<title>Pay My Buddy</title>
+</head>
+
+<body>
+	<div id="bloc_page">
+		<header>
+			<div id="logo_et_boutons">
+				<div id="logo">Pay My Buddy</div>
+				<div id="boutons">
+					<div class="bouton"> <a href="home.html"> Home </a></div>
+					<div class="bouton"> <a href="transfer.html"> Transfer </a></div>
+					<div class="bouton"> <a href="profile.html"> Profile </a></div>
+					<div class="bouton"> <a href="contact.html"> Contact </a></div>
+					<div class="bouton"> <a href="log_off.html"> Log off </a></div>
+				</div>
+			</div>
+		</header>
+		<section>
+			
+		</section>
+		<div>
+			<form method="post" th:action="@{/addBuddy}" th:object="${formAddConnectionTh}">
+				<label  th:text="${formComment.message}"></label><br><br>
+				<label>Entrer email :</label>
+				<input name ="login" id="login" type="text" >
+				<label>Select a user:</label>
+				<select name="buddyEmail" id="buddy">
+					<option disabled selected>Select A User</option>
+					<option th:each="u: ${users}" th:value="${u.login}" th:text="${u.login}">
+					</option>
+				</select>
+				<br><br>
+				<input type="submit" value="Submit">
+			</form>
+		</div>
+	</div>
+</body>
+
+</html>
