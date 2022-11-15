@@ -40,6 +40,20 @@
 				<input type="submit" value="Submit">
 			</form>
 		</div>
+		<div id="affichage_amis">
+			<caption id="my_buddies">My Buddies</caption>
+			<table>
+				<tr id="en_tete">
+					<td>First Name</td>
+					<td>Last Name</td>
+					<td>Email</td>
+				</tr>
+				<tr class="ligne" th:each="b: ${buddies}">
+					<td><span th:text="${b.firstName}"></span></td>
+					<td><span th:text="${b.lastName}"></span></td>
+				</tr>
+			</table>
+		</div>
 	</div>
 </body>
 
