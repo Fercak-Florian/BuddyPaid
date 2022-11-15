@@ -4,12 +4,9 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.paymybuddy.buddypaid.model.Buddy;
-import com.paymybuddy.buddypaid.model.Operation;
 import com.paymybuddy.buddypaid.model.User;
 import com.paymybuddy.buddypaid.model.UserBuddy;
 import com.paymybuddy.buddypaid.repository.IUserRepository;
-import com.paymybuddy.buddypaid.workclasses.Transaction;
 
 @Service
 public class UserService implements IUserService{
@@ -41,11 +38,6 @@ public class UserService implements IUserService{
 	@Override
 	public Optional<User> getUser(String firstName, String lastName) {
 		return userRepository.findByFirstNameAndLastName(firstName,lastName);
-	}
-
-	@Override
-	public Operation saveOperation(Transaction transaction) {
-		return null;
 	}
 
 	@Override

@@ -55,9 +55,9 @@
 					<td>Amount</td>
 				</tr>
 				<tr class="ligne" th:each="o: ${operations}">
-					<td><span th:text="${o.buddyFirstName}"></span></td>
+					<td><span th:text="${o.userId}"></span></td>
 					<td><span th:text="${o.description}"></span></td>
-					<td><span th:text="${o.positiveAmount}"></span></td>
+					<td><span th:text="${o.amount}"></span></td>
 				</tr>
 			</table>
 
