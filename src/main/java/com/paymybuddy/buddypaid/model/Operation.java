@@ -25,6 +25,9 @@ public class Operation {
 	@Column(name = "user_id")
 	private int userId;
 	
+	@Column(name = "buddy_first_name")
+	private String buddyFirstName;
+	
 	@Column(name = "date")
 	private Date date;
 	
