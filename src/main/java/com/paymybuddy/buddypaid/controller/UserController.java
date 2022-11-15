@@ -60,6 +60,9 @@ public class UserController {
 	@GetMapping("/add_connection.html")
 	public String displayAddConnectionPage(Model model) {
 		Iterable<User> users = userService.getUsers();
+		User user = getCurrentUser();
+		List<User> buddies = user.getBuddies();
+		model.addAttribute("buddies", buddies);
 		model.addAttribute("formComment", formComment);
 		model.addAttribute("users", users);
 		return "add_connection";
