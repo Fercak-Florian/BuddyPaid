@@ -96,7 +96,7 @@ public class UserController {
 	@PostMapping("/addBuddy")
 	public ModelAndView addBuddy(@ModelAttribute FormAddConnectionTh formAddConnectionTh) {
 		String wantedEmail = "";
-		boolean loginMode = true;
+		boolean loginMode = false;
 		if (loginMode) {
 			/* EMAIL RECUPERE VIA LA ZONE DE TEXTE */
 			wantedEmail = formAddConnectionTh.getLogin();

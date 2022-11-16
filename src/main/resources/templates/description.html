@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	<title>Pay My Buddy</title>
+</head>
+
+	<body>
+		<h1>Transaction summary</h1><br>
+		 <caption id="my_transaction">My Transaction</caption>
+			<table>
+				<tr id="en_tete">
+					<td>Connection</td>
+					<td>Description</td>
+					<td>Amount</td>
+				</tr>
+				<tr class="ligne">
+					<td><span th:text="${transaction.buddyId}"></span></td>
+					<td><span th:text="${transaction.buddyId}"></span></td>
+					<td><span th:text="${transaction.amount}"></span></td>
+				</tr>
+			</table><br>
+			<form method="post" th:action="@{/saveOperation}" th:object="${description}">
+				<label>Enter description :</label>
+				<input id="description" type="text" name="description">
+				<button id="submit" type="submit"> Confirm </button>
+			</form>
+	</body>
+
+</html>
