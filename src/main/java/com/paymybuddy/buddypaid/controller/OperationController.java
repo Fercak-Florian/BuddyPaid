@@ -2,7 +2,6 @@ package com.paymybuddy.buddypaid.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -24,12 +23,8 @@ public class OperationController {
 	
 	Transaction fullTransaction = new Transaction();
 	
-	@PostMapping("/confirmOperation")
-	public String confirmOperation(@ModelAttribute Transaction transaction, Model model) {
-		System.out.println("Je suis dans la methode confirmOperation");
-		System.out.println("Id de l'utilisateur connecté : " + currentUserId.getId());
-		System.out.println("Montant transmis : " + transaction.getAmount());
-		System.out.println("Id du beneficiaire : " + transaction.getBuddyId());
+	@PostMapping("/addOperation")
+	public String addOperation(@ModelAttribute Transaction transaction, Model model) {
 		/**/
 		fullTransaction.setAmount(transaction.getAmount());
 		fullTransaction.setBuddyId(transaction.getBuddyId());
@@ -38,13 +33,8 @@ public class OperationController {
 		return "description";
 	}
 	
-	
-	@PostMapping("/saveOperation")
-	public String saveOperation(@ModelAttribute Description description) {
-		System.out.println("Je suis dans la methode saveOperation");
-		System.out.println("Id de l'utilisateur connecté : " + currentUserId.getId());
-		System.out.println("Montant transmis : " + fullTransaction.getAmount());
-		System.out.println("Id du beneficiaire : " + fullTransaction.getBuddyId());
+	@PostMapping("/confirmOperation")
+	public String confirmOperation(@ModelAttribute Description description) {
 		fullTransaction.setDescription(description.getDescription());
 		
 		/*CALCUL DU SOLDE AVANT DE FAIRE LE VIREMENT*/
