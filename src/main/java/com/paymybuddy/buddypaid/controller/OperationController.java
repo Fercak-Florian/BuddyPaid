@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.paymybuddy.buddypaid.service.IOperationService;
 import com.paymybuddy.buddypaid.workclasses.CurrentUserId;
+import com.paymybuddy.buddypaid.workclasses.Description;
 import com.paymybuddy.buddypaid.workclasses.Transaction;
 
 @Controller
@@ -21,20 +22,30 @@ public class OperationController {
 		this.currentUserId = currenUserId;
 	}
 	
-	@PostMapping("/saveOperation")
-	public String saveOperation(@ModelAttribute Transaction transaction) {
-		System.out.println("Je suis dans la methode saveOperation");
+	Transaction fullTransaction = new Transaction();
+	
+	@PostMapping("/confirmOperation")
+	public String confirmOperation(@ModelAttribute Transaction transaction, Model model) {
+		System.out.println("Je suis dans la methode confirmOperation");
 		System.out.println("Id de l'utilisateur connecté : " + currentUserId.getId());
 		System.out.println("Montant transmis : " + transaction.getAmount());
-		System.out.println("Id du beneficiaire : " + transaction.getUserId());
-		/*
-		 * RECUPERATION DES INFORMATIONS NECESSAIRES AU REMPLISSAGE DE LA TABLE
-		 * OPERATION
-		 
-		Optional<User> optBuddy = userService.getUser(transaction.getUserId());
-		User buddy = optBuddy.get();
-		System.out.println(buddy.getFirstName() + " " + buddy.getId());
-		*/
+		System.out.println("Id du beneficiaire : " + transaction.getBuddyId());
+		/**/
+		fullTransaction.setAmount(transaction.getAmount());
+		fullTransaction.setBuddyId(transaction.getBuddyId());
+		/**/
+		model.addAttribute("transaction", transaction);
+		return "description";
+	}
+	
+	
+	@PostMapping("/saveOperation")
+	public String saveOperation(@ModelAttribute Description description) {
+		System.out.println("Je suis dans la methode saveOperation");
+		System.out.println("Id de l'utilisateur connecté : " + currentUserId.getId());
+		System.out.println("Montant transmis : " + fullTransaction.getAmount());
+		System.out.println("Id du beneficiaire : " + fullTransaction.getBuddyId());
+		fullTransaction.setDescription(description.getDescription());
 		
 		/*CALCUL DU SOLDE AVANT DE FAIRE LE VIREMENT*/
 		int debit = operationService.getDebit(currentUserId.getId());
@@ -45,10 +56,10 @@ public class OperationController {
 		int result = credit - debit;
 		System.out.println("Le solde est : " + result);
 		/**/
-		if(result <= 0) {
+		if(result < 0) {
 			System.out.println("Argent insuffisant pour réaliser le virement");
 		} else {
-			operationService.addOperation(currentUserId.getId(), transaction.getUserId(), transaction.getAmount());
+			operationService.addOperation(currentUserId.getId(), fullTransaction.getBuddyId(), fullTransaction.getAmount(), fullTransaction.getDescription());
 		}
 		return "redirect:/";
 	}
