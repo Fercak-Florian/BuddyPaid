@@ -23,7 +23,7 @@
 					<td><span th:text="${transaction.amount}"></span></td>
 				</tr>
 			</table><br>
-			<form method="post" th:action="@{/saveOperation}" th:object="${description}">
+			<form method="post" th:action="@{/confirmOperation}" th:object="${description}">
 				<label>Enter description :</label>
 				<input id="description" type="text" name="description">
 				<button id="submit" type="submit"> Confirm </button>

@@ -15,9 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.paymybuddy.buddypaid.model.Operation;
 import com.paymybuddy.buddypaid.model.User;
-import com.paymybuddy.buddypaid.service.IOperationService;
 import com.paymybuddy.buddypaid.service.IUserService;
 import com.paymybuddy.buddypaid.workclasses.CurrentUserId;
+import com.paymybuddy.buddypaid.workclasses.DisplayedOperation;
 import com.paymybuddy.buddypaid.workclasses.FormAddConnectionTh;
 import com.paymybuddy.buddypaid.workclasses.FormComment;
 
@@ -32,11 +32,9 @@ public class UserController {
 	
 	private CurrentUserId currentUserId;
 	private IUserService userService;
-	private IOperationService operationService;
 
-	public UserController(IUserService userService, IOperationService operationService, CurrentUserId currentUserId) {
+	public UserController(IUserService userService, CurrentUserId currentUserId) {
 		this.userService = userService;
-		this.operationService = operationService;
 		this.currentUserId = currentUserId;
 	}
 
@@ -51,9 +49,18 @@ public class UserController {
 		User user = getCurrentUser();
 		List<User> buddies = user.getBuddies();
 		List<Operation> operations = user.getOperations();
-		/* ALLER CHERCHER LE BUDDY FIRSTNAME POUR CHAQUE LIGNE */
+		
+		/* ALLER CHERCHER LE BUDDY FIRSTNAME POUR CHAQUE OPERATION */
 		model.addAttribute("operations", operations);
 		model.addAttribute("buddies", buddies);
+		List<DisplayedOperation> displayedOperations = new ArrayList<>();
+		for(Operation o : operations) {
+			int buddyId = o.getBuddyId();
+			Optional<User> optUser = userService.getUser(buddyId);
+			User u = optUser.get();
+			displayedOperations.add(new DisplayedOperation(u.getFirstName(),o.getDescription() ,o.getAmount()));
+			model.addAttribute("displayedOperations", displayedOperations);
+		}
 		return "transfer";
 	}
 

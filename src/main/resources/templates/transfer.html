@@ -34,7 +34,7 @@
 				<p id="add_connection"><a href="add_connection.html">Add Connection</a></p>
 			</div>
 			<div>
-				<form id="select_pay" method="post" th:action="@{/confirmOperation}" th:object="${transaction}">
+				<form id="select_pay" method="post" th:action="@{/addOperation}" th:object="${transaction}">
 					<p><select id="select_box" name="buddyId">
 							<option selected disabled>Select A Connection</option>
 							<option th:each="b: ${buddies}" th:value="${b.id}" th:text="${b.firstName}"></option>
@@ -54,10 +54,10 @@
 					<td>Description</td>
 					<td>Amount</td>
 				</tr>
-				<tr class="ligne" th:each="o: ${operations}">
-					<td><span th:text="${o.userId}"></span></td>
-					<td><span th:text="${o.description}"></span></td>
-					<td><span th:text="${o.amount}"></span></td>
+				<tr class="ligne" th:each="do: ${displayedOperations}">
+					<td><span th:text="${do.buddyFirstName}"></span></td>
+					<td><span th:text="${do.description}"></span></td>
+					<td><span th:text="${do.amount}"></span></td>
 				</tr>
 			</table>
 
