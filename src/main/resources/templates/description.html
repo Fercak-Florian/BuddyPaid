@@ -13,14 +13,14 @@
 		 <caption id="my_transaction">My Transaction</caption>
 			<table>
 				<tr id="en_tete">
-					<td>Connection</td>
-					<td>Description</td>
+					<td>First Name</td>
+					<td>Last Name</td>
 					<td>Amount</td>
 				</tr>
 				<tr class="ligne">
-					<td><span th:text="${transaction.buddyId}"></span></td>
-					<td><span th:text="${transaction.buddyId}"></span></td>
-					<td><span th:text="${transaction.amount}"></span></td>
+					<td><span th:text="${displayedOperationSummary.buddyFirstName}"></span></td>
+					<td><span th:text="${displayedOperationSummary.buddyLastName}"></span></td>
+					<td><span th:text="${displayedOperationSummary.amount}"></span></td>
 				</tr>
 			</table><br>
 			<form method="post" th:action="@{/confirmOperation}" th:object="${description}">

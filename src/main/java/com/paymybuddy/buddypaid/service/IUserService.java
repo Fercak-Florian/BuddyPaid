@@ -11,6 +11,6 @@ public interface IUserService {
 	public Optional<User> getUser(Integer id);
 	public Optional<User> getUserBuddies(Integer id);
 	public void addBuddy(int userId, int buddyId);
-	public Optional<User> getUser(String firstName, String lastName);
+	/*public Optional<User> getUser(String firstName, String lastName);*/
 	public Optional<User> findUser(String login);
 }

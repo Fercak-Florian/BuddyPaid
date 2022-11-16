@@ -1,35 +1,47 @@
 package com.paymybuddy.buddypaid.controller;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.paymybuddy.buddypaid.model.User;
 import com.paymybuddy.buddypaid.service.IOperationService;
+import com.paymybuddy.buddypaid.service.IUserService;
 import com.paymybuddy.buddypaid.workclasses.CurrentUserId;
 import com.paymybuddy.buddypaid.workclasses.Description;
+import com.paymybuddy.buddypaid.workclasses.DisplayedOperationSummary;
 import com.paymybuddy.buddypaid.workclasses.Transaction;
 
 @Controller
 public class OperationController {
 	
 	private IOperationService operationService;
+	private IUserService userService;
 	private CurrentUserId currentUserId;
+	private DisplayedOperationSummary displayedOperationSummary;
 	
-	public OperationController(IOperationService operationService, CurrentUserId currenUserId) {
+	public OperationController(IOperationService operationService, CurrentUserId currenUserId, IUserService userService , DisplayedOperationSummary displayedOperationSummary) {
 		this.operationService = operationService;
+		this.userService = userService;
 		this.currentUserId = currenUserId;
+		this.displayedOperationSummary = displayedOperationSummary;
 	}
 	
 	Transaction fullTransaction = new Transaction();
 	
 	@PostMapping("/addOperation")
 	public String addOperation(@ModelAttribute Transaction transaction, Model model) {
-		/**/
 		fullTransaction.setAmount(transaction.getAmount());
 		fullTransaction.setBuddyId(transaction.getBuddyId());
-		/**/
-		model.addAttribute("transaction", transaction);
+		Optional<User> optUser = userService.getUser(transaction.getBuddyId());
+		User user = optUser.get();
+		displayedOperationSummary.setBuddyFirstName(user.getFirstName());
+		displayedOperationSummary.setBuddyLastName(user.getLastName());
+		displayedOperationSummary.setAmount(transaction.getAmount());
+		model.addAttribute("displayedOperationSummary", displayedOperationSummary);
 		return "description";
 	}
 	

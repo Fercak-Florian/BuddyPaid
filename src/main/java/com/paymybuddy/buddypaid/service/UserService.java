@@ -35,10 +35,10 @@ public class UserService implements IUserService{
 		userRepository.save(userBuddy);
 	}
 
-	@Override
+	/*@Override
 	public Optional<User> getUser(String firstName, String lastName) {
 		return userRepository.findByFirstNameAndLastName(firstName,lastName);
-	}
+	}*/
 
 	@Override
 	public Optional<User> findUser(String login) {
