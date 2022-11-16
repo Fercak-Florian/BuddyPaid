@@ -17,15 +17,13 @@ public class UserService implements IUserService{
 		this.userRepository = userRepository;
 	}
 	
+	@Override
 	public Iterable<User> getUsers(){
 		return userRepository.findAll();
 	}
-
-	public Optional<User> getUser(Integer id){
-		return userRepository.findById(id);
-	}
 	
-	public Optional<User> getUserBuddies(Integer id){
+	@Override
+	public Optional<User> getUser(Integer id){
 		return userRepository.findById(id);
 	}
 	
@@ -34,11 +32,6 @@ public class UserService implements IUserService{
 		UserBuddy userBuddy = new UserBuddy(userId, buddyId);
 		userRepository.save(userBuddy);
 	}
-
-	/*@Override
-	public Optional<User> getUser(String firstName, String lastName) {
-		return userRepository.findByFirstNameAndLastName(firstName,lastName);
-	}*/
 
 	@Override
 	public Optional<User> findUser(String login) {

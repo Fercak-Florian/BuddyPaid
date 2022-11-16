@@ -45,7 +45,7 @@ public class UserController {
 	}
 
 	@GetMapping("/")
-	public String getUserBuddies(Model model) {
+	public String displayTransferPage(Model model) {
 		User user = getCurrentUser();
 		List<User> buddies = user.getBuddies();
 		List<Operation> operations = user.getOperations();
@@ -103,13 +103,10 @@ public class UserController {
 	@PostMapping("/addBuddy")
 	public ModelAndView addBuddy(@ModelAttribute FormAddConnectionTh formAddConnectionTh) {
 		String wantedEmail = "";
-		boolean loginMode = false;
-		if (loginMode) {
-			/* EMAIL RECUPERE VIA LA ZONE DE TEXTE */
-			wantedEmail = formAddConnectionTh.getLogin();
-		} else {
-			/* EMAIL RECUPERE VIA LA DROP DOWN */
+		if(formAddConnectionTh.getLogin().isEmpty()) {
 			wantedEmail = formAddConnectionTh.getBuddyEmail();
+		} else {
+			wantedEmail = formAddConnectionTh.getLogin();
 		}
 		Optional<User> user = userService.findUser(wantedEmail);
 		if (user.isEmpty()) {
