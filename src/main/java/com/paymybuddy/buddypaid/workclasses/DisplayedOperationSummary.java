@@ -9,7 +9,7 @@ import lombok.Data;
 public class DisplayedOperationSummary {
 	private String buddyFirstName;
 	private String buddyLastName;
-	private float amount;
+	private double amount;
 	
 	public DisplayedOperationSummary() {
 	}

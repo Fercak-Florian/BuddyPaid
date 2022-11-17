@@ -6,6 +6,6 @@ import lombok.Data;
 
 @Data
 @Component
-public class CurrentUserId {
-	private int id = 2;
+public class LevyPercentage {
+	double percentage = 0.5;
 }

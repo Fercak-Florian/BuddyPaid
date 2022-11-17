@@ -9,12 +9,12 @@ import lombok.Data;
 public class DisplayedOperation {
 	private String buddyFirstName;
 	private String description;
-	private float amount;
+	private double amount;
 	
 	public DisplayedOperation() {
 	}
 	
-	public DisplayedOperation(String buddyFirstName, String description, float amount) {
+	public DisplayedOperation(String buddyFirstName, String description, double amount) {
 		this.buddyFirstName = buddyFirstName;
 		this.description = description;
 		this.amount = amount;

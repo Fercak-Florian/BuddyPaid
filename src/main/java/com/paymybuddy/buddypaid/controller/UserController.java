@@ -28,14 +28,15 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class UserController {
 
-	private FormComment formComment = new FormComment();
-	
+
 	private CurrentUserId currentUserId;
 	private IUserService userService;
+	private FormComment formComment;
 
-	public UserController(IUserService userService, CurrentUserId currentUserId) {
+	public UserController(IUserService userService, CurrentUserId currentUserId, FormComment formComment) {
 		this.userService = userService;
 		this.currentUserId = currentUserId;
+		this.formComment = formComment;
 	}
 
 	public User getCurrentUser() {
@@ -49,17 +50,21 @@ public class UserController {
 		User user = getCurrentUser();
 		List<User> buddies = user.getBuddies();
 		List<Operation> operations = user.getOperations();
-		
+
 		/* ALLER CHERCHER LE BUDDY FIRSTNAME POUR CHAQUE OPERATION */
 		model.addAttribute("operations", operations);
 		model.addAttribute("buddies", buddies);
 		List<DisplayedOperation> displayedOperations = new ArrayList<>();
-		for(Operation o : operations) {
-			int buddyId = o.getBuddyId();
-			Optional<User> optUser = userService.getUser(buddyId);
-			User u = optUser.get();
-			displayedOperations.add(new DisplayedOperation(u.getFirstName(),o.getDescription() ,o.getAmount()));
-			model.addAttribute("displayedOperations", displayedOperations);
+		for (Operation o : operations) {
+			if (o.getBuddyId() == 1) { /*BANK USERID IS 1*/
+				/*NE PAS AJOUTER DANS LA LISTE*/
+			} else {
+				int buddyId = o.getBuddyId();
+				Optional<User> optUser = userService.getUser(buddyId);
+				User u = optUser.get();
+				displayedOperations.add(new DisplayedOperation(u.getFirstName(), o.getDescription(), o.getAmount()));
+				model.addAttribute("displayedOperations", displayedOperations);
+			}
 		}
 		return "transfer";
 	}
@@ -103,7 +108,7 @@ public class UserController {
 	@PostMapping("/addBuddy")
 	public ModelAndView addBuddy(@ModelAttribute FormAddConnectionTh formAddConnectionTh) {
 		String wantedEmail = "";
-		if(formAddConnectionTh.getLogin().isEmpty()) {
+		if (formAddConnectionTh.getLogin().isEmpty()) {
 			wantedEmail = formAddConnectionTh.getBuddyEmail();
 		} else {
 			wantedEmail = formAddConnectionTh.getLogin();
