@@ -17,7 +17,7 @@ public class OperationService implements IOperationService {
 	}
 
 	@Override
-	public Operation addOperation(int currentUserId, int beneficiary, float amount, String description) {
+	public Operation addOperation(int currentUserId, int beneficiary, double amount, String description) {
 		Operation operation = new Operation(currentUserId, beneficiary, new Date(), "versement", amount, description);
 		return operationRepository.save(operation);
 	}

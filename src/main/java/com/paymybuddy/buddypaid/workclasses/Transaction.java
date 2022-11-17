@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 public class Transaction {
 	private int buddyId;
-	private int amount;
+	private double amount;
 	private String description = "";
 }

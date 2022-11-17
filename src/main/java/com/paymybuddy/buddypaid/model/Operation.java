@@ -35,7 +35,7 @@ public class Operation {
 	private String type;
 	
 	@Column(name = "amount")
-	private float amount;
+	private double amount;
 	
 	@Column(name = "description")
 	private String description;
@@ -43,7 +43,7 @@ public class Operation {
 	public Operation() {
 	}
 	
-	public Operation(int id, int userId, int buddyId, Date date, String type, float amount, String description) {
+	public Operation(int id, int userId, int buddyId, Date date, String type, double amount, String description) {
 		this.id = id;
 		this.buddyId = buddyId;
 		this.userId = userId;
@@ -53,7 +53,7 @@ public class Operation {
 		this.description = description;
 	}
 	
-	public Operation(int userId, int buddyId, Date date, String type, float amount, String description) {
+	public Operation(int userId, int buddyId, Date date, String type, double amount, String description) {
 		this.userId = userId;
 		this.buddyId = buddyId;
 		this.date = date;
