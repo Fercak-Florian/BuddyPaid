@@ -28,14 +28,15 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class UserController {
 
-	private FormComment formComment = new FormComment();
 
 	private CurrentUserId currentUserId;
 	private IUserService userService;
+	private FormComment formComment;
 
-	public UserController(IUserService userService, CurrentUserId currentUserId) {
+	public UserController(IUserService userService, CurrentUserId currentUserId, FormComment formComment) {
 		this.userService = userService;
 		this.currentUserId = currentUserId;
+		this.formComment = formComment;
 	}
 
 	public User getCurrentUser() {
