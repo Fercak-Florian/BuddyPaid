@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.paymybuddy.buddypaid.model.User;
 import com.paymybuddy.buddypaid.service.IOperationService;
 import com.paymybuddy.buddypaid.service.IUserService;
+import com.paymybuddy.buddypaid.workclasses.CheckIfEnough;
 import com.paymybuddy.buddypaid.workclasses.CurrentUserId;
 import com.paymybuddy.buddypaid.workclasses.Description;
 import com.paymybuddy.buddypaid.workclasses.DisplayedOperationSummary;
@@ -26,15 +27,17 @@ public class OperationController {
 	private CurrentUserId currentUserId;
 	private DisplayedOperationSummary displayedOperationSummary;
 	private LevyPercentage levyPercentage;
+	private CheckIfEnough checkIfEnough;
 	private FormComment formComment;
 	
-	public OperationController(IOperationService operationService, CurrentUserId currenUserId, IUserService userService , DisplayedOperationSummary displayedOperationSummary, LevyPercentage levyPercentage, FormComment formComment) {
+	public OperationController(IOperationService operationService, CurrentUserId currenUserId, IUserService userService , DisplayedOperationSummary displayedOperationSummary, LevyPercentage levyPercentage, FormComment formComment, CheckIfEnough checkIfEnough) {
 		this.operationService = operationService;
 		this.userService = userService;
 		this.currentUserId = currenUserId;
 		this.displayedOperationSummary = displayedOperationSummary;
 		this.levyPercentage = levyPercentage;
 		this.formComment = formComment;
+		this.checkIfEnough = checkIfEnough;
 	}
 	
 	Transaction fullTransaction = new Transaction();
@@ -56,32 +59,18 @@ public class OperationController {
 	public ModelAndView confirmOperation(@ModelAttribute Description description) {
 		fullTransaction.setDescription(description.getDescription());
 		double amount = fullTransaction.getAmount();
-		/*PRELEVEMENT DE 0.5% SUR CHAQUE TRANSACTION*/
-		
-		/*CALCUL DE 0.5%*/
 		double commission = (amount * levyPercentage.getPercentage()) / 100;
-		double fullAmount = amount + commission;
-		
 		double debit = operationService.getDebit(currentUserId.getId());
 		double credit = operationService.getCredit(currentUserId.getId());
-		System.out.println("L'utilisateur actuel est : " + currentUserId.getId());
-		System.out.println("La somme des débits est : " + debit);
-		System.out.println("La sommes des crédits est : " + credit);
-		/*CALCUL DU SOLDE AVANT DE FAIRE LE VIREMENT*/
-		double balance = credit - debit;
-		System.out.println("Le solde est : " + balance);
-		double necessaryAmount = balance - fullAmount;
-		if(necessaryAmount < 0) {
-			System.out.println("Un solde de " + fullAmount + "€" + " est nécessaire pour realiser le virement");
-			System.out.println("Le solde du compte est actuellement de : " + balance + "€" + " Argent insuffisant pour réaliser le virement");
-			/*AFFICHER L'IMPOSSIBILITE DE FAIRE LE VIREMENT SUR LA PAGE*/
-			return new ModelAndView("redirect:/transfer.html");
-		} else {
+		boolean isEnought = checkIfEnough.isEnough(amount, commission, credit, debit);
+		if(isEnought) {
 			/*UTILISATEUR, BENEFICIAIRE, MONTANT, DESCRIPTION*/
 			operationService.addOperation(currentUserId.getId(), fullTransaction.getBuddyId(), fullTransaction.getAmount(), fullTransaction.getDescription());
 			operationService.addOperation(currentUserId.getId(), 1, commission, "Money To App"); /*BANK USERID IS 1*/
+			return new ModelAndView("redirect:/transfer.html");
+		} else {
+			/*MESSAGE SUR LA PAGE : SOLDE INSUFFISANT POUR REALISER LE VIREMENT */
 		}
-		
 		return new ModelAndView("redirect:/");
 	}
 }
