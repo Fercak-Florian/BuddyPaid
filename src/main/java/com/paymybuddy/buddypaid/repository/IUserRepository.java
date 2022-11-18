@@ -15,8 +15,6 @@ import com.paymybuddy.buddypaid.model.UserBuddy;
 
 @Repository
 public interface IUserRepository extends CrudRepository<User, Integer>{
-
-	Optional<User> findByFirstNameAndLastName(String firstName, String lastName);
 	UserBuddy save(UserBuddy userBuddy);
 	Optional<User> findByLogin(String login);
 }

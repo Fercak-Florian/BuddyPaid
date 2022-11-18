@@ -28,13 +28,13 @@ public class UserService implements IUserService{
 	}
 	
 	@Override
-	public void addBuddy(int userId, int buddyId) {
+	public UserBuddy addBuddy(int userId, int buddyId) {
 		UserBuddy userBuddy = new UserBuddy(userId, buddyId);
-		userRepository.save(userBuddy);
+		return userRepository.save(userBuddy);
 	}
 
 	@Override
-	public Optional<User> findUser(String login) {
+	public Optional<User> findUserByLogin(String login) {
 		return userRepository.findByLogin(login);
 	}
 }

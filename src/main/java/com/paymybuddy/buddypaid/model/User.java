@@ -52,6 +52,9 @@ public class User {
 	@JoinTable(name = "user_buddy", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "buddy_id"))
 	private List<User> buddies = new ArrayList<>();
 	
+	public User() {
+	}
+	
 	public User(String login, String password, String firstName, String lastName, List<Operation> operations, List<User> buddies) {
 		this.login = login;
 		this.password = password;
