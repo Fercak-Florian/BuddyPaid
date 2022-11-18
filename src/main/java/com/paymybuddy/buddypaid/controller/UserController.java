@@ -113,7 +113,7 @@ public class UserController {
 		} else {
 			wantedEmail = formAddConnectionTh.getLogin();
 		}
-		Optional<User> user = userService.findUser(wantedEmail);
+		Optional<User> user = userService.findUserByLogin(wantedEmail);
 		if (user.isEmpty()) {
 			System.out.println("Utilisateur non trouvé");
 			formComment.setMessage("l'email " + wantedEmail + " n'est pas connu dans la base de données");

@@ -12,13 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 import lombok.Data;
 
@@ -52,24 +48,19 @@ public class User {
 	@JoinTable(name = "user_buddy", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "buddy_id"))
 	private Buddy buddy;*/
 	
-	/*@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	@JoinTable(name = "user_buddy", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "buddy_id"))
-	private List<Buddy> buddies = new ArrayList<>();*/
-	
-	/*@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-	@JoinTable(name = "user_buddy", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "buddy_id"))
-	private List<Buddy> buddies = new ArrayList<>();*/
-	
-	/*@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-	@JoinTable(name = "user_buddy", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "buddy_id"))
-	private List<Buddy> buddies = new ArrayList<>(); /*Set*/
-	
-	/*@OneToMany(mappedBy = "user")
-	private List<Buddy> buddies = new ArrayList<>(); /*Set*/
-	
 	@OneToMany
 	@JoinTable(name = "user_buddy", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "buddy_id"))
 	private List<User> buddies = new ArrayList<>();
 	
+	public User() {
+	}
 	
+	public User(String login, String password, String firstName, String lastName, List<Operation> operations, List<User> buddies) {
+		this.login = login;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.operations = operations;
+		this.buddies = buddies;
+	}
 }
