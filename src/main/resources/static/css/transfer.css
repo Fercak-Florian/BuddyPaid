@@ -86,23 +86,94 @@ a
 	text-decoration: none; /*Supprime le soulignement des liens -- a appliquer sur la balise a*/
 }
 
-#input_form
+#home_tranfer
 {
-	display: flex;
+	margin-left: 30px;
+	height : 20px;
+	font-size: 1em;
+	/*border: 1px black solid;*/
 }
 
-#fname, #lname
+#send_money
 {
-	height:20px;
+	/*background-color: grey;*/
+	width: 200px;
+	font-size: 1em;
+}
+
+#select_box
+{
+	font-size: 0.7em;
+	height:30px;
 	width:140px;
+	border : 1.5px black solid;
+	margin-right: 20px;
+	/*text-align: center;*/
+}
+
+#amount
+{
+	font-size: 0.9em;
+	height:24px;
+	width:90px;
+	border : 1.5px black solid;
+	margin-right: 20px;
+}
+#select_pay
+{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	/*background-color: grey;*/
+	height: 50px;
 }
 
 #submit
 {
-	height:26px;
+	color: white;
+	background-color: #5cb85c; /*vert*/
+	width: 150px;/*On peut definir une largeur pour ce block*/
+	height : 32px;
+	border-radius: 9px;
+	font-size: 1em;
+	border : none;
+	font-size: 0.9em;
 }
 
-#affichage_amis
+#actions_utilisateur
+{
+	width: 800px;
+	height: 130px;
+	/*border: 3px green solid;*/
+}
+
+
+#send_money_and_add_connection
+{
+	display: flex;
+}
+
+#add_connection
+{
+	margin-left: 500px;
+}
+
+#add_connection a
+{
+	/*border: solid black 3px;*/
+	color: white;
+	display: block; /*la balise a est considérée comme un block*/
+	width: 200px;/*On peut definir une largeur pour ce block*/
+	line-height: 40px;/*a creuser*/
+	text-align: center;/*a se rappeler*/
+	vertical-align: middle;/*a se rappeler*/
+	border-radius: 9px;
+	text-decoration: none; /*supprime le souligné du lien*/
+	background-color: #0275d8; /*bleu*/
+	font-size: 1em;
+}
+
+#affichage_historique
 {
 	display: flex;
 	flex-direction: column;
@@ -128,5 +199,51 @@ table
 
 .ligne
 {
+	font-size: 1em;
+}
+
+footer
+{
+	display: flex;
+	justify-content: center;
+	height: 50px;
+	width: 400px;
+}
+
+#next
+{
+	display: block;
+	border: 1px lightgrey solid;
+	height: 50px;
+	width: 50px;
+	text-align: center;
+	line-height: 50px; /*a creuser*/
+	color: #0275d8; /*bleu*/
+	font-size: 1.3em;
+	border-radius: 0px 9px 9px 0px;
+}
+
+#previous
+{
+	display: block;
+	border: 1px lightgrey solid;
+	height: 50px;
+	width: 50px;
+	text-align: center;
+	line-height: 50px; /*a creuser*/
+	color: #0275d8; /*bleu*/
+	font-size: 1.3em;
+	border-radius: 9px 0px 0px 9px;
+}
+
+.element a
+{
+	display: block;
+	border: 1px lightgrey solid;
+	height: 50px;
+	width: 50px;
+	text-align: center;
+	line-height: 50px; /*a creuser*/
+	color: #0275d8; /*bleu*/
 	font-size: 1em;
 }
