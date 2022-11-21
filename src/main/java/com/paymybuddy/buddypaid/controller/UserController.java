@@ -21,6 +21,7 @@ import com.paymybuddy.buddypaid.workclasses.DisplayedOperation;
 import com.paymybuddy.buddypaid.workclasses.FormAddConnectionTh;
 import com.paymybuddy.buddypaid.workclasses.FormComment;
 import com.paymybuddy.buddypaid.workclasses.ModifiedUser;
+import com.paymybuddy.buddypaid.workclasses.TextArea;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,13 +34,11 @@ public class UserController {
 	private CurrentUserId currentUserId;
 	private IUserService userService;
 	private FormComment formComment;
-	private ModifiedUser modifiedUser;
 
-	public UserController(IUserService userService, CurrentUserId currentUserId, FormComment formComment, ModifiedUser modifiedUser) {
+	public UserController(IUserService userService, CurrentUserId currentUserId, FormComment formComment) {
 		this.userService = userService;
 		this.currentUserId = currentUserId;
 		this.formComment = formComment;
-		this.modifiedUser = modifiedUser;
 	}
 
 	public User getCurrentUser() {
@@ -112,6 +111,15 @@ public class UserController {
 	@GetMapping("/contact.html")
 	public String displayContactPage() {
 		return "contact";
+	}
+	
+	@PostMapping("/submitDemand")
+	public String submitDemand(@ModelAttribute TextArea textArea) {
+		System.out.println("Demande de l'utilisateur : " + textArea.getMessage());
+		/*FONCTIONNALITE DE TRAITEMENT D'UNE DEMANDE UTILISATEUR*/
+		formComment.setMessage("We successfully received your inquiry.\r\n"
+				+ "We will process it as soon as possible.");
+		return "redirect:/contact.html";
 	}
 
 	@GetMapping("/log_off.html")
