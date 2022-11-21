@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/transfer.css}" href="../../css/transfer.css"/>
 	<title>Pay My Buddy</title>
 </head>
 
@@ -40,7 +40,7 @@
 							<option selected disabled>Select A Connection</option>
 							<option th:each="b: ${buddies}" th:value="${b.id}" th:text="${b.firstName}"></option>
 					</p></select>
-					<p><input id="price_box" type="number" name="amount"></p>
+					<p><input id="amount" type="number" name="amount"></p>
 					<button id="submit" type="submit"> Pay </button>
 				</form>
 			</div>
@@ -66,13 +66,13 @@
 		</section>
 
 		<footer>
-			<div class="element"><a href="/precedent">&lt;&lt;</a></div>
+			<div><a id="previous" href="/precedent">&lt;&lt;</a></div>
 			<div class="element"><a href="">1</a></div>
 			<div class="element"><a href="">2</a></div>
 			<div class="element"><a href="">3</a></div>
 			<div class="element"><a href="">4</a></div>
 			<div class="element"><a href="">5</a></div>
-			<div class="element"><a href="/suivant">&gt;&gt;</a></div>
+			<div><a id="next" href="/suivant">&gt;&gt;</a></div>
 		</footer>
 
 
