@@ -91,7 +91,9 @@ public class UserController {
 	}
 
 	@GetMapping("/profile.html")
-	public String displayProfilePage() {
+	public String displayProfilePage(Model model) {
+		User user = getCurrentUser();
+		model.addAttribute("user", user);
 		return "profile";
 	}
 
