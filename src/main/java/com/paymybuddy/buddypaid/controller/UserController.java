@@ -20,6 +20,7 @@ import com.paymybuddy.buddypaid.workclasses.CurrentUserId;
 import com.paymybuddy.buddypaid.workclasses.DisplayedOperation;
 import com.paymybuddy.buddypaid.workclasses.FormAddConnectionTh;
 import com.paymybuddy.buddypaid.workclasses.FormComment;
+import com.paymybuddy.buddypaid.workclasses.ModifiedUser;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,11 +33,13 @@ public class UserController {
 	private CurrentUserId currentUserId;
 	private IUserService userService;
 	private FormComment formComment;
+	private ModifiedUser modifiedUser;
 
-	public UserController(IUserService userService, CurrentUserId currentUserId, FormComment formComment) {
+	public UserController(IUserService userService, CurrentUserId currentUserId, FormComment formComment, ModifiedUser modifiedUser) {
 		this.userService = userService;
 		this.currentUserId = currentUserId;
 		this.formComment = formComment;
+		this.modifiedUser = modifiedUser;
 	}
 
 	public User getCurrentUser() {
@@ -95,6 +98,15 @@ public class UserController {
 		User user = getCurrentUser();
 		model.addAttribute("user", user);
 		return "profile";
+	}
+	
+	@PostMapping("/modifyProfile")
+	public String modifyProfile(@ModelAttribute ModifiedUser modifiedUser) {
+		System.out.println(modifiedUser.getFirstName());
+		User currentUser = getCurrentUser();
+		System.out.println(currentUser.getId());
+		userService.saveUser(currentUser.getId(), currentUser.getLogin(), currentUser.getPassword(), modifiedUser.getFirstName(), modifiedUser.getLastName());
+		return "redirect:/profile.html";
 	}
 
 	@GetMapping("/contact.html")

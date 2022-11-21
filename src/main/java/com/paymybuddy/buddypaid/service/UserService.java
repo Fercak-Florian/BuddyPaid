@@ -37,4 +37,13 @@ public class UserService implements IUserService{
 	public Optional<User> findUserByLogin(String login) {
 		return userRepository.findByLogin(login);
 	}
+
+	@Override
+	public User saveUser(int currentUserId, String login, String password, String firstName,
+			String lastName) {
+		User user = new User(currentUserId, login, password, firstName, lastName);
+		return userRepository.save(user);
+	}
+
+	
 }
