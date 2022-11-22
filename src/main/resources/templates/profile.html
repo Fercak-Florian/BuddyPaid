@@ -22,10 +22,22 @@
 				</div>
 			</div>
 		</header>
-		<section>
-		<p>Page de profile</p>
-		<h3>Modifier mes informations</h3>
-		</section>
+		<div>
+			<p>Page de profile</p>
+			<h3>Modifier mes informations</h3>
+
+			<form method="post" th:action="@{/modifyProfile}" th:object="${modifiedUser}">
+				<label for="firstname">First name:</label><br>
+				<input type="text" id="firstname" name="FirstName" th:value ="${user.getFirstName}"><br>
+				<label for="lastname">Last name:</label><br>
+				<input type="text" id="lastname" name="LastName" th:value = "${user.getLastName}"><br><br>
+				<!--
+				<label for="password">Password:</label><br>
+				<input type="text" id="password" name="password" value=""><br><br>
+				-->
+				<input type="submit" value="Submit">
+			</form>
+		</div>
 	</div>
 </body>
 

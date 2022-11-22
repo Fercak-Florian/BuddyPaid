@@ -15,11 +15,13 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicUpdate;
 
 import lombok.Data;
 
 @Data
 @Entity
+@DynamicUpdate
 @Table(name = "user")
 public class User {
 
@@ -53,6 +55,14 @@ public class User {
 	private List<User> buddies = new ArrayList<>();
 	
 	public User() {
+	}
+	
+	public User(int id, String login, String password, String firstName, String lastName) {
+		this.id = id;
+		this.login = login;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
 	}
 	
 	public User(String login, String password, String firstName, String lastName, List<Operation> operations, List<User> buddies) {

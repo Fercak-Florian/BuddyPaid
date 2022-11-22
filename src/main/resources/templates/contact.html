@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/contact.css}">
 	<title>Pay My Buddy</title>
 </head>
 
@@ -22,9 +22,15 @@
 				</div>
 			</div>
 		</header>
-		<section>
-		<p>Page de contact</p>
-		</section>
+		<div>
+			<h2>Contact us</h2>
+			<label  th:text="${formComment.message}"></label><br><br>
+			<form method="post" th:action="@{/submitDemand}" th:object="${textArea}">
+				<textarea id="textarea" name="message" rows="10" cols="50">Enter your demand...</textarea>
+				<br>
+				<input type="submit" value="Submit">
+			</form>
+		</div>
 	</div>
 </body>
 
