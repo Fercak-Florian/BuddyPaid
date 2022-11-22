@@ -109,7 +109,8 @@ public class UserController {
 	}
 
 	@GetMapping("/contact.html")
-	public String displayContactPage() {
+	public String displayContactPage(Model model) {
+		model.addAttribute("formComment", formComment);
 		return "contact";
 	}
 	
@@ -117,8 +118,12 @@ public class UserController {
 	public String submitDemand(@ModelAttribute TextArea textArea) {
 		System.out.println("Demande de l'utilisateur : " + textArea.getMessage());
 		/*FONCTIONNALITE DE TRAITEMENT D'UNE DEMANDE UTILISATEUR*/
-		formComment.setMessage("We successfully received your inquiry.\r\n"
-				+ "We will process it as soon as possible.");
+		if(textArea.getMessage().isEmpty()) {
+			formComment.setMessage("");
+		} else {
+			formComment.setMessage("We successfully received your inquiry.\r\n"
+					+ "We will process it as soon as possible.");
+		}
 		return "redirect:/contact.html";
 	}
 
@@ -138,7 +143,7 @@ public class UserController {
 		Optional<User> user = userService.findUserByLogin(wantedEmail);
 		if (user.isEmpty()) {
 			System.out.println("Utilisateur non trouvé");
-			formComment.setMessage("l'email " + wantedEmail + " n'est pas connu dans la base de données");
+			formComment.setMessage("The email " + wantedEmail + " is unknown in the database");
 			return new ModelAndView("redirect:/add_connection.html");
 		} else {
 			User currentUser = getCurrentUser();
@@ -151,11 +156,11 @@ public class UserController {
 			}
 			if (buddiesLogin.contains(wantedEmail)) {
 				log.info("Impossible d'ajouter : " + user.get().getFirstName());
-				formComment.setMessage(user.get().getFirstName() + " fait déjà parti de vos amis");
+				formComment.setMessage(user.get().getFirstName() + " is already one of your buddy");
 			} else {
 				userService.addBuddy(currentUserId.getId(), user.get().getId());
 				log.info("Utilisateur ajouté : " + user.get().getFirstName());
-				formComment.setMessage("Vous avez ajouté " + user.get().getFirstName() + " à vos amis");
+				formComment.setMessage("You added " + user.get().getFirstName() + " to your buddies");
 			}
 		}
 		return new ModelAndView("redirect:/add_connection.html");
