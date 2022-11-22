@@ -31,9 +31,6 @@ public class Operation {
 	@Column(name = "date")
 	private Date date;
 	
-	@Column(name = "type")
-	private String type;
-	
 	@Column(name = "amount")
 	private double amount;
 	
@@ -43,21 +40,19 @@ public class Operation {
 	public Operation() {
 	}
 	
-	public Operation(int id, int userId, int buddyId, Date date, String type, double amount, String description) {
+	public Operation(int id, int userId, int buddyId, Date date, double amount, String description) {
 		this.id = id;
 		this.buddyId = buddyId;
 		this.userId = userId;
 		this.date = date;
-		this.type = type;
 		this.amount = amount;
 		this.description = description;
 	}
 	
-	public Operation(int userId, int buddyId, Date date, String type, double amount, String description) {
+	public Operation(int userId, int buddyId, Date date, double amount, String description) {
 		this.userId = userId;
 		this.buddyId = buddyId;
 		this.date = date;
-		this.type = type;
 		this.amount = amount;
 		this.description = description;
 	}

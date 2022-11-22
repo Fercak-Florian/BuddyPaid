@@ -44,8 +44,7 @@ public class OperationServiceTest {
 		int beneficiary = 6;
 		double amount = 50;
 		String description = "bowling";
-		Operation operation1 = new Operation(currentUserId, beneficiary, new Date(), "versement", amount, description);
-		/*Operation operation2 = new Operation(3, 4, new Date(), "versement", 20, "restaurant");*/
+		Operation operation1 = new Operation(currentUserId, beneficiary, new Date(), amount, description);
 		when(operationRepository.save(any(Operation.class))).thenReturn(operation1);
 		
 		/*ACT*/
@@ -56,8 +55,8 @@ public class OperationServiceTest {
 		assertThat(result.getAmount()).isEqualTo(amount);
 		verify(operationRepository).save(operationCaptor.capture());
 		assertThat(operationCaptor.getValue())
-		.extracting("userId", "buddyId", "type", "amount", "description")
-		.containsExactly(currentUserId, beneficiary, "versement", amount, description);
+		.extracting("userId", "buddyId", "amount", "description")
+		.containsExactly(currentUserId, beneficiary, amount, description);
 	}
 	
 	@Test
