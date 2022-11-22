@@ -1,6 +1,7 @@
 package com.paymybuddy.buddypaid.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -11,6 +12,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -25,30 +28,36 @@ public class OperationServiceTest {
 	@Mock
 	IOperationRepository operationRepository;
 	
+	@Captor
+	ArgumentCaptor<Operation> operationCaptor;
+	
 	@BeforeEach
 	public void init() {
 		operationService = new OperationService(operationRepository);
 	}
 	
-	@Disabled
 	@Test
 	public void testAddOperation() {
+		
 		/*ARRANGE*/
 		int currentUserId = 5;
 		int beneficiary = 6;
 		double amount = 50;
 		String description = "bowling";
-		Operation operation1 = new Operation(2, 3, new Date(), "versement", 10, "bowling");
+		Operation operation1 = new Operation(currentUserId, beneficiary, new Date(), "versement", amount, description);
 		/*Operation operation2 = new Operation(3, 4, new Date(), "versement", 20, "restaurant");*/
-		when(operationRepository.save(new Operation())).thenReturn(operation1);
+		when(operationRepository.save(any(Operation.class))).thenReturn(operation1);
 		
 		/*ACT*/
 		/*CURRENTUSERID, BENEFICIARY, AMOUNT, DESCRIPTION*/
 		Operation result = operationService.addOperation(currentUserId, beneficiary, amount, description);
 
 		/*ASSERT*/
-		assertThat(result.getAmount()).isEqualTo(10);
-		verify(operationRepository).save(operation1);
+		assertThat(result.getAmount()).isEqualTo(amount);
+		verify(operationRepository).save(operationCaptor.capture());
+		assertThat(operationCaptor.getValue())
+		.extracting("userId", "buddyId", "type", "amount", "description")
+		.containsExactly(currentUserId, beneficiary, "versement", amount, description);
 	}
 	
 	@Test

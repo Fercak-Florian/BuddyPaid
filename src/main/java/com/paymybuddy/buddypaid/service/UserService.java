@@ -41,7 +41,10 @@ public class UserService implements IUserService{
 	@Override
 	public User saveUser(int currentUserId, String login, String password, String firstName,
 			String lastName) {
-		User user = new User(currentUserId, login, password, firstName, lastName);
+		User user = userRepository.findById(currentUserId).get();
+		user.setFirstName(firstName);
+		user.setLastName(lastName);
+		/*User user = new User(currentUserId, login, password, firstName, lastName);*/
 		return userRepository.save(user);
 	}
 
