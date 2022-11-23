@@ -9,6 +9,8 @@ INSERT INTO `user` (`login`, `password`,`first_name`, `last_name`) VALUES ('rpet
 INSERT INTO `user` (`login`, `password`,`first_name`, `last_name`) VALUES ('szemicks@email.com', 'szemicks', 'Sophia', 'Zemicks');
 INSERT INTO `user` (`login`, `password`,`first_name`, `last_name`) VALUES ('cferguson@email.com', 'cferguson', 'Clive', 'Ferguson');
 
+INSERT INTO `authorities` (`email`, `authority`) VALUES ('jboyd@email.com', 'USER');
+
 INSERT INTO `operation` (`user_id`, `buddy_id`, `date`, `amount`, `description`) VALUES ('2', '3', '2022-10-21', '10', 'Addition restaurant');
 INSERT INTO `operation` (`user_id`, `buddy_id`, `date`, `amount`, `description`) VALUES ('2', '4', '2022-10-22', '10', 'Cinema');
 INSERT INTO `operation` (`user_id`, `buddy_id`, `date`, `amount`, `description`) VALUES ('2', '5', '2022-10-23', '10', 'Parking');
