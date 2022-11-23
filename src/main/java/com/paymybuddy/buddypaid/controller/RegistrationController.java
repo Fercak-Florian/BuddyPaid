@@ -1,5 +1,7 @@
 package com.paymybuddy.buddypaid.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,13 +16,11 @@ import com.paymybuddy.buddypaid.service.IUserService;
 
 @Controller
 public class RegistrationController {
-
+	
 	private IUserService userService;
-	private IUserRepository userRepository;
 
-	public RegistrationController(IUserService userService, IUserRepository userRepository) {
+	public RegistrationController(IUserService userService) {
 		this.userService = userService;
-		this.userRepository = userRepository;
 	}
 
 	@GetMapping("/registration")
@@ -32,10 +32,7 @@ public class RegistrationController {
 
 	@PostMapping("/registration")
 	public String registerUserAccount(@ModelAttribute User user) {
-		/*userService.saveUser(user.getId(), user.getLogin(), user.getPassword(), user.getFirstName(),
-				user.getLastName());*/
-		System.out.println(user.getFirstName());
-		userRepository.save(user);
+		userService.registerNewUserAccount(user);
 		return "registration";
 	}
 }
