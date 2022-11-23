@@ -9,7 +9,7 @@ CREATE TABLE user
 (
 	id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	login VARCHAR (30) NOT NULL,
-    password VARCHAR (30) NOT NULL,
+    password VARCHAR (250) NOT NULL,
     first_name VARCHAR (30) NOT NULL,
     last_name VARCHAR (30) NOT NULL
 );
