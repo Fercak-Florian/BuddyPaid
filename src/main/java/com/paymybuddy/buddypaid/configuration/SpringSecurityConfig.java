@@ -1,5 +1,8 @@
 package com.paymybuddy.buddypaid.configuration;
 
+import java.util.Collection;
+import java.util.Collections;
+
 import javax.activation.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,14 +13,17 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
+public class SpringSecurityConfig {
 
 	private DataSourceConfig dataSourceConfig;
 
@@ -25,18 +31,32 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		this.dataSourceConfig = dataSourceConfig;
 	}
 
-	@Override
-	public void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/user").hasRole("USER").anyRequest().authenticated().and().formLogin();
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		return http.authorizeRequests().
+				antMatchers("/login")
+				.authenticated()
+				.anyRequest()
+				.permitAll()
+				.and()
+				.formLogin()
+				.and()
+				.build();
 	}
 
-	@Override
+	/*
+	 * @Bean public UserDetailsService userDetailsService() { return new
+	 * InMemoryUserDetailsManager(new User("user", passwordEncoder().
+	 * encode("password"), Collections.EMPTY_LIST)); }
+	 */
+
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.jdbcAuthentication()
-				.dataSource(dataSourceConfig.getDataSource())
-				.usersByUsernameQuery("SELECT login, password, true FROM user WHERE login = ?")
-				.authoritiesByUsernameQuery("SELECT email,authority FROM authorities WHERE email = ?");
-		/* System.out.println(dataSourceConfig.getDataSource().getClass()); */
+		
+		/*auth.jdbcAuthentication().dataSource(dataSourceConfig.getDataSource())*/
+				/*.usersByUsernameQuery("SELECT login, password, true FROM user WHERE login = ?")*/
+				/*.authoritiesByUsernameQuery("SELECT email,authority FROM authorities WHERE email = ?");
+
+		System.out.println(dataSourceConfig.getDataSource().getClass());
 		/* THE FOLLOWING AUTHENTICATION IS WORKING */
 		/* .withUser("flo").password(passwordEncoder().encode("123")).roles("USER"); */
 

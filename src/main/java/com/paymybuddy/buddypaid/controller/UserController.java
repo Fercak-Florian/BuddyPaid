@@ -29,8 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class UserController {
-
-
+	
 	private CurrentUserId currentUserId;
 	private IUserService userService;
 	private FormComment formComment;

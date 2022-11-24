@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +16,8 @@ import com.paymybuddy.buddypaid.model.User;
 import com.paymybuddy.buddypaid.repository.IUserRepository;
 
 @Service
-@Transactional
-public class MyUserDetailsService {
+/*@Transactional*/
+public class MyUserDetailsService implements UserDetailsService {
 
 	private IUserRepository userRepository;
 
@@ -24,25 +25,12 @@ public class MyUserDetailsService {
 		this.userRepository = userRepository;
 	}
 
-	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		User user = userRepository.findByLogin(email).get();
+	@Override
+	public UserDetails loadUserByUsername(String username) {
+		User user = userRepository.findByLogin(username).get();
 		if (user == null) {
-			throw new UsernameNotFoundException("No user found with username: " + email);
+			throw new UsernameNotFoundException(username);
 		}
-		boolean enabled = true;
-		boolean accountNonExpired = true;
-		boolean credentialsNonExpired = true;
-		boolean accountNonLocked = true;
-
-		return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword().toLowerCase(),
-				enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, new ArrayList<>());
-	}
-
-	private static List<GrantedAuthority> getAuthorities(List<String> roles) {
-		List<GrantedAuthority> authorities = new ArrayList<>();
-		for (String role : roles) {
-			authorities.add(new SimpleGrantedAuthority(role));
-		}
-		return authorities;
+		return new MyUserPrincipal(user);
 	}
 }
