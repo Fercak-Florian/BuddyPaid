@@ -1,43 +1,58 @@
 <html>
 
-<body>
-	<!-- <h1 th:text="#{label.form.title}">form</h1> -->
-	<form th:action="@{/registration}" th:object="${user}" method="post" enctype="utf8">
-		<div>
-			<div>
-				<!-- LOGIN -->
-				<label>Enter your email</label>
-				<input type="text" th:field="*{login}" />
-				<!-- <p th:each="error : ${#fields.errors('email')}" th:text="${error}">Validation error</p> -->
-			</div>
-			<!-- PASSWORD -->
-			<div>
-				<label>Enter your password</label>
-				<input type="text" th:field="*{password}" />
-				<!-- <p th:each="error : ${#fields.errors('password')}" th:text="${error}">Validation error</p> -->
-			</div>
-			<!-- FIRSTNAME -->
-			<label>Enter your first name</label>
-			<input th:field="*{firstName}" />
-			<!-- <p th:each="error: ${#fields.errors('firstName')}" th:text="${error}">Validation error</p> -->
-		</div>
-		<!-- LASTNAME -->
-		<div>
-			<label>Enter your last name</label>
-			<input th:field="*{lastName}" />
-			<!-- <p th:each="error : ${#fields.errors('lastName')}" th:text="${error}">Validation error</p> -->
-		</div>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/registration.css}">
+	<title>Pay My Buddy</title>
+</head>
 
-		<!--
+<body>
+	<div id="bloc_page">
+		<div id="section">
+			<h1> Please register </h1>
+			<!-- <h1 th:text="#{label.form.title}">form</h1> -->
+			<form th:action="@{/registration}" th:object="${user}" method="post" enctype="utf8">
+				<div>
+					<div id="enter">
+						<!-- LOGIN -->
+						<label>Email</label><br>
+						<input id="field" type="text" th:field="*{login}" />
+						<!-- <p th:each="error : ${#fields.errors('email')}" th:text="${error}">Validation error</p> -->
+					</div>
+					<!-- PASSWORD -->
+					<div id="enter">
+						<label>Password</label><br>
+						<input id="field" type="text" th:field="*{password}" />
+						<!-- <p th:each="error : ${#fields.errors('password')}" th:text="${error}">Validation error</p> -->
+					</div>
+					<!-- FIRSTNAME -->
+					<div id="enter">
+						<label>First Name</label><br>
+						<input id="field" th:field="*{firstName}" />
+						<!-- <p th:each="error: ${#fields.errors('firstName')}" th:text="${error}">Validation error</p> -->
+					</div>
+					<!-- LASTNAME -->
+					<div id="enter">
+						<label>Last Name</label><br>
+						<input id="field" th:field="*{lastName}" />
+						<!-- <p th:each="error : ${#fields.errors('lastName')}" th:text="${error}">Validation error</p> -->
+					</div>
+
+					<!--
 		<div>
 			<label th:text="#{label.user.confirmPass}">confirm</label>
 			<input type="password" th:field="*{matchingPassword}" />
 		</div>
 		-->
-		<button type="submit">Submit</button>
-	</form>
+					<div id="enter">
+						<button id="submit" type="submit">Register</button>
+					</div>
+			</form>
 
-	<!-- <a th:href="@{/login.html}" th:text="#{label.form.loginLink}">login</a> -->
+			<!-- <a th:href="@{/login.html}" th:text="#{label.form.loginLink}">login</a> -->
+		</div>
+	</div>
 </body>
 
 </html>
