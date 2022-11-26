@@ -1,5 +1,6 @@
 package com.paymybuddy.buddypaid.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +35,7 @@ public class UserController {
 	private CurrentUserId currentUserId;
 	private IUserService userService;
 	private FormComment formComment;
-
+	
 	public UserController(IUserService userService, CurrentUserId currentUserId, FormComment formComment) {
 		this.userService = userService;
 		this.currentUserId = currentUserId;
@@ -46,11 +47,18 @@ public class UserController {
 		User user = optUser.get();
 		return user;
 	}
+	
+	public User getCurrentUserByEmail(String email) {
+		Optional<User> optUser = userService.findUserByLogin(email);
+		User user = optUser.get();
+		return user;
+	}
 
 	@GetMapping("/")
-	public String displayTransferPage(Model model, @RequestParam(name = "page", defaultValue = "1") int page) {
-		System.out.println(page);
-		User user = getCurrentUser();
+	public String displayTransferPage(Model model, @RequestParam(name = "page", defaultValue = "1") int page, Principal principal) {
+		//System.out.println("Le principal est :" + principal.getName());
+		//User user = getCurrentUser();
+		User user = getCurrentUserByEmail(principal.getName());
 		List<User> buddies = user.getBuddies();
 		List<Operation> operations = user.getOperations();
 
@@ -68,7 +76,6 @@ public class UserController {
 				displayedOperations.add(new DisplayedOperation(u.getFirstName(), o.getDescription(), o.getAmount()));
 			}
 		}
-		System.out.println(displayedOperations.get(2).getBuddyFirstName());
 		List<DisplayedOperation> partialDisplayedOperations = new ArrayList<>();
 		int pageLenght = 3;
 		int start = (page - 1) * pageLenght; 
