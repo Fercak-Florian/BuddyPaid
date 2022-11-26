@@ -23,9 +23,7 @@
 			</div>
 		</header>
 		<div>
-			<p>Page de profile</p>
 			<h3>Modifier mes informations</h3>
-
 			<form method="post" th:action="@{/modifyProfile}" th:object="${modifiedUser}">
 				<label for="firstname">First name:</label><br>
 				<input type="text" id="firstname" name="FirstName" th:value ="${user.getFirstName}"><br>
