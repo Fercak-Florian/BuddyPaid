@@ -85,3 +85,28 @@ a
 	color: black; /*Couleur du texte*/
 	text-decoration: none; /*Supprime le soulignement des liens -- a appliquer sur la balise a*/
 }
+
+.field
+{
+	font-size: 0.9em;
+	height:32px;
+	width:220px;
+	border : 0.5px rgb(192, 192, 192) solid;
+}
+
+#submit
+{
+	color: white;
+	background-color: #0275d8; /*bleu*/
+	width: 220px;/*On peut definir une largeur pour ce block*/
+	height : 34px;
+	border-radius: 5px;
+	border : none;
+	font-size: 0.9em;
+	margin-top: 20px;
+}
+
+.enter
+{
+	margin-top: 20px;
+}
