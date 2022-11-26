@@ -1,78 +1,49 @@
 package com.paymybuddy.buddypaid.configuration;
 
-import java.util.Collection;
-import java.util.Collections;
-
-import javax.activation.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+
+import com.paymybuddy.buddypaid.service.MyUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig {
 
-	private DataSourceConfig dataSourceConfig;
-
-	public SpringSecurityConfig(DataSourceConfig dataSourceConfig) {
-		this.dataSourceConfig = dataSourceConfig;
-	}
+	@Autowired
+	MyUserDetailsService userDetailsService;
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		return http.authorizeRequests().
-				antMatchers("/login")
-				.authenticated()
-				.anyRequest()
-				.permitAll()
-				.and()
-				.formLogin()
-				.and()
-				.build();
+		http.authorizeRequests().antMatchers("/login").authenticated().anyRequest().permitAll().and().formLogin();
+		http.authenticationProvider(authenticationProvider());
+		return http.build();
 	}
 
-	/*
-	 * @Bean public UserDetailsService userDetailsService() { return new
-	 * InMemoryUserDetailsManager(new User("user", passwordEncoder().
-	 * encode("password"), Collections.EMPTY_LIST)); }
-	 */
+	@Bean
+	public DaoAuthenticationProvider authenticationProvider() {
+		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+		authProvider.setUserDetailsService(userDetailsService);
+		authProvider.setPasswordEncoder(passwordEncoder());
+		return authProvider;
+	}
 
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		
-		/*auth.jdbcAuthentication().dataSource(dataSourceConfig.getDataSource())*/
-				/*.usersByUsernameQuery("SELECT login, password, true FROM user WHERE login = ?")*/
-				/*.authoritiesByUsernameQuery("SELECT email,authority FROM authorities WHERE email = ?");
-
-		System.out.println(dataSourceConfig.getDataSource().getClass());
-		/* THE FOLLOWING AUTHENTICATION IS WORKING */
-		/* .withUser("flo").password(passwordEncoder().encode("123")).roles("USER"); */
-
+	@Bean
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+			throws Exception {
+		return authenticationConfiguration.getAuthenticationManager();
 	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-
-	/* NECESSITE UserDetailService userDetailsService */
-
-	/*
-	 * @Bean public DaoAuthenticationProvider authProvider() {
-	 * DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-	 * authProvider.setUserDetailsService(userDetailsService);
-	 * authProvider.setPasswordEncoder(passwordEncoder()); return authProvider; }
-	 */
 }

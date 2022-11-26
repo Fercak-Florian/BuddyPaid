@@ -19,4 +19,8 @@ public class DisplayedOperation {
 		this.description = description;
 		this.amount = amount;
 	}
+	
+	public String getAmountInEuro() {
+		return amount + "€";
+	}
 }

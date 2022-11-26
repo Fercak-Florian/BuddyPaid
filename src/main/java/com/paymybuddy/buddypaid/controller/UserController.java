@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.paymybuddy.buddypaid.model.Operation;
@@ -47,7 +48,8 @@ public class UserController {
 	}
 
 	@GetMapping("/")
-	public String displayTransferPage(Model model) {
+	public String displayTransferPage(Model model, @RequestParam(name = "page", defaultValue = "1") int page) {
+		System.out.println(page);
 		User user = getCurrentUser();
 		List<User> buddies = user.getBuddies();
 		List<Operation> operations = user.getOperations();
@@ -64,9 +66,28 @@ public class UserController {
 				Optional<User> optUser = userService.getUser(buddyId);
 				User u = optUser.get();
 				displayedOperations.add(new DisplayedOperation(u.getFirstName(), o.getDescription(), o.getAmount()));
-				model.addAttribute("displayedOperations", displayedOperations);
 			}
 		}
+		System.out.println(displayedOperations.get(2).getBuddyFirstName());
+		List<DisplayedOperation> partialDisplayedOperations = new ArrayList<>();
+		int pageLenght = 3;
+		int start = (page - 1) * pageLenght; 
+		if(start >= displayedOperations.size()) {
+			/*NE RIEN FAIRE*/
+		} else {
+			int end = start + (pageLenght -1) ; 
+			if(end < displayedOperations.size()) {
+				
+			} else {
+				end = displayedOperations.size() - 1;
+			}
+			
+			for(int i = start; i <= end ; i++) {
+				partialDisplayedOperations.add(displayedOperations.get(i));
+			}
+		}
+		
+		model.addAttribute("displayedOperations", partialDisplayedOperations);
 		return "transfer";
 	}
 
