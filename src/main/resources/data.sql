@@ -10,9 +10,6 @@ INSERT INTO `user` (`login`, `password`,`first_name`, `last_name`) VALUES ('szem
 INSERT INTO `user` (`login`, `password`,`first_name`, `last_name`) VALUES ('cferguson@email.com', 'cferguson', 'Clive', 'Ferguson');
 INSERT INTO `user` (`login`, `password`,`first_name`, `last_name`) VALUES ('flo@email.com', '$2a$10$HrH0c9R2Um1i5oEYjRzWT.JLICa.5pwvCbboJc.VAhJnCHrQd1LL2', 'Florian', 'Fercak');
 
-
-INSERT INTO `authorities` (`email`, `authority`) VALUES ('jboyd@email.com', 'USER');
-
 INSERT INTO `operation` (`user_id`, `buddy_id`, `date`, `amount`, `description`) VALUES ('2', '3', '2022-10-21', '10', 'Addition restaurant');
 INSERT INTO `operation` (`user_id`, `buddy_id`, `date`, `amount`, `description`) VALUES ('2', '4', '2022-10-22', '10', 'Cinema');
 INSERT INTO `operation` (`user_id`, `buddy_id`, `date`, `amount`, `description`) VALUES ('2', '5', '2022-10-23', '10', 'Parking');
