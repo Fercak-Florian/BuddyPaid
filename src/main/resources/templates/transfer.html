@@ -58,7 +58,7 @@
 				<tr class="ligne" th:each="do: ${displayedOperations}">
 					<td><span th:text="${do.buddyFirstName}"></span></td>
 					<td><span th:text="${do.description}"></span></td>
-					<td><span th:text="${do.amount}"></span></td>
+					<td><span th:text="${do.getAmountInEuro()}"><label></label></span></td>
 				</tr>
 			</table>
 
@@ -67,11 +67,11 @@
 
 		<footer>
 			<div><a id="previous" href="/precedent">&lt;&lt;</a></div>
-			<div class="element"><a href="">1</a></div>
-			<div class="element"><a href="">2</a></div>
-			<div class="element"><a href="">3</a></div>
-			<div class="element"><a href="">4</a></div>
-			<div class="element"><a href="">5</a></div>
+			<div class="element"><a href="/?page=1">1</a></div>
+			<div class="element"><a href="/?page=2">2</a></div>
+			<div class="element"><a href="/?page=3">3</a></div>
+			<div class="element"><a href="/?page=4">4</a></div>
+			<div class="element"><a href="/?page=5">5</a></div>
 			<div><a id="next" href="/suivant">&gt;&gt;</a></div>
 		</footer>
 

@@ -17,4 +17,6 @@ public interface IUserService {
 	public Optional<User> findUserByLogin(String login);
 
 	public User saveUser(int currentUserId, String login, String password, String firstName, String lastName);
+	
+	public User registerNewUserAccount(User userDto);
 }

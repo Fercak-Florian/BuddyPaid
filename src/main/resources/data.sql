@@ -8,6 +8,8 @@ INSERT INTO `user` (`login`, `password`,`first_name`, `last_name`) VALUES ('lcoo
 INSERT INTO `user` (`login`, `password`,`first_name`, `last_name`) VALUES ('rpeters@email.com','rpeter', 'Ron', 'Peter');
 INSERT INTO `user` (`login`, `password`,`first_name`, `last_name`) VALUES ('szemicks@email.com', 'szemicks', 'Sophia', 'Zemicks');
 INSERT INTO `user` (`login`, `password`,`first_name`, `last_name`) VALUES ('cferguson@email.com', 'cferguson', 'Clive', 'Ferguson');
+INSERT INTO `user` (`login`, `password`,`first_name`, `last_name`) VALUES ('flo@email.com', '$2a$10$HrH0c9R2Um1i5oEYjRzWT.JLICa.5pwvCbboJc.VAhJnCHrQd1LL2', 'a', 'b');
+
 
 INSERT INTO `authorities` (`email`, `authority`) VALUES ('jboyd@email.com', 'USER');
 
