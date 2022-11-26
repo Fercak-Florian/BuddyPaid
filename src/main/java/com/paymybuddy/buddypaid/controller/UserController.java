@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,22 +36,30 @@ public class UserController {
 	private CurrentUserId currentUserId;
 	private IUserService userService;
 	private FormComment formComment;
-
+	
 	public UserController(IUserService userService, CurrentUserId currentUserId, FormComment formComment) {
 		this.userService = userService;
 		this.currentUserId = currentUserId;
 		this.formComment = formComment;
 	}
 
-	public User getCurrentUser() {
+	/*public User getCurrentUser() {
 		Optional<User> optUser = userService.getUser(currentUserId.getId());
+		User user = optUser.get();
+		return user;
+	}*/
+	
+	public User getCurrentUser/*ByEmail*/() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentUserName = authentication.getName();
+		System.out.println(currentUserName);
+		Optional<User> optUser = userService.findUserByLogin(currentUserName);
 		User user = optUser.get();
 		return user;
 	}
 
 	@GetMapping("/")
 	public String displayTransferPage(Model model, @RequestParam(name = "page", defaultValue = "1") int page) {
-		System.out.println(page);
 		User user = getCurrentUser();
 		List<User> buddies = user.getBuddies();
 		List<Operation> operations = user.getOperations();
@@ -59,7 +69,7 @@ public class UserController {
 		model.addAttribute("buddies", buddies);
 		List<DisplayedOperation> displayedOperations = new ArrayList<>();
 		for (Operation o : operations) {
-			if (o.getBuddyId() == 1) { /*BANK USERID IS 1*/
+			if (o.getBuddyId() == 1) { /*BANK USERID IS ALWAYS 1*/
 				/*NE PAS AJOUTER DANS LA LISTE*/
 			} else {
 				int buddyId = o.getBuddyId();
@@ -68,7 +78,6 @@ public class UserController {
 				displayedOperations.add(new DisplayedOperation(u.getFirstName(), o.getDescription(), o.getAmount()));
 			}
 		}
-		System.out.println(displayedOperations.get(2).getBuddyFirstName());
 		List<DisplayedOperation> partialDisplayedOperations = new ArrayList<>();
 		int pageLenght = 3;
 		int start = (page - 1) * pageLenght; 

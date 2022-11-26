@@ -14,13 +14,6 @@ CREATE TABLE user
     last_name VARCHAR (30) NOT NULL
 );
 
-CREATE TABLE authorities (
-  email VARCHAR(50) NOT NULL,
-  authority VARCHAR(50) NOT NULL
-);
-
-CREATE UNIQUE INDEX ix_auth_email on authorities (email,authority);
-
 CREATE TABLE operation
 (
 	id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
