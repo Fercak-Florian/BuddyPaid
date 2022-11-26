@@ -1,12 +1,13 @@
 package com.paymybuddy.buddypaid.controller;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,23 +43,24 @@ public class UserController {
 		this.formComment = formComment;
 	}
 
-	public User getCurrentUser() {
+	/*public User getCurrentUser() {
 		Optional<User> optUser = userService.getUser(currentUserId.getId());
 		User user = optUser.get();
 		return user;
-	}
+	}*/
 	
-	public User getCurrentUserByEmail(String email) {
-		Optional<User> optUser = userService.findUserByLogin(email);
+	public User getCurrentUser/*ByEmail*/() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentUserName = authentication.getName();
+		System.out.println(currentUserName);
+		Optional<User> optUser = userService.findUserByLogin(currentUserName);
 		User user = optUser.get();
 		return user;
 	}
 
 	@GetMapping("/")
-	public String displayTransferPage(Model model, @RequestParam(name = "page", defaultValue = "1") int page, Principal principal) {
-		//System.out.println("Le principal est :" + principal.getName());
-		//User user = getCurrentUser();
-		User user = getCurrentUserByEmail(principal.getName());
+	public String displayTransferPage(Model model, @RequestParam(name = "page", defaultValue = "1") int page) {
+		User user = getCurrentUser();
 		List<User> buddies = user.getBuddies();
 		List<Operation> operations = user.getOperations();
 
@@ -67,7 +69,7 @@ public class UserController {
 		model.addAttribute("buddies", buddies);
 		List<DisplayedOperation> displayedOperations = new ArrayList<>();
 		for (Operation o : operations) {
-			if (o.getBuddyId() == 1) { /*BANK USERID IS 1*/
+			if (o.getBuddyId() == 1) { /*BANK USERID IS ALWAYS 1*/
 				/*NE PAS AJOUTER DANS LA LISTE*/
 			} else {
 				int buddyId = o.getBuddyId();
