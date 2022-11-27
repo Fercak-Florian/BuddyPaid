@@ -167,7 +167,7 @@ a
 	width: 200px;/*On peut definir une largeur pour ce block*/
 	line-height: 40px;/*a creuser*/
 	text-align: center;/*a se rappeler*/
-	vertical-align: middle;/*a se rappeler*/
+	/*vertical-align: middle;*/ /*a se rappeler*/
 	border-radius: 9px;
 	text-decoration: none; /*supprime le souligné du lien*/
 	background-color: #0275d8; /*bleu*/
@@ -196,6 +196,7 @@ table
 	color: white;
 	font-size: 1em;
 	background-color: #5cb85c; /*vert*/
+	height : 80px
 }
 
 .ligne

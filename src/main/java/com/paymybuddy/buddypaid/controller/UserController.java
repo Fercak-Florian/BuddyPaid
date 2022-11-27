@@ -187,7 +187,7 @@ public class UserController {
 				log.info("Impossible d'ajouter : " + user.get().getFirstName());
 				formComment.setMessage(user.get().getFirstName() + " is already one of your buddy");
 			} else {
-				userService.addBuddy(currentUserId.getId(), user.get().getId());
+				userService.addBuddy(getCurrentUser().getId(), user.get().getId());
 				log.info("Utilisateur ajouté : " + user.get().getFirstName());
 				formComment.setMessage("You added " + user.get().getFirstName() + " to your buddies");
 			}

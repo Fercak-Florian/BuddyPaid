@@ -51,9 +51,9 @@
 			<caption id="my_transactions">My Transactions</caption>
 			<table>
 				<tr id="en_tete">
-					<td>Connections</td>
-					<td>Description</td>
-					<td>Amount</td>
+					<th>Connections</th>
+					<th>Description</th>
+					<th>Amount</th>
 				</tr>
 				<tr class="ligne" th:each="do: ${displayedOperations}">
 					<td><span th:text="${do.buddyFirstName}"></span></td>
