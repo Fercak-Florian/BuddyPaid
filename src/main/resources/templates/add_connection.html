@@ -28,24 +28,24 @@
 		<div>
 			<form method="post" th:action="@{/addBuddy}" th:object="${formAddConnectionTh}">
 				<label  th:text="${formComment.message}"></label><br><br>
-				<label>Entrer email :</label>
+				<label>Email :</label>
 				<input name ="login" id="login" type="text" >
-				<label>Select a user:</label>
+				<label>App user</label>
 				<select name="buddyEmail" id="buddy">
 					<option disabled selected>Select A User</option>
 					<option th:each="u: ${users}" th:value="${u.login}" th:text="${u.login}">
 					</option>
 				</select>
 				<br><br>
-				<input type="submit" value="Submit">
+				<input id ="submit" type="submit" value="Submit">
 			</form>
 		</div>
 		<div id="affichage_amis">
 			<caption id="my_buddies">My Buddies</caption>
 			<table>
 				<tr id="en_tete">
-					<td>First Name</td>
-					<td>Last Name</td>
+					<th>First Name</th>
+					<th>Last Name</th>
 				</tr>
 				<tr class="ligne" th:each="b: ${buddies}">
 					<td><span th:text="${b.firstName}"></span></td>

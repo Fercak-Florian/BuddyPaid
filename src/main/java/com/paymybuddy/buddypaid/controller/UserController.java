@@ -24,6 +24,7 @@ import com.paymybuddy.buddypaid.workclasses.DisplayedOperation;
 import com.paymybuddy.buddypaid.workclasses.FormAddConnectionTh;
 import com.paymybuddy.buddypaid.workclasses.FormComment;
 import com.paymybuddy.buddypaid.workclasses.ModifiedUser;
+import com.paymybuddy.buddypaid.workclasses.PartialDisplayOperation;
 import com.paymybuddy.buddypaid.workclasses.TextArea;
 
 import lombok.extern.slf4j.Slf4j;
@@ -36,11 +37,13 @@ public class UserController {
 	private CurrentUserId currentUserId;
 	private IUserService userService;
 	private FormComment formComment;
+	private PartialDisplayOperation partialDisplayOperation;
 	
-	public UserController(IUserService userService, CurrentUserId currentUserId, FormComment formComment) {
+	public UserController(IUserService userService, CurrentUserId currentUserId, FormComment formComment, PartialDisplayOperation partialDisplayOperation) {
 		this.userService = userService;
 		this.currentUserId = currentUserId;
 		this.formComment = formComment;
+		this.partialDisplayOperation = partialDisplayOperation;
 	}
 
 	/*public User getCurrentUser() {
@@ -78,24 +81,7 @@ public class UserController {
 				displayedOperations.add(new DisplayedOperation(u.getFirstName(), o.getDescription(), o.getAmount()));
 			}
 		}
-		List<DisplayedOperation> partialDisplayedOperations = new ArrayList<>();
-		int pageLenght = 3;
-		int start = (page - 1) * pageLenght; 
-		if(start >= displayedOperations.size()) {
-			/*NE RIEN FAIRE*/
-		} else {
-			int end = start + (pageLenght -1) ; 
-			if(end < displayedOperations.size()) {
-				
-			} else {
-				end = displayedOperations.size() - 1;
-			}
-			
-			for(int i = start; i <= end ; i++) {
-				partialDisplayedOperations.add(displayedOperations.get(i));
-			}
-		}
-		
+		List<DisplayedOperation> partialDisplayedOperations = partialDisplayOperation.calculateNumberOfOperationsPerPage(displayedOperations, page);
 		model.addAttribute("displayedOperations", partialDisplayedOperations);
 		return "transfer";
 	}
@@ -187,7 +173,7 @@ public class UserController {
 				log.info("Impossible d'ajouter : " + user.get().getFirstName());
 				formComment.setMessage(user.get().getFirstName() + " is already one of your buddy");
 			} else {
-				userService.addBuddy(currentUserId.getId(), user.get().getId());
+				userService.addBuddy(getCurrentUser().getId(), user.get().getId());
 				log.info("Utilisateur ajouté : " + user.get().getFirstName());
 				formComment.setMessage("You added " + user.get().getFirstName() + " to your buddies");
 			}
