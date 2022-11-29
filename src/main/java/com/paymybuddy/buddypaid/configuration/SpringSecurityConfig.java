@@ -23,7 +23,12 @@ public class SpringSecurityConfig {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/login").authenticated().anyRequest().permitAll().and().formLogin();
+		http.authorizeRequests()
+		.antMatchers("/login", "/home", "/contact").permitAll()
+		.anyRequest().authenticated()
+		.and()
+		.formLogin();
+		
 		http.authenticationProvider(authenticationProvider());
 		return http.build();
 	}
