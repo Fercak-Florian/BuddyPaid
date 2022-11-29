@@ -25,10 +25,14 @@ public class SpringSecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-		.antMatchers("/login", "/home", "/contact").permitAll()
+		.antMatchers("/login", "/home", "/contact", "/registration", "/css/**")
+		.permitAll()
 		.anyRequest().authenticated()
+		
 		.and()
 		.formLogin()
+		.loginPage("/login")
+		.permitAll()
 		
 		.and()
 		.logout()
