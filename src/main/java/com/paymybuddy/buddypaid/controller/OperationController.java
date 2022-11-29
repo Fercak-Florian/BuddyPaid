@@ -67,7 +67,7 @@ public class OperationController {
 			/*UTILISATEUR, BENEFICIAIRE, MONTANT, DESCRIPTION*/
 			operationService.addOperation(currentUserId.getId(), fullTransaction.getBuddyId(), fullTransaction.getAmount(), fullTransaction.getDescription());
 			operationService.addOperation(currentUserId.getId(), 1, commission, "Money To App"); /*BANK USERID IS 1*/
-			return new ModelAndView("redirect:/transfer.html");
+			return new ModelAndView("redirect:/transfer");
 		} else {
 			/*MESSAGE SUR LA PAGE : SOLDE INSUFFISANT POUR REALISER LE VIREMENT */
 		}

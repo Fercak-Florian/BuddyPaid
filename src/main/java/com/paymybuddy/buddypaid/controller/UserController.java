@@ -86,7 +86,7 @@ public class UserController {
 		return "transfer";
 	}
 
-	@GetMapping("/add_connection.html")
+	@GetMapping("/add_connection")
 	public String displayAddConnectionPage(Model model) {
 		Iterable<User> users = userService.getUsers();
 		User user = getCurrentUser();
@@ -97,17 +97,17 @@ public class UserController {
 		return "add_connection";
 	}
 
-	@GetMapping("/home.html")
+	@GetMapping("/home")
 	public String displayHomePage() {
 		return "home";
 	}
 
-	@GetMapping("/transfer.html")
+	@GetMapping("/transfer")
 	public ModelAndView displayTranferPage() {
 		return new ModelAndView("redirect:/");
 	}
 
-	@GetMapping("/profile.html")
+	@GetMapping("/profile")
 	public String displayProfilePage(Model model) {
 		User user = getCurrentUser();
 		model.addAttribute("user", user);
@@ -120,10 +120,10 @@ public class UserController {
 		User currentUser = getCurrentUser();
 		System.out.println(currentUser.getId());
 		userService.saveUser(currentUser.getId(), currentUser.getLogin(), currentUser.getPassword(), modifiedUser.getFirstName(), modifiedUser.getLastName());
-		return "redirect:/profile.html";
+		return "redirect:/profile";
 	}
 
-	@GetMapping("/contact.html")
+	@GetMapping("/contact")
 	public String displayContactPage(Model model) {
 		model.addAttribute("formComment", formComment);
 		return "contact";
@@ -139,10 +139,10 @@ public class UserController {
 			formComment.setMessage("We successfully received your inquiry.\r\n"
 					+ "We will process it as soon as possible.");
 		}
-		return "redirect:/contact.html";
+		return "redirect:/contact";
 	}
 
-	@GetMapping("/log_off.html")
+	@GetMapping("/log_off")
 	public String displayLogOff() {
 		return "log_off";
 	}
@@ -159,7 +159,7 @@ public class UserController {
 		if (user.isEmpty()) {
 			System.out.println("Utilisateur non trouvé");
 			formComment.setMessage("The email " + wantedEmail + " is unknown in the database");
-			return new ModelAndView("redirect:/add_connection.html");
+			return new ModelAndView("redirect:/add_connection");
 		} else {
 			User currentUser = getCurrentUser();
 			List<User> buddies = currentUser.getBuddies();
@@ -178,6 +178,6 @@ public class UserController {
 				formComment.setMessage("You added " + user.get().getFirstName() + " to your buddies");
 			}
 		}
-		return new ModelAndView("redirect:/add_connection.html");
+		return new ModelAndView("redirect:/add_connection");
 	}
 }
