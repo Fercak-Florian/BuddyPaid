@@ -1,6 +1,10 @@
 package com.paymybuddy.buddypaid.controller;
 
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -8,14 +12,29 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.util.ArrayList;
+
 import javax.transaction.Transactional;
 
+import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -23,7 +42,43 @@ import org.springframework.test.web.servlet.MockMvc;
 public class UserControllerIntegrationTest {
 	
 		@Autowired
-		public MockMvc mockMvc;
+		private MockMvc mockMvc;
+		
+		@Autowired
+		private WebApplicationContext context;
+		
+		@Mock
+		private Authentication authentication;
+		
+		/*----------------------------------------------------------------------------------------*/
+		
+		/*@Before
+		private void mockAuthentication() {
+			
+		    when(authentication.getPrincipal()).thenReturn("jboyd@email.com");
+
+		    SecurityContext securityContext = mock(SecurityContext.class);
+		    when(securityContext.getAuthentication()).thenReturn(authentication);
+		    SecurityContextHolder.setContext(securityContext);
+		}*/
+		
+		/*----------------------------------------------------------------------------------------*/
+		
+		@Before(value = "authentication")
+		public void setUp() {
+			User user = new User("jboyd@email.com", "jboyd", null);
+			Authentication authentication = new UsernamePasswordAuthenticationToken(user,null);
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+		}
+		
+		
+		@BeforeEach
+		public void init() {
+		   mockMvc = MockMvcBuilders
+		   .webAppContextSetup(context)
+		   .apply(springSecurity())
+		   .build();
+		}
 
 		@Test
 		public void testDisplayTransferPage() throws Exception {
@@ -56,11 +111,19 @@ public class UserControllerIntegrationTest {
 			.andExpect(view().name("transfer"));
 		}
 		
-		@Test
+		/*@Test
 		public void testDisplayProfilePage() throws Exception {
 			mockMvc.perform(get("/profile.html")).andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(view().name("profile"))
+			.andExpect(content().string(containsString("John")));
+		}*/
+		
+		@Test
+		public void testDisplayProfilePage() throws Exception {
+			mockMvc.perform(get("/transfer.html"))
+			.andDo(print()).andExpect(status().isOk())
+			.andExpect(view().name("transfer"))
 			.andExpect(content().string(containsString("John")));
 		}
 		
