@@ -93,17 +93,3 @@ a
 	font-size: 1em;
 	/*border: 1px black solid;*/
 }
-
-#login
-{
-	/*border: solid black 3px;*/
-	display: block; /*la balise a est considérée comme un block*/
-	width: 200px;/*On peut definir une largeur pour ce block*/
-	height: 50px;
-	line-height: 50px;/*a creuser*/
-	text-align: center;/*a se rappeler*/
-	/*vertical-align: middle;a se rappeler*/
-	background-color:#5cb85c;
-	font-size: 1em;
-	border-radius: 5px;
-}
