@@ -11,6 +11,11 @@
     font-style: normal;
 }
 
+body
+{
+	background-color: eeeeee;
+}
+
 #bloc_page
 {
 	border: 1px black solid;
@@ -68,11 +73,6 @@ header
 	color: #0275d8; /*bleu*/
 }
 
-#transaction_summary
-{
-	color: #0275d8; /*bleu*/
-}
-
 .bouton
 {
 	/*border: solid black 3px;*/
@@ -89,4 +89,32 @@ a
 {
 	color: black; /*Couleur du texte*/
 	text-decoration: none; /*Supprime le soulignement des liens -- a appliquer sur la balise a*/
+}
+
+#yes
+{
+	/*border: solid black 3px;*/
+	display: block; /*la balise a est considérée comme un block*/
+	width: 200px;/*On peut definir une largeur pour ce block*/
+	height: 50px;
+	line-height: 50px;/*a creuser*/
+	text-align: center;/*a se rappeler*/
+	/*vertical-align: middle;a se rappeler*/
+	background-color:#5cb85c;
+	font-size: 1em;
+	border-radius: 5px;
+}
+
+#no
+{
+	border: solid #e07f88 3px;
+	display: block; /*la balise a est considérée comme un block*/
+	width: 200x;/*On peut definir une largeur pour ce block*/
+	height: 50px;
+	line-height: 50px;/*a creuser*/
+	text-align: center;/*a se rappeler*/
+	/*vertical-align: middle;a se rappeler*/
+	background-color: #f8d7da;
+	font-size: 1em;
+	border-radius: 5px;
 }

@@ -46,13 +46,7 @@ public class UserController {
 		this.partialDisplayOperation = partialDisplayOperation;
 	}
 
-	/*public User getCurrentUser() {
-		Optional<User> optUser = userService.getUser(currentUserId.getId());
-		User user = optUser.get();
-		return user;
-	}*/
-	
-	public User getCurrentUser/*ByEmail*/() {
+	public User getCurrentUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentUserName = authentication.getName();
 		System.out.println(currentUserName);
@@ -142,9 +136,9 @@ public class UserController {
 		return "redirect:/contact";
 	}
 
-	@GetMapping("/log_off")
+	@GetMapping("/logoff")
 	public String displayLogOff() {
-		return "log_off";
+		return "logoff";
 	}
 
 	@PostMapping("/addBuddy")
