@@ -1,8 +1,10 @@
 package com.paymybuddy.buddypaid.configuration;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -25,10 +27,15 @@ public class SpringSecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-		.antMatchers("/login", "/home", "/contact").permitAll()
+		.antMatchers("/login", "/contact", "/registration", "/css/**")
+		.permitAll()
 		.anyRequest().authenticated()
+		
 		.and()
 		.formLogin()
+		.loginPage("/login")
+		.defaultSuccessUrl("/home", true)
+		.permitAll()
 		
 		.and()
 		.logout()

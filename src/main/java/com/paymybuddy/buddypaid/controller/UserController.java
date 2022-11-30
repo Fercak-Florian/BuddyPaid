@@ -54,8 +54,13 @@ public class UserController {
 		User user = optUser.get();
 		return user;
 	}
-
+	
 	@GetMapping("/")
+	String redirectToLogin() {
+		return "login";
+	}
+
+	@GetMapping("/transfer")
 	public String displayTransferPage(Model model, @RequestParam(name = "page", defaultValue = "1") int page) {
 		User user = getCurrentUser();
 		List<User> buddies = user.getBuddies();
@@ -94,11 +99,6 @@ public class UserController {
 	@GetMapping("/home")
 	public String displayHomePage() {
 		return "home";
-	}
-
-	@GetMapping("/transfer")
-	public ModelAndView displayTranferPage() {
-		return new ModelAndView("redirect:/");
 	}
 
 	@GetMapping("/profile")
