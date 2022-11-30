@@ -40,7 +40,7 @@
 							<option selected disabled>Select A Connection</option>
 							<option th:each="b: ${buddies}" th:value="${b.id}" th:text="${b.firstName}"></option>
 					</p></select>
-					<p><input id="amount" type="number" name="amount"></p>
+					<p><input id="amount" type="number" name="amount" placeholder="€"></p>
 					<button id="submit" type="submit"> Pay </button>
 				</form>
 			</div>
@@ -67,11 +67,11 @@
 
 		<footer>
 			<div><a id="previous" href="/precedent">&lt;&lt;</a></div>
-			<div class="element"><a href="/?page=1">1</a></div>
-			<div class="element"><a href="/?page=2">2</a></div>
-			<div class="element"><a href="/?page=3">3</a></div>
-			<div class="element"><a href="/?page=4">4</a></div>
-			<div class="element"><a href="/?page=5">5</a></div>
+			<div class="element"><a href="/transfer?page=1">1</a></div>
+			<div class="element"><a href="/transfer?page=2">2</a></div>
+			<div class="element"><a href="/transfer?page=3">3</a></div>
+			<div class="element"><a href="/transfer?page=4">4</a></div>
+			<div class="element"><a href="/transfer?page=5">5</a></div>
 			<div><a id="next" href="/suivant">&gt;&gt;</a></div>
 		</footer>
 
