@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,15 +29,14 @@ public class OperationController {
 	private DisplayedOperationSummary displayedOperationSummary;
 	private LevyPercentage levyPercentage;
 	private CheckIfEnough checkIfEnough;
-	private FormComment formComment;
+	private FormComment operationFormComment = new FormComment();
 	
-	public OperationController(IOperationService operationService, CurrentUserId currenUserId, IUserService userService , DisplayedOperationSummary displayedOperationSummary, LevyPercentage levyPercentage, FormComment formComment, CheckIfEnough checkIfEnough) {
+	public OperationController(IOperationService operationService, CurrentUserId currenUserId, IUserService userService , DisplayedOperationSummary displayedOperationSummary, LevyPercentage levyPercentage, CheckIfEnough checkIfEnough) {
 		this.operationService = operationService;
 		this.userService = userService;
 		this.currentUserId = currenUserId;
 		this.displayedOperationSummary = displayedOperationSummary;
 		this.levyPercentage = levyPercentage;
-		this.formComment = formComment;
 		this.checkIfEnough = checkIfEnough;
 	}
 	
@@ -67,10 +67,20 @@ public class OperationController {
 			/*UTILISATEUR, BENEFICIAIRE, MONTANT, DESCRIPTION*/
 			operationService.addOperation(currentUserId.getId(), fullTransaction.getBuddyId(), fullTransaction.getAmount(), fullTransaction.getDescription());
 			operationService.addOperation(currentUserId.getId(), 1, commission, "Money To App"); /*BANK USERID IS 1*/
-			return new ModelAndView("redirect:/transfer");
+			operationFormComment.setError(false);
+			operationFormComment.setMessage("Transfer completed successfully");
+			return new ModelAndView("redirect:/transfer_result");
 		} else {
 			/*MESSAGE SUR LA PAGE : SOLDE INSUFFISANT POUR REALISER LE VIREMENT */
+			operationFormComment.setError(true);
+			operationFormComment.setMessage("Insufficient money to make the transfer");
+			return new ModelAndView("redirect:/transfer_result");
 		}
-		return new ModelAndView("redirect:/");
+	}
+	
+	@GetMapping("/transfer_result")
+	public String displayTransferResult(Model model) {
+		model.addAttribute("formComment", operationFormComment);
+		return "transfer_result";
 	}
 }
