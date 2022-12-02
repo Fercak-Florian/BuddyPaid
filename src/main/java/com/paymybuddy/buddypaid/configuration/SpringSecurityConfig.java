@@ -27,7 +27,7 @@ public class SpringSecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-		.antMatchers("/login", "/contact", "/submitDemand", "/registration", "/css/**", "/logoff")
+		.antMatchers("/login*","/mylogin", "/contact", "/submitDemand", "/registration", "/css/**", "/logoff")
 		.permitAll()
 		.anyRequest().authenticated()
 		
@@ -35,6 +35,7 @@ public class SpringSecurityConfig {
 		.formLogin()
 		.loginPage("/login")
 		.defaultSuccessUrl("/home", true)
+		.failureUrl("/login?error=true")
 		.permitAll()
 		
 		.and()

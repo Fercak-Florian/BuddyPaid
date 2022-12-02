@@ -54,10 +54,10 @@ public class UserController {
 	}
 	
 	@GetMapping("/")
-	String redirectToLogin() {
+	public String redirectToLogin() {
 		return "login";
 	}
-
+	
 	@GetMapping("/transfer")
 	public String displayTransferPage(Model model, @RequestParam(name = "page", defaultValue = "1") int page) {
 		User user = getCurrentUser();

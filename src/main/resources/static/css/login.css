@@ -28,6 +28,18 @@ body
 	align-items: center;
 }
 
+#error
+{
+	background-color: #F8D7DA;
+	border: solid 1px #F5CBCF;
+	border-radius: 5px;
+	width: 230px;
+	height: 40px;
+	color : #A25F65;
+	text-align: center;/*a se rappeler*/
+	line-height: 40px;/*a creuser*/
+}
+
 #submit
 {
 	color: white;
