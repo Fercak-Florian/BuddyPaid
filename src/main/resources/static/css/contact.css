@@ -85,3 +85,25 @@ a
 	color: black; /*Couleur du texte*/
 	text-decoration: none; /*Supprime le soulignement des liens -- a appliquer sur la balise a*/
 }
+
+#ok
+{
+	border: solid 2px #5cb85c;
+	width: 600px;
+	height: 40px;
+	color :#5cb85c;
+	text-align: center;/*a se rappeler*/
+	line-height: 40px;/*a creuser*/
+}
+
+#submit
+{
+	color: white;
+	background-color: #5cb85c; /*vert*/
+	width: 150px;/*On peut definir une largeur pour ce block*/
+	height : 32px;
+	border-radius: 9px;
+	font-size: 1em;
+	border : none;
+	font-size: 0.9em;
+}
