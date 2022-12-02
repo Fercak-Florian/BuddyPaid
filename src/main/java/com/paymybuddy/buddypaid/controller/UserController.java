@@ -34,15 +34,13 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class UserController {
 	
-	private CurrentUserId currentUserId;
 	private IUserService userService;
-	private FormComment formComment;
 	private PartialDisplayOperation partialDisplayOperation;
+	private FormComment contactFormComment = new FormComment();
+	private FormComment addConnectionFormComment = new FormComment();
 	
-	public UserController(IUserService userService, CurrentUserId currentUserId, FormComment formComment, PartialDisplayOperation partialDisplayOperation) {
+	public UserController(IUserService userService, PartialDisplayOperation partialDisplayOperation) {
 		this.userService = userService;
-		this.currentUserId = currentUserId;
-		this.formComment = formComment;
 		this.partialDisplayOperation = partialDisplayOperation;
 	}
 
@@ -91,7 +89,7 @@ public class UserController {
 		User user = getCurrentUser();
 		List<User> buddies = user.getBuddies();
 		model.addAttribute("buddies", buddies);
-		model.addAttribute("formComment", formComment);
+		model.addAttribute("formComment", addConnectionFormComment);
 		model.addAttribute("users", users);
 		return "add_connection";
 	}
@@ -116,10 +114,10 @@ public class UserController {
 		userService.saveUser(currentUser.getId(), currentUser.getLogin(), currentUser.getPassword(), modifiedUser.getFirstName(), modifiedUser.getLastName());
 		return "redirect:/profile";
 	}
-
+	
 	@GetMapping("/contact")
 	public String displayContactPage(Model model) {
-		model.addAttribute("formComment", formComment);
+		model.addAttribute("formComment", contactFormComment);
 		return "contact";
 	}
 	
@@ -128,9 +126,9 @@ public class UserController {
 		System.out.println("Demande de l'utilisateur : " + textArea.getMessage());
 		/*FONCTIONNALITE DE TRAITEMENT D'UNE DEMANDE UTILISATEUR*/
 		if(textArea.getMessage().isEmpty()) {
-			formComment.setMessage("");
+			contactFormComment.setMessage("");
 		} else {
-			formComment.setMessage("We successfully received your inquiry.\r\n"
+			contactFormComment.setMessage("We successfully received your inquiry.\r\n"
 					+ "We will process it as soon as possible.");
 		}
 		return "redirect:/contact";
@@ -152,12 +150,13 @@ public class UserController {
 		Optional<User> user = userService.findUserByLogin(wantedEmail);
 		if (user.isEmpty()) {
 			System.out.println("Utilisateur non trouvé");
-			formComment.setMessage("The email " + wantedEmail + " is unknown in the database");
+			addConnectionFormComment.setError(true);
+			addConnectionFormComment.setMessage("The email " + wantedEmail + " is unknown in the database");
 			return new ModelAndView("redirect:/add_connection");
 		} else {
 			User currentUser = getCurrentUser();
 			List<User> buddies = currentUser.getBuddies();
-			formComment.setMessage("");
+			addConnectionFormComment.setMessage("");
 			/* VERIFIER SI L'AMI FAIT DEJA PARTI DE LA LISTE AVANT DE L'AJOUTER */
 			List<String> buddiesLogin = new ArrayList<>();
 			for (User b : buddies) {
@@ -165,11 +164,13 @@ public class UserController {
 			}
 			if (buddiesLogin.contains(wantedEmail)) {
 				log.info("Impossible d'ajouter : " + user.get().getFirstName());
-				formComment.setMessage(user.get().getFirstName() + " is already one of your buddy");
+				addConnectionFormComment.setError(true);
+				addConnectionFormComment.setMessage(user.get().getFirstName() + " is already one of your buddy");
 			} else {
 				userService.addBuddy(getCurrentUser().getId(), user.get().getId());
 				log.info("Utilisateur ajouté : " + user.get().getFirstName());
-				formComment.setMessage("You added " + user.get().getFirstName() + " to your buddies");
+				addConnectionFormComment.setError(false);
+				addConnectionFormComment.setMessage("You added " + user.get().getFirstName() + " to your buddies");
 			}
 		}
 		return new ModelAndView("redirect:/add_connection");

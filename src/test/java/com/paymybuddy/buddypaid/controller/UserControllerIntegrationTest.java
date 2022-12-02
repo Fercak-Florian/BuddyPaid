@@ -3,12 +3,16 @@ package com.paymybuddy.buddypaid.controller;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -17,6 +21,7 @@ import java.util.ArrayList;
 import javax.transaction.Transactional;
 
 import org.aspectj.lang.annotation.Before;
+import org.hamcrest.core.Is;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -24,16 +29,25 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.context.WebApplicationContext;
+
+import com.paymybuddy.buddypaid.workclasses.ModifiedUser;
 
 
 @SpringBootTest
@@ -44,118 +58,97 @@ public class UserControllerIntegrationTest {
 		@Autowired
 		private MockMvc mockMvc;
 		
-		@Autowired
-		private WebApplicationContext context;
-		
-		@Mock
-		private Authentication authentication;
-		
-		/*----------------------------------------------------------------------------------------*/
-		
-		/*@Before
-		private void mockAuthentication() {
-			
-		    when(authentication.getPrincipal()).thenReturn("jboyd@email.com");
-
-		    SecurityContext securityContext = mock(SecurityContext.class);
-		    when(securityContext.getAuthentication()).thenReturn(authentication);
-		    SecurityContextHolder.setContext(securityContext);
-		}*/
-		
-		/*----------------------------------------------------------------------------------------*/
-		
-		@Before(value = "authentication")
-		public void setUp() {
-			User user = new User("jboyd@email.com", "jboyd", null);
-			Authentication authentication = new UsernamePasswordAuthenticationToken(user,null);
-			SecurityContextHolder.getContext().setAuthentication(authentication);
-		}
-		
-		
-		@BeforeEach
-		public void init() {
-		   mockMvc = MockMvcBuilders
-		   .webAppContextSetup(context)
-		   .apply(springSecurity())
-		   .build();
-		}
-
 		@Test
+		@WithMockUser("jboyd@email.com")
 		public void testDisplayTransferPage() throws Exception {
-			mockMvc.perform(get("/")).andDo(print())
+			mockMvc.perform(get("/transfer")).andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(view().name("transfer"))
 			.andExpect(content().string(containsString("Eric")));
 		}
 		
 		@Test
+		@WithMockUser("jboyd@email.com")
 		public void testDisplayAddConnectionPage() throws Exception {
-			mockMvc.perform(get("/add_connection.html")).andDo(print())
+			mockMvc.perform(get("/add_connection")).andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(view().name("add_connection"))
-			.andExpect(content().string(containsString("Tessa")));
+			.andExpect(content().string(containsString("My Buddies")));
 		}
 		
 		@Test
+		@WithMockUser("jboyd@email.com")
 		public void testDisplayHomePage() throws Exception {
-			mockMvc.perform(get("/home.html")).andDo(print())
+			mockMvc.perform(get("/home")).andDo(print())
 			.andExpect(status().isOk())
-			.andExpect(view().name("home"));
+			.andExpect(view().name("home"))
+			.andExpect(content().string(containsString("Home")));
 		}
 		
-		@Disabled
-		@Test
-		public void testDisplayTranferPage() throws Exception {
-			mockMvc.perform(get("/transfer.html")).andDo(print())
-			.andExpect(status().isOk())
-			.andExpect(view().name("transfer"));
-		}
-		
-		/*@Test
-		public void testDisplayProfilePage() throws Exception {
-			mockMvc.perform(get("/profile.html")).andDo(print())
-			.andExpect(status().isOk())
-			.andExpect(view().name("profile"))
-			.andExpect(content().string(containsString("John")));
-		}*/
 		
 		@Test
+		@WithMockUser("jboyd@email.com")
 		public void testDisplayProfilePage() throws Exception {
-			mockMvc.perform(get("/transfer.html"))
+			mockMvc.perform(get("/profile"))
 			.andDo(print()).andExpect(status().isOk())
-			.andExpect(view().name("transfer"))
-			.andExpect(content().string(containsString("John")));
+			.andExpect(view().name("profile"))
+			.andExpect(content().string(containsString("Modify my informations")));
 		}
 		
-		@Disabled
 		@Test
-		public void testmodifyProfile() throws Exception {
-			mockMvc.perform(post("/modifyProfile")).andDo(print())
-			.andExpect(status().isOk())
-			.andExpect(view().name("profile.html"));
+		@WithMockUser("jboyd@email.com")
+		public void testModifyProfile() throws Exception {
+			mockMvc.perform(post("/modifyProfile")
+			.contentType(MediaType.parseMediaType("application/x-www-form-urlencoded"))
+			.param("firstName", "Matt")
+			.param("lastName", "Ford")
+			.with(csrf()))
+			.andDo(MockMvcResultHandlers.print())
+			.andDo(print())
+			.andExpect(redirectedUrl("/profile"))
+			.andExpect(status().isFound());
 		}
 		
 		@Test
 		public void testDisplayContactPage() throws Exception {
-			mockMvc.perform(get("/contact.html")).andDo(print())
+			mockMvc.perform(get("/contact")).andDo(print())
 			.andExpect(status().isOk())
 			.andExpect(view().name("contact"))
 			.andExpect(content().string(containsString("Enter your demand")));
 		}
 		
-		@Disabled
 		@Test
-		public void testSubmitDemand() throws Exception {
-			mockMvc.perform(post("/submitDemand")).andDo(print())
-			.andExpect(status().isOk())
-			.andExpect(view().name("contact.html"));
+		@WithMockUser("jboyd@email.com")
+		public void testSubmitDemand()throws Exception {
+			mockMvc.perform(post("/submitDemand")
+			.contentType(MediaType.parseMediaType("application/x-www-form-urlencoded"))
+			.param("message", "Ma demande pour PayMyBuddy")
+			.with(csrf()))
+			.andDo(MockMvcResultHandlers.print())
+			.andDo(print())
+			.andExpect(redirectedUrl("/contact"))
+			.andExpect(status().isFound());
 		}
 		
-		@Disabled
 		@Test
-		public void testAddBuddy() throws Exception {
-			mockMvc.perform(post("/addBuddy")).andDo(print())
+		public void testDisplayLogOff() throws Exception {
+			mockMvc.perform(get("/logoff")).andDo(print())
 			.andExpect(status().isOk())
-			.andExpect(view().name("/add_connection.html"));
+			.andExpect(view().name("logoff"))
+			.andExpect(content().string(containsString("Do you really want to log out ?")));
+		}
+		
+		@Test
+		@WithMockUser("jboyd@email.com")
+		public void testAddBuddy() throws Exception {
+			mockMvc.perform(post("/addBuddy")
+			.contentType(MediaType.parseMediaType("application/x-www-form-urlencoded"))
+			.param("buddyEmail", "cferguson@email.com")
+			.param("login", "jboyd@email.com")
+			.with(csrf()))
+			.andDo(MockMvcResultHandlers.print())
+			.andDo(print())
+			.andExpect(status().isFound())
+			.andExpect(redirectedUrl("/add_connection"));
 		}
 }

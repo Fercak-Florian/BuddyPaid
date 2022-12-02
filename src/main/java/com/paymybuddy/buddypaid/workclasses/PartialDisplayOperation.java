@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class PartialDisplayOperation {
 	
+	public PartialDisplayOperation() {
+	}
+	
 	public List<DisplayedOperation> calculateNumberOfOperationsPerPage(List<DisplayedOperation> displayedOperations, int page) {
 		List<DisplayedOperation> partialDisplayedOperations = new ArrayList<>();
 		int pageLenght = 3;
@@ -15,7 +18,7 @@ public class PartialDisplayOperation {
 		if(start >= displayedOperations.size()) {
 			/*NE RIEN FAIRE*/
 		} else {
-			int end = start + (pageLenght -1) ; 
+			int end = start + (pageLenght - 1) ; 
 			if(end < displayedOperations.size()) {
 				
 			} else {
