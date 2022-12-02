@@ -11,19 +11,21 @@
 	<div id="bloc_page">
 		<div id="section">
 			<h1> Please sign in </h1>
+			<div id="error" th:if="${formComment.error}">
+				<label th:text="${formComment.message}"></label>
+			</div>
+			<div th:if="${formComment.clearMessage}"></div>
 			<form th:action="@{/login}" method="post" enctype="utf8">
 				<form>
 					<div>
 						<div class="enter">
 							<!-- LOGIN -->
 							<label>Email</label><br>
-							<!-- <input class="field" type="text"/> -->
 							<input class="field" type="text" name="username" autofocus />
 						</div>
 						<!-- PASSWORD -->
 						<div class="enter">
 							<label>Password</label><br>
-							<!-- <input class="field" type="text" /> -->
 							<input class="field" type="text" name="password" />
 						</div>
 
