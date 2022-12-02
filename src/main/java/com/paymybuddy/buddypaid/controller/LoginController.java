@@ -16,7 +16,7 @@ public class LoginController {
 	@GetMapping("/login")
 	public String login(Model model, @RequestParam(name = "error", defaultValue = "false") boolean error) {
 		errorLoginFormComment.setError(error);
-		errorLoginFormComment.setMessage("bad credentials");
+		errorLoginFormComment.setMessage("Bad credentials");
 		model.addAttribute("formComment", errorLoginFormComment);
 		return "login";
 	}
