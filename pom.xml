@@ -153,7 +153,14 @@
 				<version>0.8.5</version>
 				<configuration>
 					<excludes>
-						<!-- <exclude>com/safetynet/safetynetalerts/workclasses/*Url1.class*</exclude> -->
+						<exclude>com/paymybuddy/buddypaid/workclasses/*Transaction.class*</exclude>
+						<exclude>com/paymybuddy/buddypaid/workclasses/*FormAddConnectionTh.class*</exclude>
+						<exclude>com/paymybuddy/buddypaid/workclasses/*DisplayedOperationSummary.class*</exclude>
+						<exclude>com/paymybuddy/buddypaid/workclasses/*Description.class*</exclude>
+						<exclude>com/paymybuddy/buddypaid/workclasses/*ModifiedUser.class*</exclude>
+						<exclude>com/paymybuddy/buddypaid/workclasses/*TextArea.class*</exclude>
+						<exclude>com/paymybuddy/buddypaid/workclasses/*LevyPercentage.class*</exclude>
+						<exclude>com/paymybuddy/buddypaid/workclasses/*LevyPercentage.class*</exclude>
 					</excludes>
 				</configuration>
 				<executions>
