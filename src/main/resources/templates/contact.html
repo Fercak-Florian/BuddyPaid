@@ -22,15 +22,20 @@
 				</div>
 			</div>
 		</header>
-		<div>
+		<section>
 			<h2>Contact us</h2>
-			<label  th:text="${formComment.message}"></label><br><br>
-			<form method="post" th:action="@{/submitDemand}" th:object="${textArea}">
-				<textarea id="textarea" name="message" rows="10" cols="50" autofocus>Enter your demand...</textarea>
-				<br>
-				<input type="submit" value="Submit">
-			</form>
-		</div>
+			<div>
+				<div id="ok" th:unless="${formComment.isEmpty}">
+					<label th:text="${formComment.message}"></label>
+				</div>
+				<div th:if="${formComment.clearMessage}"></div><br><br>
+				<form method="post" th:action="@{/submitDemand}" th:object="${textArea}">
+					<textarea id="textarea" name="message" rows="10" cols="50" autofocus>Enter your demand...</textarea>
+					<br>
+					<input id="submit" type="submit" value="Submit">
+				</form>
+			</div>
+		</section>
 	</div>
 </body>
 
