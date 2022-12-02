@@ -88,20 +88,22 @@ a
 
 #error
 {
-	background-color: rgb(255, 128, 128);
-	border: solid 2px red;
-	width: 300px;
+	border: solid 2px #e07f88;
+	width: 400px;
 	height: 40px;
-	color : red;
+	color :#e07f88;
+	text-align: center;/*a se rappeler*/
+	line-height: 40px;/*a creuser*/
 }
 
 #ok
 {
-	background-color: rgb(128, 255, 128);
-	border: solid 2px rgb(0, 255, 0);
-	width: 300px;
+	border: solid 2px #5cb85c;
+	width: 400px;
 	height: 40px;
-	color : rgb(0, 255, 0);
+	color :#5cb85c;
+	text-align: center;/*a se rappeler*/
+	line-height: 40px;/*a creuser*/
 }
 
 #input_form
