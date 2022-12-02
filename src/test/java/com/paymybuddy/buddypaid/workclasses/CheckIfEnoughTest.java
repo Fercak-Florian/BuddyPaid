@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 public class CheckIfEnoughTest {
 	
-	CheckIfEnough checkIfEnough;
+	private CheckIfEnough checkIfEnough;
 	
 	@BeforeEach
 	public void init() {

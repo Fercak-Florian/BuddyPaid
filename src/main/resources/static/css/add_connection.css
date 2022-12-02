@@ -86,9 +86,30 @@ a
 	text-decoration: none; /*Supprime le soulignement des liens -- a appliquer sur la balise a*/
 }
 
+#error
+{
+	background-color: rgb(255, 128, 128);
+	border: solid 2px red;
+	width: 300px;
+	height: 40px;
+	color : red;
+}
+
+#ok
+{
+	background-color: rgb(128, 255, 128);
+	border: solid 2px rgb(0, 255, 0);
+	width: 300px;
+	height: 40px;
+	color : rgb(0, 255, 0);
+}
+
 #input_form
 {
 	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 50px;
 }
 
 #fname, #lname

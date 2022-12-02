@@ -27,12 +27,12 @@
 			<form method="post" th:action="@{/modifyProfile}" th:object="${modifiedUser}">
 				<div class="enter">
 					<label for="firstname">First Name</label><br>
-					<input class="field" type="text" id="firstname" name="FirstName"
+					<input class="field" type="text" id="firstname" name="firstName"
 						th:value="${user.getFirstName}"><br>
 				</div>
 				<div class="enter">
 					<label for="lastname">Last Name</label><br>
-					<input class="field" type="text" id="lastname" name="LastName"
+					<input class="field" type="text" id="lastname" name="lastName"
 						th:value="${user.getLastName}"><br><br>
 				</div>
 				<!--
