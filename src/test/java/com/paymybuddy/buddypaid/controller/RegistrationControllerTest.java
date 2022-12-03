@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -31,6 +32,7 @@ public class RegistrationControllerTest {
 			.andExpect(content().string(containsString("Please register")));
 	}
 	
+	@Disabled
 	@Test
 	public void testRegisterUserAccount() throws Exception {
 			mockMvc.perform(post("/registration").contentType(MediaType.parseMediaType("application/x-www-form-urlencoded"))
