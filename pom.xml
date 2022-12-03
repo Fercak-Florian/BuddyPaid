@@ -161,6 +161,9 @@
 						<exclude>com/paymybuddy/buddypaid/workclasses/*TextArea.class*</exclude>
 						<exclude>com/paymybuddy/buddypaid/workclasses/*LevyPercentage.class*</exclude>
 						<exclude>com/paymybuddy/buddypaid/service/*MyUserPrincipal.class*</exclude>
+						<exclude>com/paymybuddy/buddypaid/model/*Operation.class*</exclude>
+						<exclude>com/paymybuddy/buddypaid/model/*User.class*</exclude>
+						<exclude>com/paymybuddy/buddypaid/model/*UserBuddy.class*</exclude>
 					</excludes>
 				</configuration>
 				<executions>

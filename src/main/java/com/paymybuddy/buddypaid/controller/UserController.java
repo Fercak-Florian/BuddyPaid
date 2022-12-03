@@ -46,7 +46,7 @@ public class UserController {
 	
 	@GetMapping("/")
 	public String redirectToLogin() {
-		return "login";
+		return "redirect:/login";
 	}
 	
 	@GetMapping("/transfer")

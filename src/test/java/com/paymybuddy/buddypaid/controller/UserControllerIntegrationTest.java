@@ -59,6 +59,13 @@ public class UserControllerIntegrationTest {
 		private MockMvc mockMvc;
 		
 		@Test
+		public void testDisplayRootPage() throws Exception {
+			mockMvc.perform(get("/")).andDo(print())
+			.andExpect(redirectedUrl("/login"))
+			.andExpect(status().isFound());
+		}
+		
+		@Test
 		@WithMockUser("jboyd@email.com")
 		public void testDisplayTransferPage() throws Exception {
 			mockMvc.perform(get("/transfer")).andDo(print())
