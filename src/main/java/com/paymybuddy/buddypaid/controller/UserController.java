@@ -6,8 +6,6 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.paymybuddy.buddypaid.model.Operation;
 import com.paymybuddy.buddypaid.model.User;
 import com.paymybuddy.buddypaid.service.IUserService;
-import com.paymybuddy.buddypaid.workclasses.CurrentUserId;
+import com.paymybuddy.buddypaid.workclasses.CurrentUser;
 import com.paymybuddy.buddypaid.workclasses.DisplayedOperation;
 import com.paymybuddy.buddypaid.workclasses.FormAddConnectionTh;
 import com.paymybuddy.buddypaid.workclasses.FormComment;
@@ -38,19 +36,12 @@ public class UserController {
 	private PartialDisplayOperation partialDisplayOperation;
 	private FormComment contactFormComment = new FormComment();
 	private FormComment addConnectionFormComment = new FormComment();
+	private CurrentUser currentUser;
 	
-	public UserController(IUserService userService, PartialDisplayOperation partialDisplayOperation) {
+	public UserController(IUserService userService, PartialDisplayOperation partialDisplayOperation, CurrentUser currentUser) {
 		this.userService = userService;
 		this.partialDisplayOperation = partialDisplayOperation;
-	}
-
-	public User getCurrentUser() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String currentUserName = authentication.getName();
-		System.out.println(currentUserName);
-		Optional<User> optUser = userService.findUserByLogin(currentUserName);
-		User user = optUser.get();
-		return user;
+		this.currentUser = currentUser;
 	}
 	
 	@GetMapping("/")
@@ -60,7 +51,7 @@ public class UserController {
 	
 	@GetMapping("/transfer")
 	public String displayTransferPage(Model model, @RequestParam(name = "page", defaultValue = "1") int page) {
-		User user = getCurrentUser();
+		User user = currentUser.getCurrentUser();
 		List<User> buddies = user.getBuddies();
 		List<Operation> operations = user.getOperations();
 
@@ -86,7 +77,7 @@ public class UserController {
 	@GetMapping("/add_connection")
 	public String displayAddConnectionPage(Model model) {
 		Iterable<User> users = userService.getUsers();
-		User user = getCurrentUser();
+		User user = currentUser.getCurrentUser();
 		List<User> buddies = user.getBuddies();
 		model.addAttribute("buddies", buddies);
 		model.addAttribute("formComment", addConnectionFormComment);
@@ -101,7 +92,7 @@ public class UserController {
 
 	@GetMapping("/profile")
 	public String displayProfilePage(Model model) {
-		User user = getCurrentUser();
+		User user = currentUser.getCurrentUser();
 		model.addAttribute("user", user);
 		return "profile";
 	}
@@ -109,9 +100,9 @@ public class UserController {
 	@PostMapping("/modifyProfile")
 	public String modifyProfile(@ModelAttribute ModifiedUser modifiedUser) {
 		System.out.println(modifiedUser.getFirstName());
-		User currentUser = getCurrentUser();
-		System.out.println(currentUser.getId());
-		userService.saveUser(currentUser.getId(), currentUser.getLogin(), currentUser.getPassword(), modifiedUser.getFirstName(), modifiedUser.getLastName());
+		User user = currentUser.getCurrentUser();
+		System.out.println(user.getId());
+		userService.saveUser(user.getId(), user.getLogin(), user.getPassword(), modifiedUser.getFirstName(), modifiedUser.getLastName());
 		return "redirect:/profile";
 	}
 	
@@ -154,8 +145,8 @@ public class UserController {
 			addConnectionFormComment.setMessage("The email " + wantedEmail + " is unknown in the database");
 			return new ModelAndView("redirect:/add_connection");
 		} else {
-			User currentUser = getCurrentUser();
-			List<User> buddies = currentUser.getBuddies();
+			User authenticatedUser = currentUser.getCurrentUser();
+			List<User> buddies = authenticatedUser.getBuddies();
 			addConnectionFormComment.setMessage("");
 			/* VERIFIER SI L'AMI FAIT DEJA PARTI DE LA LISTE AVANT DE L'AJOUTER */
 			List<String> buddiesLogin = new ArrayList<>();
@@ -167,7 +158,7 @@ public class UserController {
 				addConnectionFormComment.setError(true);
 				addConnectionFormComment.setMessage(user.get().getFirstName() + " is already one of your buddy");
 			} else {
-				userService.addBuddy(getCurrentUser().getId(), user.get().getId());
+				userService.addBuddy(authenticatedUser.getId(), user.get().getId());
 				log.info("Utilisateur ajouté : " + user.get().getFirstName());
 				addConnectionFormComment.setError(false);
 				addConnectionFormComment.setMessage("You added " + user.get().getFirstName() + " to your buddies");
