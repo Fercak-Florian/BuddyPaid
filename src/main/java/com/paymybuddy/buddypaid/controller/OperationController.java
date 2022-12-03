@@ -13,7 +13,7 @@ import com.paymybuddy.buddypaid.model.User;
 import com.paymybuddy.buddypaid.service.IOperationService;
 import com.paymybuddy.buddypaid.service.IUserService;
 import com.paymybuddy.buddypaid.workclasses.CheckIfEnough;
-import com.paymybuddy.buddypaid.workclasses.CurrentUserId;
+import com.paymybuddy.buddypaid.workclasses.CurrentUser;
 import com.paymybuddy.buddypaid.workclasses.Description;
 import com.paymybuddy.buddypaid.workclasses.DisplayedOperationSummary;
 import com.paymybuddy.buddypaid.workclasses.FormComment;
@@ -25,16 +25,16 @@ public class OperationController {
 	
 	private IOperationService operationService;
 	private IUserService userService;
-	private CurrentUserId currentUserId;
+	private CurrentUser currentUser;
 	private DisplayedOperationSummary displayedOperationSummary;
 	private LevyPercentage levyPercentage;
 	private CheckIfEnough checkIfEnough;
 	private FormComment operationFormComment = new FormComment();
 	
-	public OperationController(IOperationService operationService, CurrentUserId currenUserId, IUserService userService , DisplayedOperationSummary displayedOperationSummary, LevyPercentage levyPercentage, CheckIfEnough checkIfEnough) {
+	public OperationController(IOperationService operationService, CurrentUser currentUser, IUserService userService , DisplayedOperationSummary displayedOperationSummary, LevyPercentage levyPercentage, CheckIfEnough checkIfEnough) {
 		this.operationService = operationService;
 		this.userService = userService;
-		this.currentUserId = currenUserId;
+		this.currentUser = currentUser;
 		this.displayedOperationSummary = displayedOperationSummary;
 		this.levyPercentage = levyPercentage;
 		this.checkIfEnough = checkIfEnough;
@@ -60,13 +60,13 @@ public class OperationController {
 		fullTransaction.setDescription(description.getDescription());
 		double amount = fullTransaction.getAmount();
 		double commission = (amount * levyPercentage.getPercentage()) / 100;
-		double debit = operationService.getDebit(currentUserId.getId());
-		double credit = operationService.getCredit(currentUserId.getId());
+		double debit = operationService.getDebit(currentUser.getCurrentUser().getId());
+		double credit = operationService.getCredit(currentUser.getCurrentUser().getId());
 		boolean isEnought = checkIfEnough.isEnough(amount, commission, credit, debit);
 		if(isEnought) {
 			/*UTILISATEUR, BENEFICIAIRE, MONTANT, DESCRIPTION*/
-			operationService.addOperation(currentUserId.getId(), fullTransaction.getBuddyId(), fullTransaction.getAmount(), fullTransaction.getDescription());
-			operationService.addOperation(currentUserId.getId(), 1, commission, "Money To App"); /*BANK USERID IS 1*/
+			operationService.addOperation(currentUser.getCurrentUser().getId(), fullTransaction.getBuddyId(), fullTransaction.getAmount(), fullTransaction.getDescription());
+			operationService.addOperation(currentUser.getCurrentUser().getId(), 1, commission, "Money To App"); /*BANK USERID IS 1*/
 			operationFormComment.setError(false);
 			operationFormComment.setMessage("Transfer completed successfully");
 			return new ModelAndView("redirect:/transfer_result");
