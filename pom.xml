@@ -160,7 +160,7 @@
 						<exclude>com/paymybuddy/buddypaid/workclasses/*ModifiedUser.class*</exclude>
 						<exclude>com/paymybuddy/buddypaid/workclasses/*TextArea.class*</exclude>
 						<exclude>com/paymybuddy/buddypaid/workclasses/*LevyPercentage.class*</exclude>
-						<exclude>com/paymybuddy/buddypaid/workclasses/*LevyPercentage.class*</exclude>
+						<exclude>com/paymybuddy/buddypaid/service/*MyUserPrincipal.class*</exclude>
 					</excludes>
 				</configuration>
 				<executions>
