@@ -59,14 +59,14 @@ public class UserController {
 		model.addAttribute("operations", operations);
 		model.addAttribute("buddies", buddies);
 		List<DisplayedOperation> displayedOperations = new ArrayList<>();
-		for (Operation o : operations) {
-			if (o.getBuddyId() == 1) { /*BANK USERID IS ALWAYS 1*/
+		for (Operation operation : operations) {
+			if (operation.getBuddyId() == 1) { /*BANK USERID IS ALWAYS 1*/
 				/*NE PAS AJOUTER DANS LA LISTE*/
 			} else {
-				int buddyId = o.getBuddyId();
+				int buddyId = operation.getBuddyId();
 				Optional<User> optUser = userService.getUser(buddyId);
 				User u = optUser.get();
-				displayedOperations.add(new DisplayedOperation(u.getFirstName(), o.getDescription(), o.getAmount()));
+				displayedOperations.add(new DisplayedOperation(u.getFirstName(), operation.getDescription(), operation.getAmount()));
 			}
 		}
 		List<DisplayedOperation> partialDisplayedOperations = partialDisplayOperation.calculateNumberOfOperationsPerPage(displayedOperations, page);
@@ -117,8 +117,10 @@ public class UserController {
 		System.out.println("Demande de l'utilisateur : " + textArea.getMessage());
 		/*FONCTIONNALITE DE TRAITEMENT D'UNE DEMANDE UTILISATEUR*/
 		if(textArea.getMessage().isEmpty()) {
-			contactFormComment.setMessage("");
+			contactFormComment.setError(true);
+			contactFormComment.setMessage("Your demand must not be empty");
 		} else {
+			contactFormComment.setError(false);
 			contactFormComment.setMessage("We successfully received your inquiry.\r\n"
 					+ "We will process it as soon as possible.");
 		}

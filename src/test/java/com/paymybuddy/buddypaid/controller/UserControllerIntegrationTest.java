@@ -138,6 +138,19 @@ public class UserControllerIntegrationTest {
 		}
 		
 		@Test
+		@WithMockUser("jboyd@email.com")
+		public void testSubmitDemandWithAnEmptyMessage()throws Exception {
+			mockMvc.perform(post("/submitDemand")
+			.contentType(MediaType.parseMediaType("application/x-www-form-urlencoded"))
+			.param("message", "")
+			.with(csrf()))
+			.andDo(MockMvcResultHandlers.print())
+			.andDo(print())
+			.andExpect(redirectedUrl("/contact"))
+			.andExpect(status().isFound());
+		}
+		
+		@Test
 		public void testDisplayLogOff() throws Exception {
 			mockMvc.perform(get("/logoff")).andDo(print())
 			.andExpect(status().isOk())
@@ -147,11 +160,53 @@ public class UserControllerIntegrationTest {
 		
 		@Test
 		@WithMockUser("jboyd@email.com")
-		public void testAddBuddy() throws Exception {
+		public void testAddBuddyWithTwoEmptyFields() throws Exception {
+			mockMvc.perform(post("/addBuddy")
+			.contentType(MediaType.parseMediaType("application/x-www-form-urlencoded"))
+			.param("buddyEmail", "")
+			.param("login", "")
+			.with(csrf()))
+			.andDo(MockMvcResultHandlers.print())
+			.andDo(print())
+			.andExpect(status().isFound())
+			.andExpect(redirectedUrl("/add_connection"));
+		}
+		
+		@Test
+		@WithMockUser("jboyd@email.com")
+		public void testAddBuddyWithAnEmptyLogin() throws Exception {
 			mockMvc.perform(post("/addBuddy")
 			.contentType(MediaType.parseMediaType("application/x-www-form-urlencoded"))
 			.param("buddyEmail", "cferguson@email.com")
-			.param("login", "jboyd@email.com")
+			.param("login", "")
+			.with(csrf()))
+			.andDo(MockMvcResultHandlers.print())
+			.andDo(print())
+			.andExpect(status().isFound())
+			.andExpect(redirectedUrl("/add_connection"));
+		}
+		
+		@Test
+		@WithMockUser("jboyd@email.com")
+		public void testAddBuddyWithAnEmptyBuddyEmail() throws Exception {
+			mockMvc.perform(post("/addBuddy")
+			.contentType(MediaType.parseMediaType("application/x-www-form-urlencoded"))
+			.param("buddyEmail", "")
+			.param("login", "cferguson@email.com")
+			.with(csrf()))
+			.andDo(MockMvcResultHandlers.print())
+			.andDo(print())
+			.andExpect(status().isFound())
+			.andExpect(redirectedUrl("/add_connection"));
+		}
+		
+		@Test
+		@WithMockUser("jboyd@email.com")
+		public void testAddBuddyWhenBuddyAlreadyBelongsToTheList() throws Exception {
+			mockMvc.perform(post("/addBuddy")
+			.contentType(MediaType.parseMediaType("application/x-www-form-urlencoded"))
+			.param("buddyEmail", "ecadigan@email.com")
+			.param("login", "")
 			.with(csrf()))
 			.andDo(MockMvcResultHandlers.print())
 			.andDo(print())

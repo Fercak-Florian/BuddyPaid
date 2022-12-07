@@ -25,10 +25,15 @@
 		<section>
 			<h2>Contact us</h2>
 			<div>
-				<div id="ok" th:unless="${formComment.isEmpty}">
-					<label th:text="${formComment.message}"></label>
-				</div>
-				<div th:if="${formComment.clearMessage}"></div><br><br>
+				<div th:unless="${formComment.isEmpty}">
+					<div id="error" th:if="${formComment.error}">
+						<label th:text="${formComment.message}"></label>
+					</div>
+					<div id="ok" th:unless="${formComment.error}">
+						<label th:text="${formComment.message}"></label>
+					</div>
+					<div th:if="${formComment.clearMessage}"></div>
+				</div><br><br>
 				<form method="post" th:action="@{/submitDemand}" th:object="${textArea}">
 					<textarea id="textarea" name="message" rows="10" cols="50" autofocus>Enter your demand...</textarea>
 					<br>
