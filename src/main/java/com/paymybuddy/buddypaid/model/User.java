@@ -46,10 +46,6 @@ public class User {
 	@JoinColumn(name = "user_id")
 	private List<Operation> operations = new ArrayList<>();
 	
-	/*@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	@JoinTable(name = "user_buddy", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "buddy_id"))
-	private Buddy buddy;*/
-	
 	@OneToMany
 	@JoinTable(name = "user_buddy", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "buddy_id"))
 	private List<User> buddies = new ArrayList<>();

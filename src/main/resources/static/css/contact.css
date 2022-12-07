@@ -96,6 +96,16 @@ a
 	line-height: 40px;/*a creuser*/
 }
 
+#error
+{
+	border: solid 2px #e07f88;
+	width: 400px;
+	height: 40px;
+	color :#e07f88;
+	text-align: center;/*a se rappeler*/
+	line-height: 40px;/*a creuser*/
+}
+
 #submit
 {
 	color: white;
