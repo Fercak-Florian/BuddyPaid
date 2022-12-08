@@ -10,36 +10,42 @@
 <body>
 	<div id="bloc_page">
 		<div id="section">
-			<h1> Please sign in </h1>
+			<div id="logo">Pay My Buddy</div>
+			<!-- Gestion message d'erreur -->
 			<div id="error" th:if="${formComment.error}">
 				<label th:text="${formComment.message}"></label>
 			</div>
 			<div th:if="${formComment.clearMessage}"></div>
-			<form th:action="@{/login}" method="post" enctype="utf8">
-				<form>
-					<div>
-						<div class="enter">
-							<!-- LOGIN -->
-							<label>Email</label><br>
-							<input class="field" type="text" name="username" autofocus />
-						</div>
-						<!-- PASSWORD -->
-						<div class="enter">
-							<label>Password</label><br>
-							<input class="field" type="password" name="password" />
-						</div>
 
-						<div class="enter">
-							<button id="submit" type="submit">Sign in</button>
-						</div>
-				</form>
-		</div>
-		<div id="newuser">
-			New user ? <a th:href="@{/registration}">Register here</a>
-		</div>
+			<form id="form" th:action="@{/login}" method="post" enctype="utf8">
+				<div class="field">
+					<!-- LOGIN -->
+					<input class="field" type="text" name="username" placeholder="Email" autofocus />
+				</div>
+				<!-- PASSWORD -->
+				<div class="field">
+					<input class="field" type="password" name="password" placeholder="Password"/>
+				</div>
+				<!-- CHECKBOX -->
+				<div id="checkbox">
+					<input type="checkbox" id="checkbox">
+					<label for="checkbox">Remember me</label>
+				</div>
+				<!-- CHECKBOX -->
+				<div>
+					<button id="submit" type="submit">Login</button>
+				</div>
+			</form>
+			<div id="newuser">
+				New user ? <a th:href="@{/registration}">Register here</a>
+			</div>
+			<!--
 		<div id="newuser">
 			Contact us <a th:href="@{/contact}">here</a>
 		</div>
+		-->
+		</div>
+
 	</div>
 </body>
 
