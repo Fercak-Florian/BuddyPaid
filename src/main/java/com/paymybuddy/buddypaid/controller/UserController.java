@@ -44,6 +44,7 @@ public class UserController {
 	
 	@GetMapping("/")
 	public String redirectToLogin() {
+		log.info("redirecting to login page");
 		return "redirect:/login";
 	}
 	
@@ -69,6 +70,7 @@ public class UserController {
 		}
 		List<DisplayedOperation> partialDisplayedOperations = partialDisplayOperation.calculateNumberOfOperationsPerPage(displayedOperations, page);
 		model.addAttribute("displayedOperations", partialDisplayedOperations);
+		log.info("display transfer page");
 		return "transfer";
 	}
 
@@ -80,11 +82,13 @@ public class UserController {
 		model.addAttribute("buddies", buddies);
 		model.addAttribute("formComment", addConnectionFormComment);
 		model.addAttribute("users", users);
+		log.info("display page to search and add a connection");
 		return "add_connection";
 	}
 
 	@GetMapping("/home")
 	public String displayHomePage() {
+		log.info("display home page");
 		return "home";
 	}
 
@@ -92,41 +96,45 @@ public class UserController {
 	public String displayProfilePage(Model model) {
 		User user = currentUser.getCurrentUser();
 		model.addAttribute("user", user);
+		log.info("display profile page");
 		return "profile";
 	}
 	
 	@PostMapping("/modifyProfile")
 	public String modifyProfile(@ModelAttribute ModifiedUser modifiedUser) {
-		System.out.println(modifiedUser.getFirstName());
 		User user = currentUser.getCurrentUser();
-		System.out.println(user.getId());
 		userService.saveUser(user.getId(), user.getLogin(), user.getPassword(), modifiedUser.getFirstName(), modifiedUser.getLastName());
+		log.info("redirecting to profile page");
 		return "redirect:/profile";
 	}
 	
 	@GetMapping("/contact")
 	public String displayContactPage(Model model) {
 		model.addAttribute("formComment", contactFormComment);
+		log.info("display contact page");
 		return "contact";
 	}
 	
 	@PostMapping("/submitDemand")
 	public String submitDemand(@ModelAttribute TextArea textArea) {
-		System.out.println("Demande de l'utilisateur : " + textArea.getMessage());
 		/*FONCTIONNALITE DE TRAITEMENT D'UNE DEMANDE UTILISATEUR*/
 		if(textArea.getMessage().isEmpty()) {
 			contactFormComment.setError(true);
 			contactFormComment.setMessage("Your demand must not be empty");
+			log.error("user message is empty");
 		} else {
+			log.info("user message is valid");
 			contactFormComment.setError(false);
 			contactFormComment.setMessage("We successfully received your inquiry.\r\n"
 					+ "We will process it as soon as possible.");
 		}
+		log.info("redirecting to contact page");
 		return "redirect:/contact";
 	}
 
 	@GetMapping("/logoff")
 	public String displayLogOff() {
+		log.info("display logoff page");
 		return "logoff";
 	}
 
@@ -140,11 +148,12 @@ public class UserController {
 		}
 		Optional<User> user = userService.findUserByLogin(wantedEmail);
 		if (user.isEmpty()) {
-			System.out.println("Utilisateur non trouvé");
+			log.error("User is not found in database");
 			addConnectionFormComment.setError(true);
 			addConnectionFormComment.setMessage("The email " + wantedEmail + " is unknown in the database");
 			return new ModelAndView("redirect:/add_connection");
 		} else {
+			log.info("User is found in database");
 			User authenticatedUser = currentUser.getCurrentUser();
 			List<User> buddies = authenticatedUser.getBuddies();
 			addConnectionFormComment.setMessage("");
@@ -154,16 +163,17 @@ public class UserController {
 				buddiesLogin.add(b.getLogin());
 			}
 			if (buddiesLogin.contains(wantedEmail)) {
-				log.info("Impossible d'ajouter : " + user.get().getFirstName());
+				log.error("Impossible to add : " + user.get().getFirstName());
 				addConnectionFormComment.setError(true);
 				addConnectionFormComment.setMessage(user.get().getFirstName() + " is already one of your buddy");
 			} else {
 				userService.addBuddy(authenticatedUser.getId(), user.get().getId());
-				log.info("Utilisateur ajouté : " + user.get().getFirstName());
+				log.info("User added : " + user.get().getFirstName());
 				addConnectionFormComment.setError(false);
 				addConnectionFormComment.setMessage("You added " + user.get().getFirstName() + " to your buddies");
 			}
 		}
+		log.info("redirecting to the add_connection page");
 		return new ModelAndView("redirect:/add_connection");
 	}
 }
