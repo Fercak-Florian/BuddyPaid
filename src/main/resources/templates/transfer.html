@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" th:href="@{/css/transfer.css}" href="../../css/transfer.css"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/transfer.css}" href="../../css/transfer.css" />
 	<title>Pay My Buddy</title>
 </head>
 
@@ -23,14 +23,14 @@
 					<div class="bouton"> <a href="logoff"> Log off </a></div>
 				</div>
 			</div>
-			<p id="home_tranfer">Home / Transfer</p>
+			<p id="home_tranfer"><span id="home">Home &emsp;/&emsp;</span> <span id="transfer">Transfer</span></p>
 		</header>
 
 
 
 		<section id="actions_utilisateur">
 			<div id="send_money_and_add_connection">
-			
+
 				<p id="send_money">Send Money</p>
 				<p id="add_connection"><a href="add_connection">Add Connection</a></p>
 			</div>
@@ -47,22 +47,22 @@
 		</section>
 
 
-		<section id="affichage_historique">
+		<section>
 			<caption id="my_transactions">My Transactions</caption>
 			<table>
-				<tr id="en_tete">
+				<thead>
 					<th>Connections</th>
 					<th>Description</th>
 					<th>Amount</th>
-				</tr>
-				<tr class="ligne" th:each="do: ${displayedOperations}">
-					<td><span th:text="${do.buddyFirstName}"></span></td>
-					<td><span th:text="${do.description}"></span></td>
-					<td><span th:text="${do.getAmountInEuro()}"><label></label></span></td>
-				</tr>
+				</thead>
+				<tbody>
+					<tr th:each="do: ${displayedOperations}">
+						<td><span th:text="${do.buddyFirstName}"></span></td>
+						<td><span th:text="${do.description}"></span></td>
+						<td><span th:text="${do.getAmountInEuro()}"></span></td>
+					</tr>
+				</tbody>
 			</table>
-
-
 		</section>
 
 		<footer>
@@ -74,7 +74,6 @@
 			<div class="element"><a href="/transfer?page=5">5</a></div>
 			<div><a id="next" href="/suivant">&gt;&gt;</a></div>
 		</footer>
-
 
 		<!--Fin de bloc_page-->
 	</div>
