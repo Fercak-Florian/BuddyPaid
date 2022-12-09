@@ -2,11 +2,14 @@ package com.paymybuddy.buddypaid.service;
 
 import java.util.Date;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import com.paymybuddy.buddypaid.model.Operation;
 import com.paymybuddy.buddypaid.repository.IOperationRepository;
 
+@Transactional
 @Service
 public class OperationService implements IOperationService {
 

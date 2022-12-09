@@ -2,6 +2,8 @@ package com.paymybuddy.buddypaid.service;
 
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,7 @@ import com.paymybuddy.buddypaid.model.User;
 import com.paymybuddy.buddypaid.model.UserBuddy;
 import com.paymybuddy.buddypaid.repository.IUserRepository;
 
+@Transactional
 @Service
 public class UserService implements IUserService{
 	
