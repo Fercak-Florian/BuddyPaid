@@ -26,7 +26,7 @@ public class SpringSecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-		.antMatchers("/login", "/", "/contact", "/submitDemand", "/registration", "/css/**", "/logoff")
+		.antMatchers("/login", "/", "/submitDemand", "/registration", "/css/**", "/logoff")
 		.permitAll()
 		.anyRequest().authenticated()
 		
@@ -42,7 +42,10 @@ public class SpringSecurityConfig {
 		.invalidateHttpSession(true).clearAuthentication(true)
         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
         .logoutSuccessUrl("/login")
-        .permitAll();
+        .permitAll()
+		
+		.and()
+		.rememberMe();
 		
 		http.authenticationProvider(authenticationProvider());
 		return http.build();
