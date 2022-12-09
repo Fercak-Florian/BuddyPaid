@@ -93,3 +93,13 @@ a
 	font-size: 1em;
 	/*border: 1px black solid;*/
 }
+
+#transfer
+{
+	color: #0275d8; /*bleu*/
+}
+
+#home
+{
+	color: grey;
+}

@@ -94,6 +94,16 @@ a
 	/*border: 1px black solid;*/
 }
 
+#home
+{
+	color: #0275d8; /*bleu*/
+}
+
+#transfer
+{
+	color: grey;
+}
+
 #send_money
 {
 	/*background-color: grey;*/
@@ -201,7 +211,7 @@ tbody
 
 tr
 {
-	/*height : 70px;*/
+	/*height : 20%;*/
 }
 
 td
