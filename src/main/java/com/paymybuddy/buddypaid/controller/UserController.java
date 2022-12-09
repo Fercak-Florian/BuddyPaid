@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +26,6 @@ import com.paymybuddy.buddypaid.workclasses.TextArea;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Transactional
 @Slf4j
 @Controller
 public class UserController {
