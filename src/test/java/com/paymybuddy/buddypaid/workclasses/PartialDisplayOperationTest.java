@@ -34,4 +34,33 @@ public class PartialDisplayOperationTest {
 		assertThat(result.get(2).getAmount()).isEqualTo(10);
 	}
 	
+	@Test
+	public void testCalculateNumberOfOperationsPerPageWithAWrongStart() {
+		/*ARRANGE*/
+		int page = 3;
+		List<DisplayedOperation> displayedOperation = new ArrayList<>();
+		displayedOperation.add(new DisplayedOperation());
+		displayedOperation.add(new DisplayedOperation());
+		displayedOperation.add(new DisplayedOperation("John", "Bowling", 10));
+		displayedOperation.add(new DisplayedOperation());
+		/*ACT*/
+		List<DisplayedOperation> result = partialDisplayOperation.calculateNumberOfOperationsPerPage(displayedOperation, page);
+		/*ASSERT*/
+		assertThat(result.size()).isEqualTo(0);
+	}
+	
+	@Test
+	public void testCalculateNumberOfOperationsPerPageWithPageIsEqualToTwo() {
+		/*ARRANGE*/
+		int page = 2;
+		List<DisplayedOperation> displayedOperation = new ArrayList<>();
+		displayedOperation.add(new DisplayedOperation());
+		displayedOperation.add(new DisplayedOperation());
+		displayedOperation.add(new DisplayedOperation("John", "Bowling", 10));
+		displayedOperation.add(new DisplayedOperation());
+		/*ACT*/
+		List<DisplayedOperation> result = partialDisplayOperation.calculateNumberOfOperationsPerPage(displayedOperation, page);
+		/*ASSERT*/
+		assertThat(result.size()).isEqualTo(1);
+	}
 }
