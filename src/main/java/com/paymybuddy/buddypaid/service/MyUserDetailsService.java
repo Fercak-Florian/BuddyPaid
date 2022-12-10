@@ -1,6 +1,6 @@
 package com.paymybuddy.buddypaid.service;
 
-
+import java.util.Optional;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,7 +21,8 @@ public class MyUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) {
-		User user = userRepository.findByLogin(username).get();
+		Optional<User> optUser = userRepository.findByLogin(username);
+		User user = optUser.get();
 		if (user == null) {
 			throw new UsernameNotFoundException(username);
 		}

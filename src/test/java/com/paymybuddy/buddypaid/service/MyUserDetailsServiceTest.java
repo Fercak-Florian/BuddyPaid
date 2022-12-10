@@ -1,10 +1,12 @@
 package com.paymybuddy.buddypaid.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -21,29 +23,25 @@ public class MyUserDetailsServiceTest {
 
 	@Mock
 	private IUserRepository userRepository;
-	
-	//@Mock
-	//private MyUserPrincipal myUserPrincipal;
 
 	@BeforeEach
 	public void init() {
 		userDetailsService = new MyUserDetailsService(userRepository);
 	}
 
-	@Disabled
 	@Test
 	public void testLoadUserByUserNameSucceed() {
-		/*ARRANGE*/
-		String username = "jboyd@email.com";
+		/* ARRANGE */
 		User user = new User();
+		user.setFirstName("John");
 		user.setLogin("jboyd@email.com");
-		MyUserPrincipal principal = new MyUserPrincipal(user);
-		//UserDetails userDetails = new MyUserPrincipal(user);
-		/*ACT*/
-		when(userRepository.findByLogin(username).get()).thenReturn(user);
-		when(new MyUserPrincipal(user)).thenReturn(principal);
-		UserDetails result = userDetailsService.loadUserByUsername(username);
-		/*ASSERT*/
+		user.setPassword("jboyd");
+		Optional<User> optUser = Optional.of(user);
+		/* ACT */
+		when(userRepository.findByLogin("jboyd@email.com")).thenReturn(optUser);
+		UserDetails result = userDetailsService.loadUserByUsername("jboyd@email.com");
+		/* ASSERT */
 		assertThat(result.getUsername()).isEqualTo("jboyd@email.com");
+		verify(userRepository).findByLogin("jboyd@email.com");
 	}
 }
