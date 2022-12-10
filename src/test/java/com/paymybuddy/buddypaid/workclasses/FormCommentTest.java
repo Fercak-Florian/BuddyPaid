@@ -10,7 +10,7 @@ public class FormCommentTest {
 		/* ARRANGE */
 		FormComment formComment = new FormComment("message pour l'utilisateur");
 		/* ACT */
-		boolean result = formComment.getMessage().isEmpty();
+		boolean result = formComment.isEmpty();
 		/* ASSERT */
 		assertThat(result).isFalse();
 	}
@@ -20,7 +20,7 @@ public class FormCommentTest {
 		/* ARRANGE */
 		FormComment formComment = new FormComment("");
 		/* ACT */
-		boolean result = formComment.getMessage().isEmpty();
+		boolean result = formComment.isEmpty();
 		/* ASSERT */
 		assertThat(result).isTrue();
 	}

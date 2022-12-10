@@ -21,10 +21,10 @@ public class LoginControllerIntegrationTest {
 	private MockMvc mockMvc;
 	
 	@Test
-	public void testLoginShouldSuccess() throws Exception {
+	public void testLoginShouldSucceed() throws Exception {
 		mockMvc.perform(get("/login")).andDo(print())
 		.andExpect(status().isOk())
 		.andExpect(view().name("login"))
-		.andExpect(content().string(containsString("Please sign in")));
+		.andExpect(content().string(containsString("Remember me")));
 	}
 }
