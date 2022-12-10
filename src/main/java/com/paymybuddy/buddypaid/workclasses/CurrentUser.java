@@ -21,7 +21,6 @@ public class CurrentUser {
 	public User getCurrentUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentUserName = authentication.getName();
-		System.out.println(currentUserName);
 		Optional<User> optUser = userService.findUserByLogin(currentUserName);
 		User user = optUser.get();
 		return user;
