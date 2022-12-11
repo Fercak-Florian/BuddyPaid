@@ -38,7 +38,7 @@
 		</table><br>
 		<form method="post" th:action="@{/confirmOperation}" th:object="${description}">
 			<label>Enter description :</label>
-			<input id="description" type="text" name="description" autofocus>
+			<input id="description" type="text" name="description" autofocus required>
 			<button id="submit" type="submit"> Confirm </button>
 		</form>
 	</div>
