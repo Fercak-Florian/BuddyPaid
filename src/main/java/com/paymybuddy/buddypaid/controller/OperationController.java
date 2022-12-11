@@ -20,6 +20,8 @@ import com.paymybuddy.buddypaid.workclasses.FormComment;
 import com.paymybuddy.buddypaid.workclasses.LevyPercentage;
 import com.paymybuddy.buddypaid.workclasses.Transaction;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Controller
 public class OperationController {
 	
@@ -52,6 +54,7 @@ public class OperationController {
 		displayedOperationSummary.setBuddyLastName(user.getLastName());
 		displayedOperationSummary.setAmount(transaction.getAmount());
 		model.addAttribute("displayedOperationSummary", displayedOperationSummary);
+		log.info("Display operation summurary page");
 		return "description";
 	}
 	
@@ -69,11 +72,13 @@ public class OperationController {
 			operationService.addOperation(currentUser.getCurrentUser().getId(), 1, commission, "Money To App"); /*BANK USERID IS 1*/
 			operationFormComment.setError(false);
 			operationFormComment.setMessage("Transfer completed successfully");
+			log.info("Transfer completed successfully");
 			return new ModelAndView("redirect:/transfer_result");
 		} else {
 			/*MESSAGE SUR LA PAGE : SOLDE INSUFFISANT POUR REALISER LE VIREMENT */
 			operationFormComment.setError(true);
 			operationFormComment.setMessage("Insufficient money to make the transfer");
+			log.error("Insufficient money to make the transfer");
 			return new ModelAndView("redirect:/transfer_result");
 		}
 	}
@@ -81,6 +86,7 @@ public class OperationController {
 	@GetMapping("/transfer_result")
 	public String displayTransferResult(Model model) {
 		model.addAttribute("formComment", operationFormComment);
+		log.info("Display transfer result page");
 		return "transfer_result";
 	}
 }

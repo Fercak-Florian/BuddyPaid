@@ -11,46 +11,32 @@
 	<div id="bloc_page">
 		<div id="section">
 			<h1> Please register </h1>
-			<!-- <h1 th:text="#{label.form.title}">form</h1> -->
 			<form th:action="@{/registration}" th:object="${user}" method="post" enctype="utf8">
 				<div>
 					<div id="enter">
 						<!-- LOGIN -->
 						<label>Email</label><br>
-						<input class="field" type="text" th:field="*{login}" autofocus/>
-						<!-- <p th:each="error : ${#fields.errors('email')}" th:text="${error}">Validation error</p> -->
+						<input class="field" type="text" th:field="*{login}" autofocus required/>
 					</div>
 					<!-- PASSWORD -->
 					<div id="enter">
 						<label>Password</label><br>
-						<input class="field" type="text" th:field="*{password}" />
-						<!-- <p th:each="error : ${#fields.errors('password')}" th:text="${error}">Validation error</p> -->
+						<input class="field" type="password" th:field="*{password}" required/>
 					</div>
 					<!-- FIRSTNAME -->
 					<div id="enter">
 						<label>First Name</label><br>
-						<input class="field" th:field="*{firstName}" />
-						<!-- <p th:each="error: ${#fields.errors('firstName')}" th:text="${error}">Validation error</p> -->
+						<input class="field" th:field="*{firstName}" required/>
 					</div>
 					<!-- LASTNAME -->
 					<div id="enter">
 						<label>Last Name</label><br>
-						<input class="field" th:field="*{lastName}" />
-						<!-- <p th:each="error : ${#fields.errors('lastName')}" th:text="${error}">Validation error</p> -->
+						<input class="field" th:field="*{lastName}" required/>
 					</div>
-
-					<!--
-		<div>
-			<label th:text="#{label.user.confirmPass}">confirm</label>
-			<input type="password" th:field="*{matchingPassword}" />
-		</div>
-		-->
 					<div id="enter">
 						<button id="submit" type="submit">Register</button>
 					</div>
 			</form>
-
-			<!-- <a th:href="@{/login}" th:text="#{label.form.loginLink}">login</a> -->
 		</div>
 	</div>
 </body>

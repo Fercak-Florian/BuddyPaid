@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.paymybuddy.buddypaid.workclasses.FormComment;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 public class LoginController {
 	
@@ -18,6 +21,7 @@ public class LoginController {
 		errorLoginFormComment.setError(error);
 		errorLoginFormComment.setMessage("Bad credentials");
 		model.addAttribute("formComment", errorLoginFormComment);
+		log.info("Display login page");
 		return "login";
 	}
 }
