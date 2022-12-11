@@ -40,7 +40,7 @@
 							<option selected disabled value="">Select A Connection</option>
 							<option th:each="b: ${buddies}" th:value="${b.id}" th:text="${b.firstName}"></option>
 					</select>
-					<p><input id="amount" type="number" name="amount" placeholder="€" required min="1"></p>
+					<p><input id="amount" type="number" name="amount" value="0" required min="1"></p>
 					<button id="submit" type="submit"> Pay </button>
 				</form>
 			</div>
