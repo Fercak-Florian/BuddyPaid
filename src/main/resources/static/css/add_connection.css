@@ -16,8 +16,8 @@
 	border: 1px black solid;
 	width: 1000px; 
 	height: 600px;
-	font-family: "ambleregular",Impact, "Arial Black", Arial, Verdana, sans-serif; /*J'applique la police "ambleregular" sur la page entière ou une des suivantes*/
-	margin: auto; /*Centre le bloc sur la page*/
+	font-family: "ambleregular",Impact, "Arial Black", Arial, Verdana, sans-serif;
+	margin: auto; 
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -26,13 +26,11 @@
 header
 {
 	height: 100px;
-	/*border: 3px orange solid;*/
 }
 
 #logo_et_boutons
 {
 	display: flex;
-	/*border: 1px blue solid;*/
 	width: 1000px;
 	height: 55px;
 }
@@ -40,50 +38,43 @@ header
 #logo
 {
 	color: white;
-	background-color: #5cb85c; /*vert*/
+	background-color: #5cb85c;
 	border-radius: 5px;
 	height: 40px;
 	width: 200px;
 	font-size: 1em;
 	margin-left: 5px;
 	margin-top: 5px;
-	line-height: 40px; /*a creuser*/
-	text-align: center; /*a se rappeler*/
+	line-height: 40px; 
+	text-align: center; 
 }
 
 #boutons
 {
 	display: flex;
 	justify-content: flex-end;
-	/*margin-right: 100px;*/
 	height: 55px;
 	width: 800px;
-	/*background-color: red;*/
-	/*border: 1px black solid;*/
 	margin-left: 220px;
 }
 
 .bouton a:hover
 {
-	color: #0275d8; /*bleu*/
+	color: #0275d8; 
 }
 
 .bouton
 {
-	/*border: solid black 3px;*/
-	/*display: block; la balise a est considérée comme un block*/
-	width: 100px;/*On peut definir une largeur pour ce block*/
-	line-height: 50px;/*a creuser*/
-	text-align: center;/*a se rappeler*/
-	/*vertical-align: middle;a se rappeler*/
-	/*background-color: lightgreen;*/
+	width: 100px;
+	line-height: 50px;
+	text-align: center;
 	font-size: 1em;
 }
 
 a
 {
-	color: black; /*Couleur du texte*/
-	text-decoration: none; /*Supprime le soulignement des liens -- a appliquer sur la balise a*/
+	color: black;
+	text-decoration: none;
 }
 
 #error
@@ -92,8 +83,8 @@ a
 	width: 400px;
 	height: 40px;
 	color :#e07f88;
-	text-align: center;/*a se rappeler*/
-	line-height: 40px;/*a creuser*/
+	text-align: center;
+	line-height: 40px;
 }
 
 #ok
@@ -102,8 +93,8 @@ a
 	width: 400px;
 	height: 40px;
 	color :#5cb85c;
-	text-align: center;/*a se rappeler*/
-	line-height: 40px;/*a creuser*/
+	text-align: center;
+	line-height: 40px;
 }
 
 #input_form
@@ -123,8 +114,8 @@ a
 #submit
 {
 	color: white;
-	background-color: #5cb85c; /*vert*/
-	width: 150px;/*On peut definir une largeur pour ce block*/
+	background-color: #5cb85c; 
+	width: 150px;
 	height : 32px;
 	border-radius: 9px;
 	font-size: 1em;
@@ -138,7 +129,6 @@ a
 	flex-direction: column;
 	width: 800px;
 	height: 300px;
-	/*border: 3px blue solid;*/
 }
 
 table
@@ -153,7 +143,7 @@ table
 {
 	color: white;
 	font-size: 1em;
-	background-color: #5cb85c; /*vert*/
+	background-color: #5cb85c; 
 	height : 80px;
 }
 
