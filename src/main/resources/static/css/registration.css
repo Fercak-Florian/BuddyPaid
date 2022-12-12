@@ -18,11 +18,10 @@ body
 
 #bloc_page
 {
-	/*border: 1px black solid;*/
 	width: 1000px; 
 	height: 600px;
-	font-family: "ambleregular",Impact, "Arial Black", Arial, Verdana, sans-serif; /*J'applique la police "ambleregular" sur la page entière ou une des suivantes*/
-	margin: auto; /*Centre le bloc sur la page*/
+	font-family: "ambleregular",Impact, "Arial Black", Arial, Verdana, sans-serif;
+	margin: auto;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -40,8 +39,8 @@ body
 #submit
 {
 	color: white;
-	background-color: #0275d8; /*bleu*/
-	width: 220px;/*On peut definir une largeur pour ce block*/
+	background-color: #0275d8; 
+	width: 220px;
 	height : 34px;
 	border-radius: 5px;
 	border : none;

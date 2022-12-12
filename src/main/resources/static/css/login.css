@@ -18,11 +18,10 @@ body
 
 #bloc_page
 {
-	/*border: 1px black solid;*/
 	width: 1000px; 
 	height: 600px;
-	font-family: "ambleregular",Impact, "Arial Black", Arial, Verdana, sans-serif; /*J'applique la police "ambleregular" sur la page entière ou une des suivantes*/
-	margin: auto; /*Centre le bloc sur la page*/
+	font-family: "ambleregular",Impact, "Arial Black", Arial, Verdana, sans-serif;
+	margin: auto;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -49,15 +48,15 @@ body
 #logo
 {
 	color: white;
-	background-color: #5cb85c; /*vert*/
+	background-color: #5cb85c; 
 	border-radius: 5px;
 	height: 40px;
 	width: 150px;
 	font-size: 1em;
 	margin-top: 20px;
 	margin-bottom: 40px;
-	line-height: 40px; /*a creuser*/
-	text-align: center; /*a se rappeler*/
+	line-height: 40px; 
+	text-align: center; 
 }
 
 #error
@@ -68,20 +67,19 @@ body
 	width: 230px;
 	height: 40px;
 	color : #A25F65;
-	text-align: center;/*a se rappeler*/
-	line-height: 40px;/*a creuser*/
+	text-align: center;
+	line-height: 40px;
 }
 
 #submit
 {
 	color: white;
-	background-color: #0275d8; /*bleu*/
-	width: 120px;/*On peut definir une largeur pour ce block*/
+	background-color: #0275d8; 
+	width: 120px;
 	height : 34px;
 	border-radius: 5px;
 	border : none;
 	font-size: 0.9em;
-	/*margin-top: 20px;*/
 }
 
 .field
@@ -115,8 +113,8 @@ input[type=password] {
 
 a
 {
-	color: rgb(0, 128, 255); /*Couleur du texte*/
-	text-decoration: none; /*Supprime le soulignement des liens -- a appliquer sur la balise a*/
+	color: rgb(0, 128, 255); 
+	text-decoration: none;
 }
 
 a:hover

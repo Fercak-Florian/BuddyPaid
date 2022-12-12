@@ -24,8 +24,6 @@
 		</header>
 		<section>
 			<h2>Transfer state</h2>
-			<div>
-			
 			<div id="error" th:if="${formComment.error}">
 				<label th:text="${formComment.message}"></label>
 			</div>
@@ -33,8 +31,6 @@
 				<label th:text="${formComment.message}"></label>
 			</div>
 			<div th:if="${formComment.clearMessage}"></div>
-				
-			</div>
 		</section>
 	</div>
 </body>

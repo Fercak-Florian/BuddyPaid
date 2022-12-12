@@ -10,7 +10,7 @@ import com.paymybuddy.buddypaid.model.Operation;
 @Repository
 public interface IOperationRepository extends CrudRepository<Operation, Integer>{
 	
-	/*REQUETE SQL NATIVE*/
+	/*REQUETES SQL NATIVES*/
 
 	@Query(value = "SELECT SUM(amount) FROM operation WHERE user_id = :userId", nativeQuery = true)
 	public int sumOfDebit(@Param("userId") Integer userId);
