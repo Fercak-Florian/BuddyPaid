@@ -1,7 +1,6 @@
 package com.paymybuddy.buddypaid;
 
 
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -9,7 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.paymybuddy.buddypaid.service.UserService;
 
-@Transactional
 @SpringBootApplication
 public class BuddyPaidApplication {
 

@@ -52,7 +52,6 @@ public class UserService implements IUserService{
 		User user = userRepository.findById(currentUserId).get();
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
-		/*User user = new User(currentUserId, login, password, firstName, lastName);*/
 		return userRepository.save(user);
 	}
 
@@ -66,6 +65,4 @@ public class UserService implements IUserService{
 		user.setLastName(userDto.getLastName());
 		return userRepository.save(user);
 	}
-
-	
 }
