@@ -103,6 +103,7 @@ a
 	justify-content: space-between;
 	align-items: center;
 	height: 50px;
+	width: 800px;
 }
 
 #fname, #lname
@@ -123,31 +124,20 @@ a
 	font-size: 0.9em;
 }
 
-#affichage_amis
-{
-	display: flex;
-	flex-direction: column;
-	width: 800px;
-	height: 300px;
-}
-
 table
 {
 	text-align: center;
-	height: 300px;
 	border-collapse: collapse;
 	border: 1px black solid;
+	width: 800px;
+	height: 280px;
+	font-size: 1em;
 }
 
-#en_tete
+th
 {
-	color: white;
+	color: rgb(255, 255, 255);
 	font-size: 1em;
 	background-color: #5cb85c; 
-	height : 80px;
-}
-
-.ligne
-{
-	font-size: 1em;
+	height: 70px;
 }
