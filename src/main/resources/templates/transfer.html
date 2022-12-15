@@ -33,8 +33,8 @@
 			<div>
 				<form id="select_pay" method="post" th:action="@{/addOperation}" th:object="${transaction}">
 					<select id="select_box" name="buddyId" required>
-							<option selected disabled value="">Select A Connection</option>
-							<option th:each="b: ${buddies}" th:value="${b.id}" th:text="${b.firstName}"></option>
+						<option selected disabled value="">Select A Connection</option>
+						<option th:each="b: ${buddies}" th:value="${b.id}" th:text="${b.firstName}"></option>
 					</select>
 					<p><input id="amount" type="number" name="amount" value="0" required min="1"></p>
 					<button id="submit" type="submit"> Pay </button>
@@ -45,26 +45,28 @@
 			<caption id="my_transactions">My Transactions</caption>
 			<table>
 				<thead>
-					<th>Connections</th>
-					<th>Description</th>
-					<th>Amount</th>
+					<tr>
+						<th>Connections</th>
+						<th>Description</th>
+						<th>Amount</th>
+					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="do: ${displayedOperations}">
-						<td><span th:text="${do.buddyFirstName}"></span></td>
-						<td><span th:text="${do.description}"></span></td>
-						<td><span th:text="${do.getAmountInEuro()}"></span></td>
+					<tr th:each="do : ${displayedOperations.content}">
+						<td th:text="${do.buddyFirstName}" />
+						<td th:text="${do.description}" />
+						<td th:text="${do.getAmountInEuro()}" />
 					</tr>
 				</tbody>
 			</table>
 		</section>
 		<footer>
+			<!-- PAGINATION HERE -->
 			<div><a id="previous" href="/precedent">&lt;&lt;</a></div>
-			<div class="element"><a href="/transfer?page=1">1</a></div>
-			<div class="element"><a href="/transfer?page=2">2</a></div>
-			<div class="element"><a href="/transfer?page=3">3</a></div>
-			<div class="element"><a href="/transfer?page=4">4</a></div>
-			<div class="element"><a href="/transfer?page=5">5</a></div>
+			<div th:if="${displayedOperations.totalPages > 0}" class="element" th:each="pageNumber : ${pageNumbers}">
+				<a th:href="@{/transfer(size=${displayedOperations.size}, page=${pageNumber})}" th:text=${pageNumber}
+					th:class="${pageNumber==displayedOperations.number + 1} ? active"></a>
+			</div>
 			<div><a id="next" href="/suivant">&gt;&gt;</a></div>
 		</footer>
 		<!--Fin de bloc_page-->
