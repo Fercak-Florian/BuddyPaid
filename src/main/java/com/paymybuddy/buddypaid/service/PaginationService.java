@@ -1,6 +1,5 @@
 package com.paymybuddy.buddypaid.service;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,8 +14,6 @@ import com.paymybuddy.buddypaid.workclasses.DisplayedOperation;
 @Service
 public class PaginationService {
 	
-	/*final*/ /*private List<DisplayedOperation> displayedOperations = new ArrayList<>();*/
-
     public Page<DisplayedOperation> findPaginated(Pageable pageable, List<DisplayedOperation> displayedOperations) {
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
