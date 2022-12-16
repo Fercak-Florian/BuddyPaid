@@ -22,7 +22,7 @@ CREATE TABLE operation
     buddy_id INTEGER NOT NULL,
     FOREIGN KEY (buddy_id) REFERENCES user (id),
     date DATE,
-    amount FLOAT NOT NULL,
+    amount DOUBLE NOT NULL,
     description VARCHAR (250)
 );
 

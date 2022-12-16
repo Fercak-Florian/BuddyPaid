@@ -3,8 +3,11 @@ package com.paymybuddy.buddypaid.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,12 +19,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.paymybuddy.buddypaid.model.Operation;
 import com.paymybuddy.buddypaid.model.User;
 import com.paymybuddy.buddypaid.service.IUserService;
+import com.paymybuddy.buddypaid.service.PaginationService;
 import com.paymybuddy.buddypaid.workclasses.CurrentUser;
 import com.paymybuddy.buddypaid.workclasses.DisplayedOperation;
 import com.paymybuddy.buddypaid.workclasses.FormAddConnectionTh;
 import com.paymybuddy.buddypaid.workclasses.FormComment;
 import com.paymybuddy.buddypaid.workclasses.ModifiedUser;
-import com.paymybuddy.buddypaid.workclasses.PartialDisplayOperation;
 import com.paymybuddy.buddypaid.workclasses.TextArea;
 
 import lombok.extern.slf4j.Slf4j;
@@ -31,15 +34,15 @@ import lombok.extern.slf4j.Slf4j;
 public class UserController {
 	
 	private IUserService userService;
-	private PartialDisplayOperation partialDisplayOperation;
 	private FormComment contactFormComment = new FormComment();
 	private FormComment addConnectionFormComment = new FormComment();
 	private CurrentUser currentUser;
+	private PaginationService paginationService;
 	
-	public UserController(IUserService userService, PartialDisplayOperation partialDisplayOperation, CurrentUser currentUser) {
+	public UserController(IUserService userService, CurrentUser currentUser, PaginationService paginationService) {
 		this.userService = userService;
-		this.partialDisplayOperation = partialDisplayOperation;
 		this.currentUser = currentUser;
+		this.paginationService = paginationService;
 	}
 	
 	@GetMapping("/")
@@ -49,7 +52,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/transfer")
-	public String displayTransferPage(Model model, @RequestParam(name = "page", defaultValue = "1") int page) {
+	public String displayTransferPage(Model model, @RequestParam(name = "page", defaultValue = "1") Optional<Integer> page) {
 		User user = currentUser.getCurrentUser();
 		List<User> buddies = user.getBuddies();
 		List<Operation> operations = user.getOperations();
@@ -68,8 +71,21 @@ public class UserController {
 				displayedOperations.add(new DisplayedOperation(u.getFirstName(), operation.getDescription(), operation.getAmount()));
 			}
 		}
-		List<DisplayedOperation> partialDisplayedOperations = partialDisplayOperation.calculateNumberOfOperationsPerPage(displayedOperations, page);
-		model.addAttribute("displayedOperations", partialDisplayedOperations);
+		
+		int currentPage = page.orElse(1);
+        int pageSize = 3;
+
+        Page<DisplayedOperation> partialDisplayedOperations = paginationService.findPaginated(PageRequest.of(currentPage - 1, pageSize), displayedOperations);
+       
+        model.addAttribute("displayedOperations", partialDisplayedOperations);
+
+        int totalPages = partialDisplayedOperations.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                .boxed()
+                .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
 		log.info("display transfer page");
 		return "transfer";
 	}
