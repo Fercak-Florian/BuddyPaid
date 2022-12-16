@@ -25,7 +25,6 @@ import com.paymybuddy.buddypaid.workclasses.DisplayedOperation;
 import com.paymybuddy.buddypaid.workclasses.FormAddConnectionTh;
 import com.paymybuddy.buddypaid.workclasses.FormComment;
 import com.paymybuddy.buddypaid.workclasses.ModifiedUser;
-import com.paymybuddy.buddypaid.workclasses.PartialDisplayOperation;
 import com.paymybuddy.buddypaid.workclasses.TextArea;
 
 import lombok.extern.slf4j.Slf4j;
@@ -35,15 +34,13 @@ import lombok.extern.slf4j.Slf4j;
 public class UserController {
 	
 	private IUserService userService;
-	private PartialDisplayOperation partialDisplayOperation;
 	private FormComment contactFormComment = new FormComment();
 	private FormComment addConnectionFormComment = new FormComment();
 	private CurrentUser currentUser;
 	private PaginationService paginationService;
 	
-	public UserController(IUserService userService, PartialDisplayOperation partialDisplayOperation, CurrentUser currentUser, PaginationService paginationService) {
+	public UserController(IUserService userService, CurrentUser currentUser, PaginationService paginationService) {
 		this.userService = userService;
-		this.partialDisplayOperation = partialDisplayOperation;
 		this.currentUser = currentUser;
 		this.paginationService = paginationService;
 	}
@@ -74,15 +71,13 @@ public class UserController {
 				displayedOperations.add(new DisplayedOperation(u.getFirstName(), operation.getDescription(), operation.getAmount()));
 			}
 		}
-		/*List<DisplayedOperation> partialDisplayedOperations = partialDisplayOperation.calculateNumberOfOperationsPerPage(displayedOperations, page);*/
 		
 		int currentPage = page.orElse(1);
-        int pageSize = 3 /*size.orElse(5)*/;
+        int pageSize = 3;
 
         Page<DisplayedOperation> partialDisplayedOperations = paginationService.findPaginated(PageRequest.of(currentPage - 1, pageSize), displayedOperations);
        
         model.addAttribute("displayedOperations", partialDisplayedOperations);
-       //model.addAttribute("bookPage", bookPage);
 
         int totalPages = partialDisplayedOperations.getTotalPages();
         if (totalPages > 0) {
@@ -91,9 +86,6 @@ public class UserController {
                 .collect(Collectors.toList());
             model.addAttribute("pageNumbers", pageNumbers);
         }
-		
-		
-		//model.addAttribute("displayedOperations", partialDisplayedOperations);
 		log.info("display transfer page");
 		return "transfer";
 	}
