@@ -20,4 +20,4 @@ MPD :
 [Fercak_Florian_2_mpd_102022.pdf](https://github.com/Fercak-Florian/BuddyPaid/files/10247715/Fercak_Florian_2_mpd_102022.pdf)
 
 SQL scripts :
-[Fercak_Florian_3_scripts_102022.zip](https://github.com/Fercak-Florian/BuddyPaid/files/10247747/Fercak_Florian_3_scripts_102022.zip)
+[Fercak_Florian_3_scripts_102022.zip](https://github.com/Fercak-Florian/BuddyPaid/files/10248049/Fercak_Florian_3_scripts_102022.zip)
