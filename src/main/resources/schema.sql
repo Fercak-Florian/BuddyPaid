@@ -14,6 +14,15 @@ CREATE TABLE user
     last_name VARCHAR (30) NOT NULL
 );
 
+CREATE TABLE user_account
+(
+	id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    user_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user (id),
+    date DATE,
+    amount DOUBLE NOT NULL
+);
+
 CREATE TABLE operation
 (
 	id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,

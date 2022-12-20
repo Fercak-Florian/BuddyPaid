@@ -1,0 +1,30 @@
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/manage_user_account.css}">
+	<title>Pay My Buddy</title>
+</head>
+
+<body>
+	<div id="bloc_page">
+		<div id="section">
+			<h1> Ajouter de l'argent sur le compte de l'application </h1>
+			<form th:action="@{/add_money}" th:object"${amount}" method="post" enctype="utf8">
+				<div>
+					<div id="enter">
+						<!-- AMOUNT -->
+						<label>Amount</label><br>
+						<input class="field" type="number" name="amount" autofocus required min="1"/>
+					</div>
+					<div id="enter">
+						<button id="submit" type="submit">Add Money</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+
+</html>

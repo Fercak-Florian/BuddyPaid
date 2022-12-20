@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.paymybuddy.buddypaid.model.Operation;
 import com.paymybuddy.buddypaid.repository.IOperationRepository;
+import com.paymybuddy.buddypaid.repository.IUserAccountRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class OperationServiceTest {
@@ -26,12 +27,15 @@ public class OperationServiceTest {
 	@Mock
 	IOperationRepository operationRepository;
 	
+	@Mock
+	IUserAccountRepository userAccountRepository;
+	
 	@Captor
 	ArgumentCaptor<Operation> operationCaptor;
 	
 	@BeforeEach
 	public void init() {
-		operationService = new OperationService(operationRepository);
+		operationService = new OperationService(operationRepository, userAccountRepository);
 	}
 	
 	@Test

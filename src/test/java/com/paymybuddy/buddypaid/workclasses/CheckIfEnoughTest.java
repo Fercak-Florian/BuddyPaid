@@ -18,7 +18,7 @@ public class CheckIfEnoughTest {
 	public void testIsEnoughWhenCreditIsSufficient() {
 		/*ARRANGE*/
 		/*ACT*/
-		boolean result = checkIfEnough.isEnough(10, 0.05, 30, 10);
+		boolean result = checkIfEnough.isEnough(10, 0.05, 20);
 		/*ASSERT*/
 		assertThat(result).isTrue();
 	}
@@ -27,7 +27,7 @@ public class CheckIfEnoughTest {
 	public void testIsEnoughWhenCreditIsNotSufficient() {
 		/*ARRANGE*/
 		/*ACT*/
-		boolean result = checkIfEnough.isEnough(10, 0.05, 20, 10);
+		boolean result = checkIfEnough.isEnough(10, 0.05, 10);
 		/*ASSERT*/
 		assertThat(result).isFalse();
 	}

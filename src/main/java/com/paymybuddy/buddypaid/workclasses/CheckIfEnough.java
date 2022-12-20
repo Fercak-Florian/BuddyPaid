@@ -11,9 +11,9 @@ public class CheckIfEnough {
 	public CheckIfEnough(){
 	}
 	
-	public boolean isEnough(double amount, double commission, double credit, double debit) {
+	public boolean isEnough(double amount, double commission, double accountAmount) {
 		double fullAmount = amount + commission;
-		double balance = credit - debit;
+		double balance = accountAmount;
 		double necessaryAmount = balance - fullAmount;
 		if(necessaryAmount < 0) {
 			return false;
