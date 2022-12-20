@@ -54,6 +54,9 @@ public class User {
 	@JoinColumn(name = "user_id")
 	private List<UserAccount> userAccounts = new ArrayList<>();
 	
+	
+	
+	
 	public User() {
 	}
 	

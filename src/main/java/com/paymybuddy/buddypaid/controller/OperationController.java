@@ -106,14 +106,24 @@ public class OperationController {
 	}
 	
 	@GetMapping("/recovermoney")
-	public String displayRecoverMoneyPage() {
+	public String displayRecoverMoneyPage(Model model) {
+		model.addAttribute("formComment", operationFormComment);
 		return "recover_money";
 	}
 	
 	@PostMapping("/recovermoney")
 	public String recoverMoneyFromUserAccount(@ModelAttribute Amount amount) {
 		System.out.println(amount.getAmount());
-		operationService.manageUserAccount(currentUser.getCurrentUser().getId(), -amount.getAmount());
-		return "recover_money";
+		double balance = userAccountService.getBalance(currentUser.getCurrentUser().getId());
+		if(amount.getAmount() > balance) {
+			operationFormComment.setError(true);
+			operationFormComment.setMessage("Not enough money");
+			return "redirect:/recovermoney";
+		}else {
+			operationService.manageUserAccount(currentUser.getCurrentUser().getId(), -amount.getAmount());
+			operationFormComment.setError(false);
+			operationFormComment.setMessage("Your transfer has been done");
+			return "redirect:/recovermoney";
+		}
 	}
 }

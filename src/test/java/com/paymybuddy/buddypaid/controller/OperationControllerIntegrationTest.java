@@ -66,7 +66,7 @@ public class OperationControllerIntegrationTest {
 		mockMvc.perform(post("/addOperation")
 				.contentType(MediaType.parseMediaType("application/x-www-form-urlencoded"))
 				.param("buddyId", "3")
-				.param("amount", "20")
+				.param("amount", "51")
 				.with(csrf()));
 		/*ACT AND ASSERT*/
 		mockMvc.perform(post("/confirmOperation")
@@ -86,5 +86,65 @@ public class OperationControllerIntegrationTest {
 		.andExpect(status().isOk())
 		.andExpect(view().name("transfer_result"))
 		.andExpect(content().string(containsString("Transfer state")));;
+	}
+	
+	@Test
+	@WithMockUser("jboyd@email.com")
+	public void testDisplayManageUserAccountPage() throws Exception {
+		mockMvc.perform(get("/addmoney"))
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(view().name("add_money"))
+		.andExpect(content().string(containsString("Transfer from Bank to PayMyBuddy")));;
+	}
+	
+	@Test
+	@WithMockUser("jboyd@email.com")
+	public void testAddMoneytoUserAccount() throws Exception{
+		mockMvc.perform(post("/addmoney")
+		.contentType(MediaType.parseMediaType("application/x-www-form-urlencoded"))
+		.param("amount", "10")
+		.with(csrf()))
+		.andDo(MockMvcResultHandlers.print())
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(view().name("add_money"))
+		.andExpect(content().string(containsString("Transfer from Bank to PayMyBuddy")));
+	}
+	
+	@Test
+	@WithMockUser("jboyd@email.com")
+	public void testDisplayRecoverMoneyPage() throws Exception {
+		mockMvc.perform(get("/recovermoney"))
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(view().name("recover_money"))
+		.andExpect(content().string(containsString("Transfer from PayMyBuddy to Bank")));;
+	}
+	
+	@Test
+	@WithMockUser("jboyd@email.com")
+	public void testRecoverMoneyFromUserAccount() throws Exception{
+		mockMvc.perform(post("/recovermoney")
+		.contentType(MediaType.parseMediaType("application/x-www-form-urlencoded"))
+		.param("amount", "10")
+		.with(csrf()))
+		.andDo(MockMvcResultHandlers.print())
+		.andDo(print())
+		.andExpect(redirectedUrl("/recovermoney"))
+		.andExpect(status().isFound());
+	}
+	
+	@Test
+	@WithMockUser("jboyd@email.com")
+	public void testRecoverMoneyFromUserAccountFail() throws Exception{
+		mockMvc.perform(post("/recovermoney")
+		.contentType(MediaType.parseMediaType("application/x-www-form-urlencoded"))
+		.param("amount", "51")
+		.with(csrf()))
+		.andDo(MockMvcResultHandlers.print())
+		.andDo(print())
+		.andExpect(redirectedUrl("/recovermoney"))
+		.andExpect(status().isFound());
 	}
 }

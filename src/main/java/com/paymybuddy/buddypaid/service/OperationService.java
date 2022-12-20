@@ -33,6 +33,7 @@ public class OperationService implements IOperationService {
 		UserAccount userAccount1 = new UserAccount(currentUserId, new Date(), -amount);
 		UserAccount userAccount2 = new UserAccount(beneficiary, new Date(), amount);
 		userAccountRepository.save(userAccount1);
+		//int id = userAccount1.getId();
 		userAccountRepository.save(userAccount2);
 		return operationRepository.save(operation);
 	}

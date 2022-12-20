@@ -21,7 +21,6 @@ import com.paymybuddy.buddypaid.model.User;
 import com.paymybuddy.buddypaid.service.IUserAccountService;
 import com.paymybuddy.buddypaid.service.IUserService;
 import com.paymybuddy.buddypaid.service.PaginationService;
-import com.paymybuddy.buddypaid.workclasses.Amount;
 import com.paymybuddy.buddypaid.workclasses.CurrentUser;
 import com.paymybuddy.buddypaid.workclasses.DisplayedOperation;
 import com.paymybuddy.buddypaid.workclasses.FormAddConnectionTh;
@@ -109,8 +108,7 @@ public class UserController {
 	@GetMapping("/home")
 	public String displayHomePage(Model model) {
 		User user = currentUser.getCurrentUser();
-		double amountBalance = userAccountService.getBalance(user.getId());
-		//Amount amount = new Amount(amountBalance);
+		long amountBalance = Math.round(userAccountService.getBalance(user.getId()));
 		String displayedAmount = String.valueOf(amountBalance) + "€";
 		model.addAttribute("amount", displayedAmount);
 		log.info("display home page");
