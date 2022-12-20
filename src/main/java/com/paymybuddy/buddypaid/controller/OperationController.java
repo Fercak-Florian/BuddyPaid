@@ -94,23 +94,23 @@ public class OperationController {
 		return "transfer_result";
 	}
 	
-	@GetMapping("/add_money")
+	@GetMapping("/addmoney")
 	public String displayManageUserAccountPage() {
 		return "add_money";
 	}
 	
-	@PostMapping("/add_money")
+	@PostMapping("/addmoney")
 	public String addMoneytoUserAccount(@ModelAttribute Amount amount) {
 		operationService.manageUserAccount(currentUser.getCurrentUser().getId(), amount.getAmount());
 		return "add_money";
 	}
 	
-	@GetMapping("/recover_money")
+	@GetMapping("/recovermoney")
 	public String displayRecoverMoneyPage() {
 		return "recover_money";
 	}
 	
-	@PostMapping("/recover_money")
+	@PostMapping("/recovermoney")
 	public String recoverMoneyFromUserAccount(@ModelAttribute Amount amount) {
 		System.out.println(amount.getAmount());
 		operationService.manageUserAccount(currentUser.getCurrentUser().getId(), -amount.getAmount());

@@ -49,7 +49,7 @@ header
 	text-align: center; 
 }
 
-#boutons
+#boutons 
 {
 	display: flex;
 	justify-content: flex-end;
