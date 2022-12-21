@@ -18,3 +18,4 @@ UML Class Diagram :
 MPD :
 
 SQL scripts :
+[Fercak_Florian_3_scripts_102022.zip](https://github.com/Fercak-Florian/BuddyPaid/files/10275583/Fercak_Florian_3_scripts_102022.zip)
