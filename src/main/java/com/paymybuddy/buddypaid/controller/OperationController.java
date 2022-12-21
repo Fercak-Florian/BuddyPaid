@@ -13,7 +13,6 @@ import com.paymybuddy.buddypaid.model.User;
 import com.paymybuddy.buddypaid.service.IOperationService;
 import com.paymybuddy.buddypaid.service.IUserAccountService;
 import com.paymybuddy.buddypaid.service.IUserService;
-import com.paymybuddy.buddypaid.service.UserAccountService;
 import com.paymybuddy.buddypaid.workclasses.Amount;
 import com.paymybuddy.buddypaid.workclasses.CheckIfEnough;
 import com.paymybuddy.buddypaid.workclasses.CurrentUser;
