@@ -11,7 +11,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.paymybuddy.buddypaid.model.User;
 import com.paymybuddy.buddypaid.service.IOperationService;
+import com.paymybuddy.buddypaid.service.IUserAccountService;
 import com.paymybuddy.buddypaid.service.IUserService;
+import com.paymybuddy.buddypaid.workclasses.Amount;
 import com.paymybuddy.buddypaid.workclasses.CheckIfEnough;
 import com.paymybuddy.buddypaid.workclasses.CurrentUser;
 import com.paymybuddy.buddypaid.workclasses.Description;
@@ -26,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 public class OperationController {
 	
 	private IOperationService operationService;
+	private IUserAccountService userAccountService;
 	private IUserService userService;
 	private CurrentUser currentUser;
 	private DisplayedOperationSummary displayedOperationSummary;
@@ -33,8 +36,9 @@ public class OperationController {
 	private CheckIfEnough checkIfEnough;
 	private FormComment operationFormComment = new FormComment();
 	
-	public OperationController(IOperationService operationService, CurrentUser currentUser, IUserService userService , DisplayedOperationSummary displayedOperationSummary, LevyPercentage levyPercentage, CheckIfEnough checkIfEnough) {
+	public OperationController(IOperationService operationService, IUserAccountService userAccountService, CurrentUser currentUser, IUserService userService , DisplayedOperationSummary displayedOperationSummary, LevyPercentage levyPercentage, CheckIfEnough checkIfEnough) {
 		this.operationService = operationService;
+		this.userAccountService = userAccountService;
 		this.userService = userService;
 		this.currentUser = currentUser;
 		this.displayedOperationSummary = displayedOperationSummary;
@@ -63,9 +67,8 @@ public class OperationController {
 		fullTransaction.setDescription(description.getDescription());
 		double amount = fullTransaction.getAmount();
 		double commission = (amount * levyPercentage.getPercentage()) / 100;
-		double debit = operationService.getDebit(currentUser.getCurrentUser().getId());
-		double credit = operationService.getCredit(currentUser.getCurrentUser().getId());
-		boolean isEnought = checkIfEnough.isEnough(amount, commission, credit, debit);
+		double accountAmout = userAccountService.getBalance(currentUser.getCurrentUser().getId());
+		boolean isEnought = checkIfEnough.isEnough(amount, commission, accountAmout);
 		if(isEnought) {
 			/*UTILISATEUR, BENEFICIAIRE, MONTANT, DESCRIPTION*/
 			operationService.addOperation(currentUser.getCurrentUser().getId(), fullTransaction.getBuddyId(), fullTransaction.getAmount(), fullTransaction.getDescription());
@@ -88,5 +91,38 @@ public class OperationController {
 		model.addAttribute("formComment", operationFormComment);
 		log.info("Display transfer result page");
 		return "transfer_result";
+	}
+	
+	@GetMapping("/addmoney")
+	public String displayManageUserAccountPage() {
+		return "add_money";
+	}
+	
+	@PostMapping("/addmoney")
+	public String addMoneytoUserAccount(@ModelAttribute Amount amount) {
+		operationService.manageUserAccount(currentUser.getCurrentUser().getId(), amount.getAmount());
+		return "add_money";
+	}
+	
+	@GetMapping("/recovermoney")
+	public String displayRecoverMoneyPage(Model model) {
+		model.addAttribute("formComment", operationFormComment);
+		return "recover_money";
+	}
+	
+	@PostMapping("/recovermoney")
+	public String recoverMoneyFromUserAccount(@ModelAttribute Amount amount) {
+		System.out.println(amount.getAmount());
+		double balance = userAccountService.getBalance(currentUser.getCurrentUser().getId());
+		if(amount.getAmount() > balance) {
+			operationFormComment.setError(true);
+			operationFormComment.setMessage("Not enough money");
+			return "redirect:/recovermoney";
+		}else {
+			operationService.manageUserAccount(currentUser.getCurrentUser().getId(), -amount.getAmount());
+			operationFormComment.setError(false);
+			operationFormComment.setMessage("Your transfer has been done");
+			return "redirect:/recovermoney";
+		}
 	}
 }

@@ -26,6 +26,27 @@
 		<section>
 			<img src="/css/paymybuddy.png" alt="Pay My Buddy" width="600" height="300">
 		</section>
+		<div>
+			<form>
+				<table>
+					<tr>
+						<td>
+							<button id="submit" type="submit" formmethod="get" formaction="addmoney">Get money from my
+								bank</button>
+						</td>
+					</tr>
+					<tr>
+						<td> <button id="submit" type="submit" formmethod="get" formaction="recovermoney">Send money to
+								my bank </button>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+		<div th:object="${amount}">
+			<p>Your PayMyBuddy account balance is : </p>
+			<p th:text="${amount}"></p>
+		</div>
 	</div>
 </body>
 

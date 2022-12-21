@@ -50,6 +50,13 @@ public class User {
 	@JoinTable(name = "user_buddy", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "buddy_id"))
 	private List<User> buddies = new ArrayList<>();
 	
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
+	private List<UserAccount> userAccounts = new ArrayList<>();
+	
+	
+	
+	
 	public User() {
 	}
 	

@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.paymybuddy.buddypaid.model.Operation;
 import com.paymybuddy.buddypaid.model.User;
+import com.paymybuddy.buddypaid.service.IUserAccountService;
 import com.paymybuddy.buddypaid.service.IUserService;
 import com.paymybuddy.buddypaid.service.PaginationService;
 import com.paymybuddy.buddypaid.workclasses.CurrentUser;
@@ -38,11 +39,13 @@ public class UserController {
 	private FormComment addConnectionFormComment = new FormComment();
 	private CurrentUser currentUser;
 	private PaginationService paginationService;
+	private IUserAccountService userAccountService;
 	
-	public UserController(IUserService userService, CurrentUser currentUser, PaginationService paginationService) {
+	public UserController(IUserService userService, CurrentUser currentUser, PaginationService paginationService, IUserAccountService userAccountService) {
 		this.userService = userService;
 		this.currentUser = currentUser;
 		this.paginationService = paginationService;
+		this.userAccountService = userAccountService;
 	}
 	
 	@GetMapping("/")
@@ -103,7 +106,11 @@ public class UserController {
 	}
 
 	@GetMapping("/home")
-	public String displayHomePage() {
+	public String displayHomePage(Model model) {
+		User user = currentUser.getCurrentUser();
+		long amountBalance = Math.round(userAccountService.getBalance(user.getId()));
+		String displayedAmount = String.valueOf(amountBalance) + "€";
+		model.addAttribute("amount", displayedAmount);
 		log.info("display home page");
 		return "home";
 	}
