@@ -3,213 +3,200 @@ package com.paymybuddy.buddypaid.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
-import javax.transaction.Transactional;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.paymybuddy.buddypaid.model.Buddy;
 import com.paymybuddy.buddypaid.model.Operation;
 import com.paymybuddy.buddypaid.model.User;
-import com.paymybuddy.buddypaid.model.UserBuddy;
-import com.paymybuddy.buddypaid.service.BuddyService;
-import com.paymybuddy.buddypaid.service.OperationService;
-import com.paymybuddy.buddypaid.service.UserService;
-import com.paymybuddy.buddypaid.workclasses.FirstNameAndLastName;
+import com.paymybuddy.buddypaid.service.IUserAccountService;
+import com.paymybuddy.buddypaid.service.IUserService;
+import com.paymybuddy.buddypaid.service.PaginationService;
+import com.paymybuddy.buddypaid.workclasses.CurrentUser;
+import com.paymybuddy.buddypaid.workclasses.DisplayedOperation;
 import com.paymybuddy.buddypaid.workclasses.FormAddConnectionTh;
 import com.paymybuddy.buddypaid.workclasses.FormComment;
-import com.paymybuddy.buddypaid.workclasses.Transaction;
+import com.paymybuddy.buddypaid.workclasses.ModifiedUser;
+import com.paymybuddy.buddypaid.workclasses.TextArea;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Transactional
 @Slf4j
 @Controller
 public class UserController {
-
-	private int currentUserId = 1;
-	private int beneficiary = 6;
-	private FormComment formComment = new FormComment();
-	private float amount = 10;
-
-	private UserService userService;
-	private BuddyService buddyService;
-	private OperationService operationService;
-
-	public UserController(UserService userService, BuddyService buddyService, OperationService operationService) {
+	
+	private IUserService userService;
+	private FormComment contactFormComment = new FormComment();
+	private FormComment addConnectionFormComment = new FormComment();
+	private CurrentUser currentUser;
+	private PaginationService paginationService;
+	private IUserAccountService userAccountService;
+	
+	public UserController(IUserService userService, CurrentUser currentUser, PaginationService paginationService, IUserAccountService userAccountService) {
 		this.userService = userService;
-		this.buddyService = buddyService;
-		this.operationService = operationService;
+		this.currentUser = currentUser;
+		this.paginationService = paginationService;
+		this.userAccountService = userAccountService;
 	}
 	
-	public User getCurrentUser(){
-		Optional<User> optUser = userService.getUser(currentUserId);
-		User user = optUser.get();
-		return user;
-	}
-
-	/*
-	 * @GetMapping("/") public String getUsers(Model model) {
-	 * log.info("Récupération des utilisateurs"); Iterable<User> users =
-	 * userService.getUsers(); for (User u : users) {
-	 * System.out.println(u.getFirstName()); } model.addAttribute("users", users);
-	 * return "index"; }
-	 */
-
-	/*
-	 * @GetMapping("/") public String getUser(Model model) {
-	 * log.info("Récupération d'un utilisateur"); Optional<User> optUser =
-	 * userService.getUser(currentUserId); User userId1 = optUser.get(); List<Buddy>
-	 * buddies = userId1.getBuddies(); /*for (Buddy b : buddies) {
-	 * System.out.println(b.getFirstName()); } List<Operation> operations =
-	 * userId1.getOperations(); model.addAttribute("operations", operations);
-	 * model.addAttribute("buddies", buddies); return "transfer"; }
-	 */
-
-	/*
-	 * @GetMapping("/") public String getUserBuddies(Model model) { Iterable<Buddy>
-	 * buddies = buddyService.getBuddiesByUserId(currentUserId); for(Buddy b :
-	 * buddies) { System.out.println(b.getFirstName() + " " + b.getLastName() + " "
-	 * + b.getUser().getFirstName()); } model.addAttribute("buddies", buddies);
-	 * return "transfer"; }
-	 */
-
 	@GetMapping("/")
-	public String getUserBuddies(Model model) {
-		User user = getCurrentUser();
+	public String redirectToLogin() {
+		log.info("redirecting to login page");
+		return "redirect:/login";
+	}
+	
+	@GetMapping("/transfer")
+	public String displayTransferPage(Model model, @RequestParam(name = "page", defaultValue = "1") Optional<Integer> page) {
+		User user = currentUser.getCurrentUser();
 		List<User> buddies = user.getBuddies();
 		List<Operation> operations = user.getOperations();
+
+		/* ALLER CHERCHER LE BUDDY FIRSTNAME POUR CHAQUE OPERATION */
 		model.addAttribute("operations", operations);
 		model.addAttribute("buddies", buddies);
+		List<DisplayedOperation> displayedOperations = new ArrayList<>();
+		for (Operation operation : operations) {
+			if (operation.getBuddyId() == 1) { /*BANK USERID IS ALWAYS 1*/
+				/*NE PAS AJOUTER DANS LA LISTE*/
+			} else {
+				int buddyId = operation.getBuddyId();
+				Optional<User> optUser = userService.getUser(buddyId);
+				User u = optUser.get();
+				displayedOperations.add(new DisplayedOperation(u.getFirstName(), operation.getDescription(), operation.getAmount()));
+			}
+		}
+		
+		int currentPage = page.orElse(1);
+        int pageSize = 3;
+
+        Page<DisplayedOperation> partialDisplayedOperations = paginationService.findPaginated(PageRequest.of(currentPage - 1, pageSize), displayedOperations);
+       
+        model.addAttribute("displayedOperations", partialDisplayedOperations);
+
+        int totalPages = partialDisplayedOperations.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                .boxed()
+                .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+		log.info("display transfer page");
 		return "transfer";
 	}
 
-	@GetMapping("/add_connection.html")
-	public String displayAddConnectionPage(@ModelAttribute FirstNameAndLastName firstNameAndLastName, Model model) {
+	@GetMapping("/add_connection")
+	public String displayAddConnectionPage(Model model) {
 		Iterable<User> users = userService.getUsers();
-		
-		
-		model.addAttribute("formComment", formComment);
+		User user = currentUser.getCurrentUser();
+		List<User> buddies = user.getBuddies();
+		model.addAttribute("buddies", buddies);
+		model.addAttribute("formComment", addConnectionFormComment);
 		model.addAttribute("users", users);
+		log.info("display page to search and add a connection");
 		return "add_connection";
 	}
 
-	@GetMapping("/home.html")
-	public String displayHomePage() {
+	@GetMapping("/home")
+	public String displayHomePage(Model model) {
+		User user = currentUser.getCurrentUser();
+		long amountBalance = Math.round(userAccountService.getBalance(user.getId()));
+		String displayedAmount = String.valueOf(amountBalance) + "€";
+		model.addAttribute("amount", displayedAmount);
+		log.info("display home page");
 		return "home";
 	}
 
-	@GetMapping("/transfer.html")
-	public ModelAndView displayTranferPage() {
-		return new ModelAndView("redirect:/");
-	}
-
-	@GetMapping("/profile.html")
-	public String displayProfilePage() {
+	@GetMapping("/profile")
+	public String displayProfilePage(Model model) {
+		User user = currentUser.getCurrentUser();
+		model.addAttribute("user", user);
+		log.info("display profile page");
 		return "profile";
 	}
-
-	@GetMapping("/contact.html")
-	public String displayContactPage() {
-		return "contact";
-	}
-
-	@GetMapping("/log_off.html")
-	public String displayLogOff() {
-		return "log_off";
-	}
-
-	@PostMapping("/searchUser")
-	public String getUserByFirstNameAndLastName(FirstNameAndLastName firstNameAndLastName, Model model) {
-		System.out.println(firstNameAndLastName.getFirstName());
-		Optional<User> optUser = userService.getUser(firstNameAndLastName.getFirstName(),
-				firstNameAndLastName.getLastName());
-		User userId = optUser.get();
-		System.out.println(userId.getFirstName());
-		model.addAttribute("user", userId);
-		return "add_connection";
-	}
-
-	@PostMapping("/saveOperation")
-	public String saveOperation(@ModelAttribute Transaction transaction) {
-		System.out.println("Je suis dans la methode saveOperation");
-		System.out.println("Id de l'utilisateur connecté : " + currentUserId);
-		System.out.println("Montant transmis : " + transaction.getAmount());
-		System.out.println("Id du beneficiaire : " + transaction.getUserId());
-		operationService.addOperation(currentUserId, transaction.getUserId(), transaction.getAmount());
-		return "redirect:/";
+	
+	@PostMapping("/modifyProfile")
+	public String modifyProfile(@ModelAttribute ModifiedUser modifiedUser) {
+		User user = currentUser.getCurrentUser();
+		userService.saveUser(user.getId(), user.getLogin(), user.getPassword(), modifiedUser.getFirstName(), modifiedUser.getLastName());
+		log.info("redirecting to profile page");
+		return "redirect:/profile";
 	}
 	
-	@GetMapping("/save") /*A SUPPRIMER*/
-	public String save() {
-		System.out.println("Je suis dans la methode saveOperation");
-		System.out.println("Id de l'utilisateur connecté : " + currentUserId);
-		System.out.println("Id du bénéficiaire : " + beneficiary);
-		System.out.println("Montant recuperé : " + amount);
-		operationService.addOperation(currentUserId, beneficiary, amount);
-		return "transfer";
+	@GetMapping("/contact")
+	public String displayContactPage(Model model) {
+		model.addAttribute("formComment", contactFormComment);
+		log.info("display contact page");
+		return "contact";
+	}
+	
+	@PostMapping("/submitDemand")
+	public String submitDemand(@ModelAttribute TextArea textArea) {
+		/*FONCTIONNALITE DE TRAITEMENT D'UNE DEMANDE UTILISATEUR*/
+		if(textArea.getMessage().isEmpty()) {
+			contactFormComment.setError(true);
+			contactFormComment.setMessage("Your demand must not be empty");
+			log.error("user message is empty");
+		} else {
+			log.info("user message is valid");
+			contactFormComment.setError(false);
+			contactFormComment.setMessage("We successfully received your inquiry.\r\n"
+					+ "We will process it as soon as possible.");
+		}
+		log.info("redirecting to contact page");
+		return "redirect:/contact";
 	}
 
-	@PostMapping("/getUser")
-	public String/* ModelAndView */ getUser(Model model, int nombre) {
-		log.info("Récupération d'un utilisateur");
-		Optional<User> optUser = userService.getUser(nombre);
-		User userId = optUser.get();
-		System.out.println(userId.getFirstName());
-		model.addAttribute("users", userId);
-		return /* new ModelAndView */("index");
+	@GetMapping("/logoff")
+	public String displayLogOff() {
+		log.info("display logoff page");
+		return "logoff";
 	}
 
 	@PostMapping("/addBuddy")
 	public ModelAndView addBuddy(@ModelAttribute FormAddConnectionTh formAddConnectionTh) {
 		String wantedEmail = "";
-		boolean loginMode = false;
-		if(loginMode) {
-			/*EMAIL RECUPERE VIA LA ZONE DE TEXTE*/
-			wantedEmail = formAddConnectionTh.getLogin(); 
-		}else
-		{
-			/*EMAIL RECUPERE VIA LA DROP DOWN*/
+		if (formAddConnectionTh.getLogin().isEmpty()) {
 			wantedEmail = formAddConnectionTh.getBuddyEmail();
-		}
-		Optional<User> user = userService.findUser(wantedEmail);
-		if(user.isEmpty()) {
-			System.out.println("Utilisateur non trouvé");
-			formComment.setMessage("l'email " + wantedEmail + " n'est pas connu dans la base de données");
-			return new ModelAndView("redirect:/add_connection.html");
 		} else {
-			User currentUser = getCurrentUser();
-			List<User> buddies = currentUser.getBuddies();
-			formComment.setMessage("");
-			/*VERIFIER SI L'AMI FAIT DEJA PARTI DE LA LISTE AVANT DE L'AJOUTER*/
+			wantedEmail = formAddConnectionTh.getLogin();
+		}
+		Optional<User> user = userService.findUserByLogin(wantedEmail);
+		if (user.isEmpty()) {
+			log.error("User is not found in database");
+			addConnectionFormComment.setError(true);
+			addConnectionFormComment.setMessage("The email " + wantedEmail + " is unknown in the database");
+			return new ModelAndView("redirect:/add_connection");
+		} else {
+			log.info("User is found in database");
+			User authenticatedUser = currentUser.getCurrentUser();
+			List<User> buddies = authenticatedUser.getBuddies();
+			addConnectionFormComment.setMessage("");
+			/* VERIFIER SI L'AMI FAIT DEJA PARTI DE LA LISTE AVANT DE L'AJOUTER */
 			List<String> buddiesLogin = new ArrayList<>();
-			for(User b : buddies) {
+			for (User b : buddies) {
 				buddiesLogin.add(b.getLogin());
 			}
-			if(buddiesLogin.contains(wantedEmail)) {
-				System.out.println("Impossible d'ajouter : " + user.get().getFirstName());
-			}
-			else {
-				userService.addBuddy(currentUserId, user.get().getId());
-				System.out.println("Utilisateur ajouté : " + user.get().getFirstName());
+			if (buddiesLogin.contains(wantedEmail)) {
+				log.error("Impossible to add : " + user.get().getFirstName());
+				addConnectionFormComment.setError(true);
+				addConnectionFormComment.setMessage(user.get().getFirstName() + " is already one of your buddy");
+			} else {
+				userService.addBuddy(authenticatedUser.getId(), user.get().getId());
+				log.info("User added : " + user.get().getFirstName());
+				addConnectionFormComment.setError(false);
+				addConnectionFormComment.setMessage("You added " + user.get().getFirstName() + " to your buddies");
 			}
 		}
-		return new ModelAndView("redirect:/");
+		log.info("redirecting to the add_connection page");
+		return new ModelAndView("redirect:/add_connection");
 	}
-
-
-	/*
-	 * @PostMapping("/buddies") public String getUserBuddies(Model model, int id) {
-	 * log.info("Récupération des amis"); Optional<User> optUser =
-	 * userService.getUser(id); User userId1 = optUser.get(); List<Buddy> buddies =
-	 * userId1.getBuddies(); for (Buddy b : buddies) {
-	 * System.out.println(b.getFirstName()); } System.out.println(buddies.size());
-	 * model.addAttribute("buddies", buddies); return "index"; }
-	 */
 }

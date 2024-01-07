@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class Transaction {
-	private int userId;
-	private int amount;
+	private int buddyId;
+	private double amount;
+	private String description = "";
 }

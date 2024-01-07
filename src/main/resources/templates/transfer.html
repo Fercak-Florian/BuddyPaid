@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/transfer.css}" href="../../css/transfer.css" />
+	<title>Pay My Buddy</title>
+</head>
+
+<body>
+
+	<!--Debut de bloc_page-->
+	<div id="bloc_page">
+		<header>
+			<div id="logo_et_boutons">
+				<div id="logo">Pay My Buddy</div>
+				<div id="boutons">
+					<div class="bouton"> <a href="home"> Home </a></div>
+					<div class="bouton"> <a href="transfer"> Transfer </a></div>
+					<div class="bouton"> <a href="profile"> Profile </a></div>
+					<div class="bouton"> <a href="contact"> Contact </a></div>
+					<div class="bouton"> <a href="logoff"> Log off </a></div>
+				</div>
+			</div>
+			<p id="home_tranfer"><span id="home">Home &emsp;/&emsp;</span> <span id="transfer">Transfer</span></p>
+		</header>
+		<section id="actions_utilisateur">
+			<div id="send_money_and_add_connection">
+				<p id="send_money">Send Money</p>
+				<p id="add_connection"><a href="add_connection">Add Connection</a></p>
+			</div>
+			<div>
+				<form id="select_pay" method="post" th:action="@{/addOperation}" th:object="${transaction}">
+					<select id="select_box" name="buddyId" required>
+						<option selected disabled value="">Select A Connection</option>
+						<option th:each="b: ${buddies}" th:value="${b.id}" th:text="${b.firstName}"></option>
+					</select>
+					<p><input id="amount" type="number" name="amount" value="0" required min="1"></p>
+					<button id="submit" type="submit"> Pay </button>
+				</form>
+			</div>
+		</section>
+		<section>
+			<caption id="my_transactions">My Transactions</caption>
+			<table>
+				<thead>
+					<tr>
+						<th>Connections</th>
+						<th>Description</th>
+						<th>Amount</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="do : ${displayedOperations.content}">
+						<td th:text="${do.buddyFirstName}" />
+						<td th:text="${do.description}" />
+						<td th:text="${do.getAmountInEuro()}" />
+					</tr>
+				</tbody>
+			</table>
+		</section>
+		<footer>
+			<!-- PAGINATION HERE -->
+			<div><a id="previous" href="/precedent">&lt;&lt;</a></div>
+			<div th:if="${displayedOperations.totalPages > 0}" class="element" th:each="pageNumber : ${pageNumbers}">
+				<a th:href="@{/transfer(size=${displayedOperations.size}, page=${pageNumber})}" th:text=${pageNumber}
+					th:class="${pageNumber==displayedOperations.number + 1} ? active"></a>
+			</div>
+			<div><a id="next" href="/suivant">&gt;&gt;</a></div>
+		</footer>
+		<!--Fin de bloc_page-->
+	</div>
+</body>
+
+</html>

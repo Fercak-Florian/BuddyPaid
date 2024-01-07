@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/add_connection.css}" />
+	<title>Pay My Buddy</title>
+</head>
+
+<body>
+	<div id="bloc_page">
+		<header>
+			<div id="logo_et_boutons">
+				<div id="logo">Pay My Buddy</div>
+				<div id="boutons">
+					<div class="bouton"> <a href="home"> Home </a></div>
+					<div class="bouton"> <a href="transfer"> Transfer </a></div>
+					<div class="bouton"> <a href="profile"> Profile </a></div>
+					<div class="bouton"> <a href="contact"> Contact </a></div>
+					<div class="bouton"> <a href="logoff"> Log off </a></div>
+				</div>
+			</div>
+		</header>
+		<section>
+
+		</section>
+		<div th:unless="${formComment.isEmpty}">
+			<div id="error" th:if="${formComment.error}">
+				<label th:text="${formComment.message}"></label>
+			</div>
+			<div id="ok" th:unless="${formComment.error}">
+				<label th:text="${formComment.message}"></label>
+			</div>
+			<div th:if="${formComment.clearMessage}"></div>
+		</div><br><br>
+		<div>
+			<form id="input_form" method="post" th:action="@{/addBuddy}" th:object="${formAddConnectionTh}">
+				<label>Email :</label>
+				<input name="login" id="login" type="text">
+				<label>App user :</label>
+				<select name="buddyEmail" id="buddy">
+					<option disabled selected>Select A User</option>
+					<option th:each="u: ${users}" th:value="${u.login}" th:text="${u.login}">
+					</option>
+				</select>
+				<br><br>
+				<input id="submit" type="submit" value="Submit">
+			</form>
+		</div>
+		<div><br><br>
+			<caption>My Buddies</caption>
+			<table>
+				<thead>
+					<th>First Name</th>
+					<th>Last Name</th>
+				</thead>
+				<tbody>
+					<tr th:each="b: ${buddies}">
+						<td><span th:text="${b.firstName}"></span></td>
+						<td><span th:text="${b.lastName}"></span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+
+</html>

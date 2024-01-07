@@ -1,0 +1,44 @@
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/registration.css}">
+	<title>Pay My Buddy</title>
+</head>
+
+<body>
+	<div id="bloc_page">
+		<div id="section">
+			<h1> Please register </h1>
+			<form th:action="@{/registration}" th:object="${user}" method="post" enctype="utf8">
+				<div>
+					<div id="enter">
+						<!-- LOGIN -->
+						<label>Email</label><br>
+						<input class="field" type="text" th:field="*{login}" autofocus required/>
+					</div>
+					<!-- PASSWORD -->
+					<div id="enter">
+						<label>Password</label><br>
+						<input class="field" type="password" th:field="*{password}" required/>
+					</div>
+					<!-- FIRSTNAME -->
+					<div id="enter">
+						<label>First Name</label><br>
+						<input class="field" th:field="*{firstName}" required/>
+					</div>
+					<!-- LASTNAME -->
+					<div id="enter">
+						<label>Last Name</label><br>
+						<input class="field" th:field="*{lastName}" required/>
+					</div>
+					<div id="enter">
+						<button id="submit" type="submit">Register</button>
+					</div>
+			</form>
+		</div>
+	</div>
+</body>
+
+</html>

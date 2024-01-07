@@ -1,0 +1,143 @@
+/*Définition de la police*/
+@font-face {
+    font-family: 'ambleregular';
+    src: url('fonts/Amble-Regular-webfont.eot');
+    src: url('fonts/Amble-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/Amble-Regular-webfont.woff2') format('woff2'),
+         url('fonts/Amble-Regular-webfont.woff') format('woff'),
+         url('fonts/Amble-Regular-webfont.ttf') format('truetype'),
+         url('fonts/Amble-Regular-webfont.svg#ambleregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+#bloc_page
+{
+	border: 1px black solid;
+	width: 1000px; 
+	height: 600px;
+	font-family: "ambleregular",Impact, "Arial Black", Arial, Verdana, sans-serif;
+	margin: auto; 
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+header
+{
+	height: 100px;
+}
+
+#logo_et_boutons
+{
+	display: flex;
+	width: 1000px;
+	height: 55px;
+}
+
+#logo
+{
+	color: white;
+	background-color: #5cb85c;
+	border-radius: 5px;
+	height: 40px;
+	width: 200px;
+	font-size: 1em;
+	margin-left: 5px;
+	margin-top: 5px;
+	line-height: 40px; 
+	text-align: center; 
+}
+
+#boutons
+{
+	display: flex;
+	justify-content: flex-end;
+	height: 55px;
+	width: 800px;
+	margin-left: 220px;
+}
+
+.bouton a:hover
+{
+	color: #0275d8; 
+}
+
+.bouton
+{
+	width: 100px;
+	line-height: 50px;
+	text-align: center;
+	font-size: 1em;
+}
+
+a
+{
+	color: black;
+	text-decoration: none;
+}
+
+#error
+{
+	border: solid 2px #e07f88;
+	width: 400px;
+	height: 40px;
+	color :#e07f88;
+	text-align: center;
+	line-height: 40px;
+}
+
+#ok
+{
+	border: solid 2px #5cb85c;
+	width: 400px;
+	height: 40px;
+	color :#5cb85c;
+	text-align: center;
+	line-height: 40px;
+}
+
+#input_form
+{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 50px;
+	width: 800px;
+}
+
+#fname, #lname
+{
+	height:32px;
+	width:140px;
+}
+
+#submit
+{
+	color: white;
+	background-color: #5cb85c; 
+	width: 150px;
+	height : 32px;
+	border-radius: 9px;
+	font-size: 1em;
+	border : none;
+	font-size: 0.9em;
+}
+
+table
+{
+	text-align: center;
+	border-collapse: collapse;
+	border: 1px black solid;
+	width: 800px;
+	height: 280px;
+	font-size: 1em;
+}
+
+th
+{
+	color: rgb(255, 255, 255);
+	font-size: 1em;
+	background-color: #5cb85c; 
+	height: 70px;
+}

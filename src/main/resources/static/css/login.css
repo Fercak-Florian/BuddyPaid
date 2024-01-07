@@ -1,0 +1,123 @@
+/*Définition de la police*/
+@font-face {
+    font-family: 'ambleregular';
+    src: url('fonts/Amble-Regular-webfont.eot');
+    src: url('fonts/Amble-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/Amble-Regular-webfont.woff2') format('woff2'),
+         url('fonts/Amble-Regular-webfont.woff') format('woff'),
+         url('fonts/Amble-Regular-webfont.ttf') format('truetype'),
+         url('fonts/Amble-Regular-webfont.svg#ambleregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+#bloc_page
+{
+	width: 1000px; 
+	height: 600px;
+	font-family: "ambleregular",Impact, "Arial Black", Arial, Verdana, sans-serif;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#section
+{
+	border: solid 1px grey;
+	border-radius : 5px;
+	width: 400px;
+	height : 500px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#form
+{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#logo
+{
+	color: white;
+	background-color: #5cb85c; 
+	border-radius: 5px;
+	height: 40px;
+	width: 150px;
+	font-size: 1em;
+	margin-top: 20px;
+	margin-bottom: 40px;
+	line-height: 40px; 
+	text-align: center; 
+}
+
+#error
+{
+	background-color: #F8D7DA;
+	border: solid 1px #F5CBCF;
+	border-radius: 5px;
+	width: 230px;
+	height: 40px;
+	color : #A25F65;
+	text-align: center;
+	line-height: 40px;
+}
+
+#submit
+{
+	color: white;
+	background-color: #0275d8; 
+	width: 120px;
+	height : 34px;
+	border-radius: 5px;
+	border : none;
+	font-size: 0.9em;
+}
+
+.field
+{
+	font-size: 1em;
+	height:40px;
+	width:350px;
+	border : 0.5px rgb(192, 192, 192) solid;
+	margin-bottom: 30px;
+	border-radius: 5px;
+}
+
+#remember
+{
+	margin-bottom: 40px;
+}
+
+input[type=text] {
+  background-image: url('mail_24.png');
+  background-position: bottom 7px left 5px;
+  background-repeat: no-repeat;
+  padding-left: 40px;
+}
+
+input[type=password] {
+  background-image: url('emergency_24.png');
+  background-position: bottom 7px left 5px;
+  background-repeat: no-repeat;
+  padding-left: 40px;
+}
+
+a
+{
+	color: rgb(0, 128, 255); 
+	text-decoration: none;
+}
+
+a:hover
+{
+	color:#0275d8
+}
+
+#newuser
+{
+	font-size: 0.8em;
+}

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}">
+	<title>Pay My Buddy</title>
+</head>
+
+<body>
+	<div id="bloc_page">
+		<header>
+			<div id="logo_et_boutons">
+				<div id="logo">Pay My Buddy</div>
+				<div id="boutons">
+					<div class="bouton"> <a href="home"> Home </a></div>
+					<div class="bouton"> <a href="transfer"> Transfer </a></div>
+					<div class="bouton"> <a href="profile"> Profile </a></div>
+					<div class="bouton"> <a href="contact"> Contact </a></div>
+					<div class="bouton"> <a href="logoff"> Log off </a></div>
+				</div>
+			</div>
+			<p id="home_tranfer"><span id="home">Home &emsp;/&emsp;</span> <span id="transfer">Transfer</span></p>
+		</header>
+		<section>
+			<img src="/css/paymybuddy.png" alt="Pay My Buddy" width="600" height="300">
+		</section>
+		<div>
+			<form>
+				<table>
+					<tr>
+						<td>
+							<button id="submit" type="submit" formmethod="get" formaction="addmoney">Get money from my
+								bank</button>
+						</td>
+					</tr>
+					<tr>
+						<td> <button id="submit" type="submit" formmethod="get" formaction="recovermoney">Send money to
+								my bank </button>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+		<div th:object="${amount}">
+			<p>Your PayMyBuddy account balance is : </p>
+			<p th:text="${amount}"></p>
+		</div>
+	</div>
+</body>
+
+</html>

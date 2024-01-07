@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
@@ -25,17 +24,14 @@ public class Operation {
 	@Column(name = "user_id")
 	private int userId;
 	
+	@Column(name = "buddy_id")
+	private int buddyId;
+	
 	@Column(name = "date")
 	private Date date;
 	
-	@Column(name = "type")
-	private String type;
-	
-	@Column(name = "positive_amount")
-	private float positiveAmount;
-	
-	@Column(name = "negative_amount")
-	private float negativeAmount;
+	@Column(name = "amount")
+	private double amount;
 	
 	@Column(name = "description")
 	private String description;
@@ -43,23 +39,20 @@ public class Operation {
 	public Operation() {
 	}
 	
-	
-	public Operation(int userId, Date date, String type, float positiveAmount, float negativeAmount, String description) {
+	public Operation(int id, int userId, int buddyId, Date date, double amount, String description) {
+		this.id = id;
+		this.buddyId = buddyId;
 		this.userId = userId;
 		this.date = date;
-		this.type = type;
-		this.positiveAmount = positiveAmount;
-		this.negativeAmount = negativeAmount;
+		this.amount = amount;
 		this.description = description;
 	}
 	
-	public Operation(int id, int userId, Date date, String type, float positiveAmount, float negativeAmount, String description) {
-		this.id = id;
+	public Operation(int userId, int buddyId, Date date, double amount, String description) {
 		this.userId = userId;
+		this.buddyId = buddyId;
 		this.date = date;
-		this.type = type;
-		this.positiveAmount = positiveAmount;
-		this.negativeAmount = negativeAmount;
+		this.amount = amount;
 		this.description = description;
 	}
 }
