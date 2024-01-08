@@ -11,7 +11,9 @@ This application allows users to easily make transfers to their buddies.
 User can register, and login with an mail address.
 Once connected, a user can add a user of the application to his list of buddies.
 Then, this user can make a transfer to his buddy.
-The user can consult his list of buddies as well as the list of transfers already made.
+The user can consult his list of buddies as well as the list of transfers already made.  
+
+Credentials are available in the credentials.xlsx file.
 
 UML Class Diagram :
 [Fercak_Florian_1_uml_102022.pdf](https://github.com/Fercak-Florian/BuddyPaid/files/10275673/Fercak_Florian_1_uml_102022.pdf)
